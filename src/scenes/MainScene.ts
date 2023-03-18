@@ -14,6 +14,7 @@ export default class MainScene extends Phaser.Scene {
     );
     this.load.image("small-monster", "assets/small-ram-monster-64.png");
     this.load.image("chest", "assets/chests.png");
+    this.load.image('bullet', 'assets/bullet.png');
   }
 
   create() {
@@ -48,6 +49,7 @@ export default class MainScene extends Phaser.Scene {
 
   update(time: number, delta: number) {
     this.player.move();
+    this.player.shoot();
 
     this.monsters.forEach((monster) => {
       monster.move(this.player, this);
