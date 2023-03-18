@@ -14,6 +14,7 @@ export default class MainScene extends Phaser.Scene {
       "http://labs.phaser.io/assets/sprites/phaser3-logo.png"
     );
     this.load.image("monster", "assets/monster.jpeg");
+    this.load.image('chest', 'assets/chests.png')
   }
 
   create() {
@@ -26,8 +27,13 @@ export default class MainScene extends Phaser.Scene {
     logo.setBounce(1, 1);
     logo.setCollideWorldBounds(true);
 
+    const chests = this.physics.add.image(500, 500, 'chest');
+    chests.setCollideWorldBounds(true);
+    chests.body.immovable = true;
+
+    this.physics.add.collider(logo, chests);
+
     this.monsters.push(new Monster(100, 100, this));
-    this.load.multiatlas('chest', 'assets/chests-assets.json', 'assets')
   }
 
     update()
