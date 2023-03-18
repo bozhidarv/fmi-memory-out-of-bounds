@@ -2,6 +2,7 @@ import Phaser, { GameObjects } from "phaser";
 import { SmallMonster } from "~/Monsters/SmallMonster";
 import { Player } from "~/players/player";
 import { Health } from "~/players/health";
+import { ProgressBar } from "~/players/progres";
 import { invWall } from "~/services/invisWalls";
 import { SceneMonstersConfigT, Sprite } from "~/services/type";
 import { BigMonster } from "~/Monsters/BigMonster";
@@ -62,6 +63,7 @@ const monsterConfig: SceneMonstersConfigT = {
 };
 
 export default class MainScene extends Phaser.Scene {
+  progress:ProgressBar = {} as ProgressBar;
   monsters: (SmallMonster | BigMonster)[] = [];
   player: Player = {} as Player;
   monsterSprites: Sprite[] = [];
@@ -92,19 +94,15 @@ export default class MainScene extends Phaser.Scene {
       );
     }
     this.load.image("health", "assets/health.png");
+    this.load.image("empty-bar","assets/empty-bar.png");
   }
 
   create() {
-    // const invisWall =this.physics.add.sprite(64,window.innerHeight-50,"invisWall");
-    // invisWall.setVisible(false);
-    // invisWall.setImmovable(true);
-    // invisWall.setSize (0,window.innerHeight);
-    // invisWall.scaleX=2;
-    // invisWall.scaleY=30;
     const background = this.add.image(1920 / 2, 960 / 2, "background");
     background.displayHeight = window.innerHeight;
     background.displayWidth = window.innerHeight;
     background.scale = 1;
+    //this.progress = new ProgressBar(this);
 
     this.invisWall1 = new invWall(64, window.innerHeight - 50, this);
     this.invisWall1.sizeSet(0, window.innerHeight);
@@ -137,7 +135,6 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.collider(this.invisWall2.sprite, this.monsterSprites);
     this.physics.add.collider(this.invisWall3.sprite, this.monsterSprites);
 
-    //this.health.loseHealth();
 
     this.bulletPowerSprite = this.add.image(
       window.innerWidth - 85,

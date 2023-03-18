@@ -152,5 +152,7 @@ export class Player {
     }
   }
 
-  animation(): void {}
+  animation(): void {
+    
+  }
 }
