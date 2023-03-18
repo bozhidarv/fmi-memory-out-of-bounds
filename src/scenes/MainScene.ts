@@ -1,10 +1,12 @@
 import Phaser from "phaser";
 import { Monster } from "~/Monsters/Monster";
 import { Player } from "~/players/player";
+import { Health } from "~/players/health";
 
 export default class MainScene extends Phaser.Scene {
   monsters: Monster[] = [];
   player: Player = {} as Player;
+  health: Health={} as Health;
 
   preload() {
     this.load.image("background", "assets/basic_background.png");
@@ -38,6 +40,10 @@ export default class MainScene extends Phaser.Scene {
     logo.setCollideWorldBounds(true);
 
     this.generateMonsters();
+
+
+    //this.health.loseHealth();
+    
   }
 
   generateMonsters() {
