@@ -27,7 +27,7 @@ const monsterConfig: SceneMonstersConfigT = {
   bigMonsters: [
     {
       startX: 500,
-      startY: 100,
+      startY: 500,
     },
   ],
 };
@@ -55,21 +55,20 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
-  
     // const invisWall =this.physics.add.sprite(64,window.innerHeight-50,"invisWall");
     // invisWall.setVisible(false);
     // invisWall.setImmovable(true);
     // invisWall.setSize (0,window.innerHeight);
     // invisWall.scaleX=2;
     // invisWall.scaleY=30;
-    
+
     const background = this.add.image(1920 / 2, 960 / 2, "background");
     background.displayHeight = window.innerHeight;
     background.displayWidth = window.innerHeight;
     background.scale = 1;
 
     this.player = new Player(500, 100, this);
-   // this.physics.add.collider(invisWall,this.player.sprite);
+    // this.physics.add.collider(invisWall,this.player.sprite);
 
     this.generateMonsters();
 

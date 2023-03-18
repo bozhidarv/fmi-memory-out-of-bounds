@@ -13,7 +13,7 @@ class SmallMonsterBody {
     game: Phaser.Scene
   ) {
     this.mainSprite = game.physics.add.sprite(x, y, "small-monster");
-    this.mainSprite.name = index.toString();
+    this.mainSprite.name = `small-${index}`;
     this.brainSprite = game.physics.add.sprite(x, y, `enemy-digit-${digits}`);
   }
 
@@ -51,7 +51,7 @@ export class SmallMonster {
   }
 
   checkIfAlive() {
-    if (this.lives.length) {
+    if (!this.lives.length) {
       this.destroy();
       return false;
     }
@@ -62,7 +62,6 @@ export class SmallMonster {
     const currDigit = this.lives.pop();
     if (digit === currDigit) {
       return this.checkIfAlive();
-      
     } else {
       this.lives.push(currDigit ?? 0);
       this.speed += this.speed / 10;
