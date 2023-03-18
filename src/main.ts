@@ -3,12 +3,12 @@ import Phaser from 'phaser'
 import MainScene from './scenes/MainScene'
 
 const config: Phaser.Types.Core.GameConfig = {
-	type: Phaser.AUTO,
+	type: Phaser.CANVAS,
 	width: window.innerHeight*2,
 	physics: {
-		default: 'arcade',
+		default: 'arcade', //the physics engine the game will use
 		arcade: {
-			gravity: { y: 200 }
+			debug: false
 		}
 	},
 	height: window.innerHeight,
