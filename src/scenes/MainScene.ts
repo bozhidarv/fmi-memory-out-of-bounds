@@ -12,7 +12,7 @@ export default class MainScene extends Phaser.Scene {
       "logo",
       "http://labs.phaser.io/assets/sprites/phaser3-logo.png"
     );
-    this.load.image("monster", "assets/monster.jpeg");
+    this.load.image("small-monster", "assets/small-ram-monster-64.png");
     this.load.image("chest", "assets/chests.png");
   }
 
@@ -28,8 +28,15 @@ export default class MainScene extends Phaser.Scene {
     const logo = this.physics.add.image(400, 100, "logo");
 
     this.physics.add.collider(logo, chests);
-
-    this.monsters.push(new Monster(100, 100, this));
+    for (let index = 0; index < 10; index++) {
+      this.monsters.push(
+        new Monster(
+          Math.random() * window.innerHeight,
+          Math.random() * window.innerHeight * 2,
+          this
+        )
+      );
+    }
 
     this.player = new Player(100, 100, this);
     this.physics.add.collider(this.player.sprite, logo);

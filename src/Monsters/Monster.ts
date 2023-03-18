@@ -1,8 +1,9 @@
+import { Player } from "~/players/player";
 import { generateSingleDigitEq } from "~/services/EquationGenerator";
 import { Sprite } from "~/services/type";
 
 export class Monster {
-  SPEED = 100;
+  SPEED = 50;
   sprite: Sprite = {} as Sprite;
 
   equation: string = "";
@@ -13,10 +14,10 @@ export class Monster {
     this.equation = gen.equation;
     this.lives = gen.answer;
 
-    this.sprite = game.physics.add.sprite(x, y, "monster");
+    this.sprite = game.physics.add.sprite(x, y, "small-monster");
   }
 
-  move(spriteToFollow: Sprite, game: Phaser.Scene): void {
-    game.physics.moveToObject(this.sprite, spriteToFollow, this.SPEED);
+  move(player: Player, game: Phaser.Scene): void {
+    game.physics.moveToObject(this.sprite, player.sprite, this.SPEED);
   }
 }
