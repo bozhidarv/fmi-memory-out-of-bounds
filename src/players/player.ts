@@ -20,7 +20,7 @@ export class Player {
   changedPower: boolean = false;
 
   constructor(x: number, y: number, game: Phaser.Scene) {
-    this.sprite = game.physics.add.sprite(x, y, "player");
+    this.sprite = game.physics.add.sprite(x, y, "stojan");
     this.cursor = game.input.keyboard.createCursorKeys();
     this.sprite.setCollideWorldBounds(true);
     this.keyA = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -139,13 +139,13 @@ export class Player {
     }
     if (this.cursor.up.isDown && !this.changedPower) {
       this.bulletPower++;
-      if(this.bulletPower > 9 ) {
+      if (this.bulletPower > 9) {
         this.bulletPower = 0;
       }
       this.changedPower = true;
     } else if (this.cursor.down.isDown && !this.changedPower) {
       this.bulletPower--;
-      if(this.bulletPower < 0) {
+      if (this.bulletPower < 0) {
         this.bulletPower = 9;
       }
       this.changedPower = true;

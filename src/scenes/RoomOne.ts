@@ -61,7 +61,7 @@ const monsterConfig: SceneMonstersConfigT = {
   ],
 };
 
-export default class MainScene extends Phaser.Scene {
+export default class RoomOne extends Phaser.Scene {
   monsters: (SmallMonster | BigMonster)[] = [];
   player: Player = {} as Player;
   monsterSprites: Sprite[] = [];
@@ -73,7 +73,7 @@ export default class MainScene extends Phaser.Scene {
   invisWall3: invWall = {} as invWall;
 
   constructor() {
-    super("Corridor");
+    super("RoomOne");
   }
 
   preload() {
@@ -84,7 +84,6 @@ export default class MainScene extends Phaser.Scene {
     this.load.image("enemy-sign-+", "assets/enemy-sign-plus.png");
     this.load.image("enemy-sign-*", "assets/enemy-sign-multiply.png");
     this.load.image("bullet", "assets/bullet.png");
-    this.load.image("stojan", "assets/stojan.png");
     for (let index = 0; index <= 9; index++) {
       this.load.image(
         `enemy-digit-${index}`,
@@ -175,9 +174,6 @@ export default class MainScene extends Phaser.Scene {
         const monsterIndex = this.monsters.findIndex(
           (monster) => monster.body.mainSprite.name === obj.name
         );
-
-        this.scene.start("RoomOne");
-
         this.monsters[monsterIndex].destroy();
         this.monsters.splice(monsterIndex, 1);
 
@@ -208,19 +204,15 @@ export default class MainScene extends Phaser.Scene {
           const monsterIndex = this.monsters.findIndex(
             (monster) => monster.body.mainSprite.name === hitMonster.name
           );
-
           const isAlive = this.monsters[monsterIndex].hit(
             parseInt(hitBullet.name.split(";")[1])
           );
-
           if (!isAlive) {
             this.monsters.splice(monsterIndex, 1);
           }
-
           const hitBulletIndex = this.player.bullets.findIndex(
             (bullet) => bullet.name === hitBullet.name
           );
-
           hitBullet.destroy();
           this.player.bullets.splice(hitBulletIndex, 1);
         }
