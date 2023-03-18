@@ -1,8 +1,10 @@
 import Phaser from "phaser";
 import { Monster } from "~/Monsters/Monster";
+import { Player } from "~/players/player";
 
 export default class MainScene extends Phaser.Scene {
   monsters: Monster[] = [];
+  player: Player = {} as Player;
 
   preload() {
     this.load.image("background", "assets/basic_background.png");
@@ -24,6 +26,8 @@ export default class MainScene extends Phaser.Scene {
     logo.setCollideWorldBounds(true);
 
     this.monsters.push(new Monster(100, 100, this));
+    
+    this.player=new Player(100,100,this);
 
     logo.setVelocity(100, 200);
     logo.setBounce(1, 1);
@@ -31,8 +35,11 @@ export default class MainScene extends Phaser.Scene {
   }
 
   update(time: number, delta: number) {
+    this.player.move();
+
     this.monsters.forEach((monster) => {
       monster.move();
     });
+    
   }
 }
