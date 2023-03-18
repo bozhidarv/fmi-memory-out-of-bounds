@@ -16,8 +16,8 @@ export default class MainScene extends Phaser.Scene
     create()
     {
         const background = this.add.image(0, 0, 'background')
-        background.displayHeight = window.innerHeight*2;
-        background.displayWidth = window.innerHeight*4;
+        background.displayHeight = this.game.canvas.height*2;
+        background.displayWidth = this.game.canvas.width*2;
 
         const logo = this.physics.add.image(400, 100, 'logo')
 
@@ -25,9 +25,4 @@ export default class MainScene extends Phaser.Scene
         logo.setBounce(1, 1)
         logo.setCollideWorldBounds(true)
     }
-
-    // update (time: number, delta: number)
-    // {
-    //
-    // }
 }
