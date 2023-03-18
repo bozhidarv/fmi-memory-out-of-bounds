@@ -1,34 +1,66 @@
 # **FMI: MEMORY OUT OF BOUNDS**
 
-A student named Stojan finds himself in trouble as he forgets to deallocate a dynamic array of math problems and unleashes the infamous Memory Leak Monster. Help him fix the memory leak before dawn by facing the Math Bosses and fighting them off.
+A student named Stojan finds himself in trouble as he forgets to deallocate a dynamic array of math problems and unleashes the infamous Memory Leak Monster. Now he needs fight trough the monster, collect the lost hex pointer and delete the Memory Leak Monster out of existents
 
 ---
+
 ### **GAME SETTING**
-You must help Stojan search the rooms at the Faculty of Mathematics and Informatics, solving tasks and finding lost items such as secret keys and ancient weapons. But beware! There are hidden monsters trying to hinder your quest by giving you hard problems of various subjects. But fear not for the FSS mages are here to give you hints and clues.
+
+You must help Stojan fight the monsters, save FSS mages that holds the pieces of lost pointer. Collect them all to fight the Memory Leak Monster and slay it with the almighty sword.
 
 ---
-### **CHARACTERS**
-**Stojan** a first year student trying his best not to fail the hard subjects at FMI
 
-**The Memory Leak Monster** aka the final boss
+### **SPRITES**
 
-**MATH BOSSES**
-- Algebra monster
-- ATLC monster
-- Calculus monster
+**Stojan** -> a first year student trying his best not to fail the hard subjects at FMI
+**Design Notes:**
 
-**FSS Mages**
+**The Memory Leak Monster** -> the final boss aka MLM
+**Design Notes:**
+
+**FSS Mages** -> the ones that holds the pointer to MLM
+**Design Notes:**
+
+**MONSTER** -> math problems that are aversive towards Stojan and help MLM
+**Design Notes:**
+Contains sprite for the numbers 0-9 and the operations +-\*%
+
+**PLAYERS BULLETS**
+**Design Notes:**
+Contains sprite for the numbers 0-9 different color from the monsters
+
+**THE ALMIGHTY SWORD** -> used to slay the MLM
+**Design Notes:**
+Delete sword
+
+**BACKGROUND**
+**Design Notes:**
+
+**WALLS**
+**Design Notes:**
+
+**FLOOR**
+**Design Notes:**
+
+**MAJOR MONSTERS** -> memory chip monster
+**Design Notes:**
 
 ---
-### **ITEMS**
-**Secret Keys**
 
-**Ancient Weapons**
+### **MAIN MECHANICS TO IMPLEMENT**
 
-**Tasks**
-
-**Chests**
-
+**MONSTER SPAWN**
+**SHOOTING**
+**SWAP DIGITS**
+**BASIC MOVEMENT**
+**DAMAGE SYSTEM AND MONSTER KILLING**
+**MAP GENERATION**
+**MLM**
+**PROGRESS AND BOSS BATTLE START**
+**FSS MAGES**
+**SWORD**
+**MENU**
 
 # Development Process
-When you clone the repo run ```typings install```
+
+When you clone the repo run `typings install`
