@@ -143,14 +143,12 @@ export class Player {
         this.bulletPower = 0;
       }
       this.changedPower = true;
-      console.log(this.bulletPower);
     } else if (this.cursor.down.isDown && !this.changedPower) {
       this.bulletPower--;
       if(this.bulletPower < 0) {
         this.bulletPower = 9;
       }
       this.changedPower = true;
-      console.log(this.bulletPower);
     }
   }
 
