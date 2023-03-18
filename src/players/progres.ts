@@ -3,27 +3,30 @@ import{ Sprite } from "~/services/type";
 export class ProgressBar {
 
     game:Phaser.Scene = {} as Phaser.Scene;
-    lastPart: number[] = [1,2,3,4]
+    lastPart: number[] = [0,1,2,3]
     sprite:Sprite = {} as Sprite
     //maxProgress=4;
     
     constructor(game) {
-        
-        //this.game.physics.add.image(40,30,"empty-bar");
-        //this.game=game;
+        this.game = game;
+        this.game.physics.add.image(window.innerWidth/2-80,30,"empty-bar");
         //const bar= game.physics.add.sprite(window.innerWidth+10+20,window.innerHeight-40,"bar");
     }
 
-    upgradeProgress():boolean{
+    upgradeProgress():void{
     
-        const index=Math.round(Math.random()*this.lastPart.length);
+        const index=Math.round(Math.random()*(this.lastPart.length-1));
         const el = this.lastPart.splice(index,1);
+        //console.log(`mt-bar-hex-${el[0]}`)
         this.game.physics.add.sprite(
-            window.innerWidth+20+20*el[0],
-            window.innerHeight-40,
-            `bar-${el}`);
+            window.innerWidth/2-150+60*el[0],
+            30,
+            `mt-bar-hex-${el[0]+1}`);
+        
+        
+        return;
 
-       return this.isComplete();
+       //return this.isComplete();
     }
 
     isComplete():boolean{

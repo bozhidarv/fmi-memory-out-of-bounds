@@ -96,7 +96,14 @@ export default class MainScene extends Phaser.Scene {
       )
     }
     this.load.image("health", "assets/health.png");
-    this.load.image("empty-bar","assets/empty-bar.png");
+    this.load.image("empty-bar","assets/mt-bar.png");
+    for(let i=1;i<=4;i++){
+      //console.log(`mt-bar-hex-${i}`)
+      this.load.image(
+        `mt-bar-hex-${i}`,
+        `assets/mt-bar-hex-${i}.png`
+      )
+    }
   }
 
   create() {
@@ -106,7 +113,6 @@ export default class MainScene extends Phaser.Scene {
     background.scale = 1;
 
     
-    const emptyBar = this.add.sprite(40,30,"empty-bar");
     
     this.invisWall1 = new invWall(64, window.innerHeight - 50, this);
     this.invisWall1.sizeSet(0, window.innerHeight);
@@ -124,7 +130,9 @@ export default class MainScene extends Phaser.Scene {
       
       this.invisWall3 = new invWall(window.innerWidth / 2, 128, this);
       this.invisWall3.sizeSet(window.innerWidth, 0);
+
       this.progress = new ProgressBar(this);
+      this.progress.upgradeProgress();
       
       this.player = new Player(
         window.innerWidth / 2,
