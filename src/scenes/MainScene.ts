@@ -24,10 +24,38 @@ const monsterConfig: SceneMonstersConfigT = {
       startX: 600,
       startY: 700,
     },
+    {
+      startX: 1000,
+      startY: 100,
+    },
+    {
+      startX: 100,
+      startY: 500,
+    },
+    {
+      startX: 1000,
+      startY: 600,
+    },
+    {
+      startX: 700,
+      startY: 1000,
+    },
   ],
   bigMonsters: [
     {
-      startX: 500,
+      startX: 1500,
+      startY: 500,
+    },
+    {
+      startX: 700,
+      startY: 200,
+    },
+    {
+      startX: 1000,
+      startY: 700,
+    },
+    {
+      startX: 1000,
       startY: 500,
     },
   ],
