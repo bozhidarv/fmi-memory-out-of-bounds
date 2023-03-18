@@ -41,8 +41,11 @@ export default class MainScene extends Phaser.Scene {
     this.load.image("background", "assets/basic_background.png");
     this.load.image("small-monster", "assets/small-ram-monster-64.png");
     this.load.image("bullet", "assets/bullet.png");
-    for (let index = 0; index <= 0; index++) {
-      this.load.image(`enemy-${index}`, `assets/enemy-digit-${index}.png`);
+    for (let index = 0; index <= 9; index++) {
+      this.load.image(
+        `enemy-digit-${index}`,
+        `assets/enemy-digit-${index}.png`
+      );
     }
     this.load.image("health", "assets/health.png");
   }
