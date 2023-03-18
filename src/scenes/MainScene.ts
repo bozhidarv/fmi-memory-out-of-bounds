@@ -3,13 +3,10 @@ import { SmallMonster } from "~/Monsters/SmallMonster";
 import { Player } from "~/players/player";
 import { Health } from "~/players/health";
 import { SceneMonstersConfigT, Sprite } from "~/services/type";
+import { BigMonster } from "~/Monsters/BigMonster";
 
 const monsterConfig: SceneMonstersConfigT = {
   smallMonsters: [
-    {
-      startX: 200,
-      startY: 100,
-    },
     {
       startX: 300,
       startY: 100,
@@ -27,10 +24,15 @@ const monsterConfig: SceneMonstersConfigT = {
       startY: 700,
     },
   ],
-  bigMonsters: [],
+  bigMonsters: [
+    {
+      startX: 500,
+      startY: 100,
+    },
+  ],
 };
 export default class MainScene extends Phaser.Scene {
-  monsters: SmallMonster[] = [];
+  monsters: (SmallMonster | BigMonster)[] = [];
   player: Player = {} as Player;
   monsterSprites: Sprite[] = [];
   lastBulletsCount = 0;
@@ -38,6 +40,10 @@ export default class MainScene extends Phaser.Scene {
   preload() {
     this.load.image("background", "assets/corridor.png");
     this.load.image("small-monster", "assets/small-ram-monster-64.png");
+    this.load.image("big-monster", "assets/big-ram-monster.png");
+    this.load.image("enemy-sign--", "assets/enemy-sign-minus.png");
+    this.load.image("enemy-sign-+", "assets/enemy-sign-plus.png");
+    this.load.image("enemy-sign-*", "assets/enemy-sign-multiply.png");
     this.load.image("bullet", "assets/bullet.png");
     for (let index = 0; index <= 9; index++) {
       this.load.image(
@@ -49,7 +55,7 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
-    const background = this.add.image(1920/2, 960/2, "background");
+    const background = this.add.image(1920 / 2, 960 / 2, "background");
     background.displayHeight = window.innerHeight;
     background.displayWidth = window.innerHeight;
     background.scale = 1;
@@ -69,39 +75,62 @@ export default class MainScene extends Phaser.Scene {
       )
     );
 
+    this.monsters = this.monsters.concat(
+      monsterConfig.bigMonsters.map(
+        (monster, index) =>
+          new BigMonster(monster.startX, monster.startY, index, this)
+      )
+    );
+
     this.monsterSprites = this.monsters.map(
       (monster) => monster.body.mainSprite
     );
-    this.physics.add.collider(this.monsterSprites, this.monsterSprites);
-    this.physics.add.collider(this.monsterSprites, this.player.sprite, (obj) => {
-      const monsterIndex = this.monsters.findIndex(
-        (monster) => monster.body.mainSprite.name === obj.name
-      );
-      this.monsters[monsterIndex].destroy();
-      this.monsters.splice(monsterIndex, 1);
 
-      this.player.hit();
-    });
+    this.physics.add.collider(this.monsterSprites, this.monsterSprites);
+
+    this.physics.add.collider(
+      this.monsterSprites,
+      this.player.sprite,
+      (obj) => {
+        const monsterIndex = this.monsters.findIndex(
+          (monster) => monster.body.mainSprite.name === obj.name
+        );
+        this.monsters[monsterIndex].destroy();
+        this.monsters.splice(monsterIndex, 1);
+
+        this.player.hit();
+      }
+    );
   }
 
   update(time, delta) {
     this.player.update();
 
-    if(this.player.bullets.length < this.lastBulletsCount) {
+    if (this.player.bullets.length < this.lastBulletsCount) {
       this.lastBulletsCount--;
     }
-    if(this.player.bullets.length > this.lastBulletsCount) {
-      this.physics.add.collider(this.monsterSprites, this.player.bullets[this.player.bullets.length-1], (hitMonster, hitBullet) => {
-        const monsterIndex = this.monsters.findIndex(
-          (monster) => monster.body.mainSprite.name === hitMonster.name);
-          const isAlive = this.monsters[monsterIndex].hit(parseInt(hitBullet.name.split(';')[1]));
-          if(!isAlive) {
+
+    if (this.player.bullets.length > this.lastBulletsCount) {
+      this.physics.add.collider(
+        this.monsterSprites,
+        this.player.bullets[this.player.bullets.length - 1],
+        (hitMonster, hitBullet) => {
+          const monsterIndex = this.monsters.findIndex(
+            (monster) => monster.body.mainSprite.name === hitMonster.name
+          );
+          const isAlive = this.monsters[monsterIndex].hit(
+            parseInt(hitBullet.name.split(";")[1])
+          );
+          if (!isAlive) {
             this.monsters.splice(monsterIndex, 1);
           }
-          const hitBulletIndex = this.player.bullets.findIndex(bullet => bullet.name === hitBullet.name);
+          const hitBulletIndex = this.player.bullets.findIndex(
+            (bullet) => bullet.name === hitBullet.name
+          );
           hitBullet.destroy();
           this.player.bullets.splice(hitBulletIndex, 1);
-      })
+        }
+      );
     }
 
     this.monsters.forEach((monster) => {
