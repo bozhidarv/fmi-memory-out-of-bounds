@@ -1,4 +1,4 @@
-type MonstersT = {
+export type MonstersT = {
   equation: string;
   answer: number[];
 };

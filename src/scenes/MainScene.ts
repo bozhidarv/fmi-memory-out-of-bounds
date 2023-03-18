@@ -6,7 +6,7 @@ import { Health } from "~/players/health";
 export default class MainScene extends Phaser.Scene {
   monsters: Monster[] = [];
   player: Player = {} as Player;
-  health: Health={} as Health;
+  health: Health = {} as Health;
 
   preload() {
     this.load.image("background", "assets/basic_background.png");
@@ -16,7 +16,10 @@ export default class MainScene extends Phaser.Scene {
     );
     this.load.image("small-monster", "assets/small-ram-monster-64.png");
     this.load.image("chest", "assets/chests.png");
-    this.load.image('bullet', 'assets/bullet.png');
+    this.load.image("bullet", "assets/bullet.png");
+    for (let index = 0; index <= 0; index++) {
+      this.load.image(`enemy-${index}`, `assets/enemy-${index}.png`);
+    }
   }
 
   create() {
@@ -41,9 +44,7 @@ export default class MainScene extends Phaser.Scene {
 
     this.generateMonsters();
 
-
     //this.health.loseHealth();
-    
   }
 
   generateMonsters() {
@@ -56,7 +57,10 @@ export default class MainScene extends Phaser.Scene {
         )
       );
     }
-    const monsterSprites = this.monsters.map((monster) => monster.sprite);
+
+    const monsterSprites = this.monsters.map(
+      (monster) => monster.body.mainSprite
+    );
     this.physics.add.collider(monsterSprites, monsterSprites);
   }
 
