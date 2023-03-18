@@ -63,6 +63,7 @@ Delete sword
 
 # Development Process
 
+Prerequisite: `npm install -g parcel-bundler` <br>
 When you clone the repo run `npm install` <br>
 To run the app `npm run start` <br>
 To build the app `npm run build` <br>
