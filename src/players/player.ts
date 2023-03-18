@@ -6,6 +6,7 @@ export class Player{
     sprite: Sprite = {} as Sprite;
     cursor: CursorT = { }as CursorT;
     game: Phaser.Scene = {} as Phaser.Scene;
+
     constructor(x:number,y:number,game:Phaser.Scene) {
         this.sprite=game.physics.add.sprite(x,y,"player");
         this.cursor = game.input.keyboard.createCursorKeys();
