@@ -7,10 +7,6 @@ import { SceneMonstersConfigT } from "~/services/type";
 const monsterConfig: SceneMonstersConfigT = {
   smallMonsters: [
     {
-      startX: 100,
-      startY: 100,
-    },
-    {
       startX: 200,
       startY: 100,
     },
@@ -74,15 +70,12 @@ export default class MainScene extends Phaser.Scene {
       (monster) => monster.body.mainSprite
     );
     this.physics.add.collider(monsterSprites, monsterSprites);
-    this.physics.add.collider(monsterSprites, this.player.sprite, (monster) => {
-      console.warn(monster.name);
-      const monsterIndex = parseInt(monster.name);
-
-      // this.monsters[monsterIndex].destroy();
-
-      // this.monsters = this.monsters.filter(
-      //   (_, index) => index !== monsterIndex
-      // );
+    this.physics.add.collider(monsterSprites, this.player.sprite, (obj) => {
+      const monsterIndex = this.monsters.findIndex(
+        (monster) => monster.body.mainSprite.name === obj.name
+      );
+      this.monsters[monsterIndex].destroy();
+      this.monsters.splice(monsterIndex, 1);
 
       this.player.hit();
     });
