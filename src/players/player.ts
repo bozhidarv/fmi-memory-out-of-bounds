@@ -1,5 +1,6 @@
 import { CursorT, Sprite } from "~/services/type";
 import { Health } from "./health";
+import { v4 as uuidv4 } from 'uuid';
 export class Player {
   SPEED = 100;
   DRAG = 200;
@@ -78,6 +79,7 @@ export class Player {
         this.sprite.y,
         "bullet"
       );
+      bullet.name = `${uuidv4()};${this.chosenNumber}`
       bullet.displayHeight = 10;
       bullet.displayWidth = 30;
       bullet.setRotation(this.sprite.rotation - Math.PI);
@@ -122,14 +124,17 @@ export class Player {
   }
 
   removeBullets(): void {
-    this.bullets.forEach(bullet => {
+    const bulletsToRemove: number[] = [];
+    this.bullets.forEach((bullet, index) => {
       if(bullet.x < 0 || bullet.x > this.game.sys.canvas.width || bullet.y < 0 || bullet.y > this.game.sys.canvas.height) {
-        bullet.setActive(false);
         bullet.destroy();
+        bulletsToRemove.push(index);
       }
     })
 
-    this.bullets = this.bullets.filter(bullet => bullet.active);
+    bulletsToRemove.forEach(bulletIndex => {
+      this.bullets.splice(bulletIndex, 1);
+    })
   }
 
   isPlayerDead(): boolean {
