@@ -63,4 +63,6 @@ Delete sword
 
 # Development Process
 
-When you clone the repo run `typings install`
+When you clone the repo run `npm install`
+To run the app `npm run start`
+To build the app `npm run build`
