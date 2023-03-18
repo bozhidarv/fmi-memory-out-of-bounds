@@ -4,18 +4,27 @@ export class Player {
   SPEED = 100;
   DRAG = 200;
   BULLET_SPEED = 300;
+  chosenNumber = 1;
+  keyA;
+  keyS;
+  keyD;
+  keyW;
   sprite: Sprite = {} as Sprite;
   cursor: CursorT = {} as CursorT;
   health: Health = {} as Health;
-
   lastTimeShoot: number = Infinity;
-
+  bullets: Sprite[] = [];
   game: Phaser.Scene = {} as Phaser.Scene;
 
   constructor(x: number, y: number, game: Phaser.Scene) {
     this.sprite = game.physics.add.sprite(x, y, "player");
     this.cursor = game.input.keyboard.createCursorKeys();
     this.sprite.setCollideWorldBounds(true);
+    this.keyA = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    this.keyS = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    this.keyD = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    this.keyW = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+  
     this.game = game;
 
     this.health = new Health(game);
@@ -24,31 +33,32 @@ export class Player {
   update(): void {
     this.move();
     this.shoot();
+    this.removeBullets();
   }
 
   move(): void {
-    if (this.cursor.left.isDown) {
+    if (this.keyA.isDown) {
       this.sprite.setRotation(Math.PI);
       this.sprite.setVelocityX(-this.SPEED);
     } else {
       this.sprite.setDragX(-this.DRAG);
     }
 
-    if (this.cursor.right.isDown) {
+    if (this.keyD.isDown) {
       this.sprite.setRotation(0);
       this.sprite.setVelocityX(this.SPEED);
     } else {
       this.sprite.setDragX(this.DRAG);
     }
 
-    if (this.cursor.up.isDown) {
+    if (this.keyW.isDown) {
       this.sprite.setRotation(-Math.PI / 2);
       this.sprite.setVelocityY(-this.SPEED);
     } else {
       this.sprite.setDragY(-this.DRAG);
     }
 
-    if (this.cursor.down.isDown) {
+    if (this.keyS.isDown) {
       this.sprite.setRotation(Math.PI / 2);
       this.sprite.setVelocityY(this.SPEED);
     } else {
@@ -82,7 +92,7 @@ export class Player {
           bullet.setVelocityY(this.BULLET_SPEED);
         } else if (this.sprite.rotation === -Math.PI / 2) {
           bullet.setVelocityY(-this.BULLET_SPEED);
-        } else if (this.sprite.rotation === Math.PI) {
+        } else if (Math.abs(this.sprite.rotation) === Math.PI) {
           bullet.setVelocityX(-this.BULLET_SPEED);
         }
       } else {
@@ -102,9 +112,24 @@ export class Player {
             : bullet.setVelocityY(this.BULLET_SPEED);
         }
       }
-
-      this.lastTimeShoot = 0;
+      if(bullet.body.velocity.x === 0 && bullet.body.velocity.y === 0) {
+        bullet.destroy();
+      } else {
+        this.bullets.push(bullet);
+        this.lastTimeShoot = 0;
+      }
     }
+  }
+
+  removeBullets(): void {
+    this.bullets.forEach(bullet => {
+      if(bullet.x < 0 || bullet.x > this.game.sys.canvas.width || bullet.y < 0 || bullet.y > this.game.sys.canvas.height) {
+        bullet.setActive(false);
+        bullet.destroy();
+      }
+    })
+
+    this.bullets = this.bullets.filter(bullet => bullet.active);
   }
 
   isPlayerDead(): boolean {

@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import { SmallMonster } from "~/Monsters/SmallMonster";
 import { Player } from "~/players/player";
 import { Health } from "~/players/health";
-import { SceneMonstersConfigT } from "~/services/type";
+import { SceneMonstersConfigT, Sprite } from "~/services/type";
 
 const monsterConfig: SceneMonstersConfigT = {
   smallMonsters: [
@@ -32,6 +32,8 @@ const monsterConfig: SceneMonstersConfigT = {
 export default class MainScene extends Phaser.Scene {
   monsters: SmallMonster[] = [];
   player: Player = {} as Player;
+  monsterSprites: Sprite[] = [];
+  lastBulletsCount = 0;
 
   preload() {
     this.load.image("background", "assets/basic_background.png");
@@ -66,11 +68,11 @@ export default class MainScene extends Phaser.Scene {
       )
     );
 
-    const monsterSprites = this.monsters.map(
+    this.monsterSprites = this.monsters.map(
       (monster) => monster.body.mainSprite
     );
-    this.physics.add.collider(monsterSprites, monsterSprites);
-    this.physics.add.collider(monsterSprites, this.player.sprite, (obj) => {
+    this.physics.add.collider(this.monsterSprites, this.monsterSprites);
+    this.physics.add.collider(this.monsterSprites, this.player.sprite, (obj) => {
       const monsterIndex = this.monsters.findIndex(
         (monster) => monster.body.mainSprite.name === obj.name
       );
@@ -83,6 +85,20 @@ export default class MainScene extends Phaser.Scene {
 
   update(time, delta) {
     this.player.update();
+
+    if(this.player.bullets.length < this.lastBulletsCount) {
+      this.lastBulletsCount--;
+    }
+    if(this.player.bullets.length > this.lastBulletsCount) {
+      this.physics.add.collider(this.monsterSprites, this.player.bullets[this.player.bullets.length-1], (hitMonster, hitBullet) => {
+        const monsterIndex = this.monsters.findIndex(
+          (monster) => monster.body.mainSprite.name === hitMonster.name);
+          this.monsters[monsterIndex].destroy();
+          this.monsters.splice(monsterIndex, 1);
+
+          hitBullet.destroy();
+      })
+    }
 
     this.monsters.forEach((monster) => {
       monster.move(this.player, this);
