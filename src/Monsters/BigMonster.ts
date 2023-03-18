@@ -26,7 +26,7 @@ class BigMonsterBody {
     game: Phaser.Scene
   ) {
     this.mainSprite = game.physics.add.sprite(x, y, "big-monster");
-    this.mainSprite.name = index.toString();
+    this.mainSprite.name = `big-${index}`;
 
     this.brainSprites.push({
       sprite: game.physics.add.sprite(x, y, `enemy-sign-${equation[2]}`),
@@ -97,18 +97,21 @@ export class BigMonster {
   }
 
   checkIfAlive() {
-    if (this.lives.length) {
+    if (!this.lives.length) {
       this.destroy();
+      return false;
     }
+    return true;
   }
 
   hit(digit: number) {
     const currDigit = this.lives.pop();
     if (digit === currDigit) {
-      this.checkIfAlive();
+      return this.checkIfAlive();
     } else {
       this.lives.push(currDigit ?? 0);
       this.speed += this.speed / 10;
+      return true;
     }
   }
 

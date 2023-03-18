@@ -11,3 +11,5 @@ export type SceneMonstersConfigT = {
   smallMonsters: MonsterConfigT[];
   bigMonsters: MonsterConfigT[];
 };
+
+export type KeyT = Phaser.Input.Keyboard.Key;

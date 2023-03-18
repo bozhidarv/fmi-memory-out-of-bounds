@@ -28,7 +28,7 @@ const monsterConfig: SceneMonstersConfigT = {
   bigMonsters: [
     {
       startX: 500,
-      startY: 100,
+      startY: 500,
     },
   ],
 };
@@ -61,38 +61,20 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
-  
     // const invisWall =this.physics.add.sprite(64,window.innerHeight-50,"invisWall");
     // invisWall.setVisible(false);
     // invisWall.setImmovable(true);
     // invisWall.setSize (0,window.innerHeight);
     // invisWall.scaleX=2;
     // invisWall.scaleY=30;
+    
     const background = this.add.image(1920 / 2, 960 / 2, "background");
     background.displayHeight = window.innerHeight;
     background.displayWidth = window.innerHeight;
     background.scale = 1;
 
-    this.invisWall1=new invWall(64,window.innerHeight-50,this);
-    this.invisWall1.sizeSet(0,window.innerHeight);
-    this.invisWall1.sprite.scaleX=2;
-    this.invisWall1.sprite.scaleY=30;
-
-    this.invisWall2=new invWall(window.innerWidth-64,window.innerHeight-50,this);
-    this.invisWall2.sizeSet(0,window.innerHeight);
-    this.invisWall2.sprite.scaleX=2;
-    this.invisWall2.sprite.scaleY=30;
-
-    this.invisWall3=new invWall(window.innerWidth/2,128,this,);
-    this.invisWall3.sizeSet(window.innerWidth,0);
-    
-
-
-    this.player = new Player(window.innerWidth/2, window.innerHeight/2, this);
-    this.physics.add.collider(this.invisWall1.sprite,this.player.sprite);
-    this.physics.add.collider(this.invisWall2.sprite,this.player.sprite);
-    this.physics.add.collider(this.invisWall3.sprite,this.player.sprite);
-
+    this.player = new Player(500, 100, this);
+   // this.physics.add.collider(invisWall,this.player.sprite);
 
     this.generateMonsters();
     this.physics.add.collider(this.invisWall1.sprite,this.monsterSprites);
