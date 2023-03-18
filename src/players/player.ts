@@ -1,14 +1,14 @@
-import { CursorT, Sprite } from "~/services/type";
+import { CursorT, KeyT, Sprite } from "~/services/type";
 import { Health } from "./health";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 export class Player {
   SPEED = 100;
   DRAG = 200;
   BULLET_SPEED = 300;
   bulletPower = 1;
-  keyA;
-  keyS;
-  keyD;
+  keyA: KeyT = {} as KeyT;
+  keyS: KeyT = {} as KeyT;
+  keyD: KeyT = {} as KeyT;
   keyW;
   sprite: Sprite = {} as Sprite;
   cursor: CursorT = {} as CursorT;
@@ -27,7 +27,7 @@ export class Player {
     this.keyS = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     this.keyD = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     this.keyW = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-  
+
     this.game = game;
 
     this.health = new Health(game);
@@ -82,7 +82,7 @@ export class Player {
         this.sprite.y,
         "bullet"
       );
-      bullet.name = `${uuidv4()};${this.bulletPower}`
+      bullet.name = `${uuidv4()};${this.bulletPower}`;
       bullet.displayHeight = 10;
       bullet.displayWidth = 30;
       bullet.setRotation(this.sprite.rotation - Math.PI);
@@ -117,7 +117,7 @@ export class Player {
             : bullet.setVelocityY(this.BULLET_SPEED);
         }
       }
-      if(bullet.body.velocity.x === 0 && bullet.body.velocity.y === 0) {
+      if (bullet.body.velocity.x === 0 && bullet.body.velocity.y === 0) {
         bullet.destroy();
       } else {
         this.bullets.push(bullet);
@@ -129,15 +129,20 @@ export class Player {
   removeBullets(): void {
     const bulletsToRemove: number[] = [];
     this.bullets.forEach((bullet, index) => {
-      if(bullet.x < 0 || bullet.x > this.game.sys.canvas.width || bullet.y < 0 || bullet.y > this.game.sys.canvas.height) {
+      if (
+        bullet.x < 0 ||
+        bullet.x > this.game.sys.canvas.width ||
+        bullet.y < 0 ||
+        bullet.y > this.game.sys.canvas.height
+      ) {
         bullet.destroy();
         bulletsToRemove.push(index);
       }
-    })
+    });
 
-    bulletsToRemove.forEach(bulletIndex => {
+    bulletsToRemove.forEach((bulletIndex) => {
       this.bullets.splice(bulletIndex, 1);
-    })
+    });
   }
 
   isPlayerDead(): boolean {
@@ -149,14 +154,14 @@ export class Player {
   }
 
   changeBulletPower() {
-    if(this.cursor.up.isUp && this.cursor.down.isUp) {
+    if (this.cursor.up.isUp && this.cursor.down.isUp) {
       this.changedPower = false;
     }
-    if(this.cursor.up.isDown && !this.changedPower) {
+    if (this.cursor.up.isDown && !this.changedPower) {
       this.bulletPower++;
       this.changedPower = true;
       console.log(this.bulletPower);
-    } else if(this.cursor.down.isDown && !this.changedPower) {
+    } else if (this.cursor.down.isDown && !this.changedPower) {
       this.bulletPower--;
       this.changedPower = true;
       console.log(this.bulletPower);
