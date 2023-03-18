@@ -17,6 +17,7 @@ export default class MainScene extends Phaser.Scene {
     this.load.image("small-monster", "assets/small-ram-monster-64.png");
     this.load.image("chest", "assets/chests.png");
     this.load.image('bullet', 'assets/bullet.png');
+    this.load.image("health", "assets/health.png");
   }
 
   create() {
@@ -24,11 +25,14 @@ export default class MainScene extends Phaser.Scene {
     background.displayHeight = window.innerHeight * 2;
     background.displayWidth = window.innerHeight * 4;
 
+    this.health = new Health(this);
+
     const chests = this.physics.add.image(500, 500, "chest");
     chests.setCollideWorldBounds(true);
     chests.body.immovable = true;
 
     const logo = this.physics.add.image(400, 100, "logo");
+    logo.scale=0.1
 
     this.physics.add.collider(logo, chests);
 
@@ -40,7 +44,6 @@ export default class MainScene extends Phaser.Scene {
     logo.setCollideWorldBounds(true);
 
     this.generateMonsters();
-
 
     //this.health.loseHealth();
     
