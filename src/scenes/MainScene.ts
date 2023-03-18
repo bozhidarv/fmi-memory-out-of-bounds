@@ -35,6 +35,7 @@ export default class MainScene extends Phaser.Scene {
     this.monsters.push(new Monster(100, 100, this));
     
     this.player=new Player(100,100,this);
+    this.physics.add.collider(this.player.sprite,logo);
 
     logo.setVelocity(100, 200);
     logo.setBounce(1, 1);

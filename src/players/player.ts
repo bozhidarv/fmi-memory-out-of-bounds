@@ -1,5 +1,7 @@
 import {CursorT, Sprite } from "~/services/type";
 export class Player{
+    SPEED=100;
+    DRAG =200;
     sprite: Sprite = {} as Sprite;
     cursor: CursorT = { }as CursorT;
     constructor(x:number,y:number,game:Phaser.Scene){
@@ -11,18 +13,29 @@ export class Player{
     move ():void {
 
         if(this.cursor.left.isDown){
-            this.sprite.setVelocityX(-100);
+            this.sprite.setVelocityX(-this.SPEED);    
 
-        }else if(this.cursor.right.isDown){
-            this.sprite.setVelocityX(100);
+        }else{
+            this.sprite.setDragX(-this.DRAG);
+        }
+        
+        if(this.cursor.right.isDown){
+            this.sprite.setVelocityX(this.SPEED)
+        }else{
+            this.sprite.setDragX(this.DRAG);
+        }
 
             
-        }else if(this.cursor.up.isDown){
-            this.sprite.setVelocityY(-100);
-
-            
-        }else if(this.cursor.down.isDown){
-            this.sprite.setVelocityY(100);
+         if(this.cursor.up.isDown){
+            this.sprite.setVelocityY(-this.SPEED);          
+        }else{
+            this.sprite.setDragY(-this.DRAG);
+        }
+        
+        if(this.cursor.down.isDown){
+            this.sprite.setVelocityY(this.SPEED);
+        }else{
+            this.sprite.setDragY(this.DRAG);
         }
     }
 
