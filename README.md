@@ -63,6 +63,6 @@ Delete sword
 
 # Development Process
 
-When you clone the repo run `npm install`
-To run the app `npm run start`
-To build the app `npm run build`
+When you clone the repo run `npm install` <br>
+To run the app `npm run start` <br>
+To build the app `npm run build` <br>
