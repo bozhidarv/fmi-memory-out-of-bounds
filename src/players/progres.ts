@@ -1,19 +1,17 @@
-import { Sprite } from "~/services/type";
+import{ Sprite } from "~/services/type";
 
 export class ProgressBar {
 
     game:Phaser.Scene = {} as Phaser.Scene;
     lastPart: number[] = [1,2,3,4]
-    maxProgress=4;
+    sprite:Sprite = {} as Sprite
+    //maxProgress=4;
     
     constructor(game) {
         
-        const empytBar =this.game.add.sprite(40,30,"empty-bar");
-        this.game=game;
-        const bar= game.physics.add.sprite(
-            window.innerWidth+10+20,
-            window.innerHeight-40,
-            "bar");
+        //this.game.physics.add.image(40,30,"empty-bar");
+        //this.game=game;
+        //const bar= game.physics.add.sprite(window.innerWidth+10+20,window.innerHeight-40,"bar");
     }
 
     upgradeProgress():boolean{
