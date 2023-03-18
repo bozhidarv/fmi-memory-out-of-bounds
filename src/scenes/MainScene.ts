@@ -1,4 +1,4 @@
-import Phaser from "phaser";
+import Phaser, { GameObjects } from "phaser";
 import { SmallMonster } from "~/Monsters/SmallMonster";
 import { Player } from "~/players/player";
 import { Health } from "~/players/health";
@@ -36,7 +36,8 @@ export default class MainScene extends Phaser.Scene {
   player: Player = {} as Player;
   monsterSprites: Sprite[] = [];
   lastBulletsCount = 0;
-
+  lastBulletPower = 0;
+  bulletPowerSprite: GameObjects.Image = {} as GameObjects.Image;
   preload() {
     this.load.image("background", "assets/corridor.png");
     this.load.image("small-monster", "assets/small-ram-monster-64.png");
@@ -73,6 +74,9 @@ export default class MainScene extends Phaser.Scene {
     this.generateMonsters();
 
     //this.health.loseHealth();
+
+    this.bulletPowerSprite = this.add.image(window.innerWidth-85, window.innerHeight-40, `enemy-digit-${this.lastBulletPower}`);
+    this.bulletPowerSprite.scale = 2
   }
 
   generateMonsters() {
@@ -109,10 +113,17 @@ export default class MainScene extends Phaser.Scene {
         this.player.hit();
       }
     );
+
+    
   }
 
   update(time, delta) {
     this.player.update();
+
+    if(this.lastBulletPower !== this.player.bulletPower) {
+      this.bulletPowerSprite.setTexture(`enemy-digit-${this.player.bulletPower}`);
+      this.lastBulletPower = this.player.bulletPower;
+    }
 
     if (this.player.bullets.length < this.lastBulletsCount) {
       this.lastBulletsCount--;

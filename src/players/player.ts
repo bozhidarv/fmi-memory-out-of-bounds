@@ -5,7 +5,7 @@ export class Player {
   SPEED = 100;
   DRAG = 200;
   BULLET_SPEED = 300;
-  bulletPower = 1;
+  bulletPower = 0;
   keyA: KeyT = {} as KeyT;
   keyS: KeyT = {} as KeyT;
   keyD: KeyT = {} as KeyT;
@@ -87,36 +87,16 @@ export class Player {
       bullet.displayWidth = 30;
       bullet.setRotation(this.sprite.rotation - Math.PI);
 
-      if (
-        this.sprite.body.velocity.x === 0 &&
-        this.sprite.body.velocity.y === 0
-      ) {
-        if (this.sprite.rotation === 0) {
-          bullet.setVelocityX(this.BULLET_SPEED);
-        } else if (this.sprite.rotation === Math.PI / 2) {
-          bullet.setVelocityY(this.BULLET_SPEED);
-        } else if (this.sprite.rotation === -Math.PI / 2) {
-          bullet.setVelocityY(-this.BULLET_SPEED);
-        } else if (Math.abs(this.sprite.rotation) === Math.PI) {
-          bullet.setVelocityX(-this.BULLET_SPEED);
-        }
-      } else {
-        if (this.sprite.body.velocity.x === 0) {
-          bullet.setVelocityX(0);
-        } else {
-          this.sprite.body.velocity.x < 0
-            ? bullet.setVelocityX(-this.BULLET_SPEED)
-            : bullet.setVelocityX(this.BULLET_SPEED);
-        }
-
-        if (this.sprite.body.velocity.y === 0) {
-          bullet.setVelocityY(0);
-        } else {
-          this.sprite.body.velocity.y < 0
-            ? bullet.setVelocityY(-this.BULLET_SPEED)
-            : bullet.setVelocityY(this.BULLET_SPEED);
-        }
+      if (this.sprite.rotation === 0) {
+        bullet.setVelocityX(this.BULLET_SPEED);
+      } else if (this.sprite.rotation === Math.PI / 2) {
+        bullet.setVelocityY(this.BULLET_SPEED);
+      } else if (this.sprite.rotation === -Math.PI / 2) {
+        bullet.setVelocityY(-this.BULLET_SPEED);
+      } else if (Math.abs(this.sprite.rotation) === Math.PI) {
+        bullet.setVelocityX(-this.BULLET_SPEED);
       }
+
       if (bullet.body.velocity.x === 0 && bullet.body.velocity.y === 0) {
         bullet.destroy();
       } else {
@@ -159,10 +139,16 @@ export class Player {
     }
     if (this.cursor.up.isDown && !this.changedPower) {
       this.bulletPower++;
+      if(this.bulletPower > 9 ) {
+        this.bulletPower = 0;
+      }
       this.changedPower = true;
       console.log(this.bulletPower);
     } else if (this.cursor.down.isDown && !this.changedPower) {
       this.bulletPower--;
+      if(this.bulletPower < 0) {
+        this.bulletPower = 9;
+      }
       this.changedPower = true;
       console.log(this.bulletPower);
     }
