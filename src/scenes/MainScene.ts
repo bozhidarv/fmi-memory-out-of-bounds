@@ -67,7 +67,6 @@ export default class MainScene extends Phaser.Scene {
   monsterSprites: Sprite[] = [];
   lastBulletsCount = 0;
   lastBulletPower = 0;
-  bulletPowerSprite: GameObjects.Image = {} as GameObjects.Image;
   invisWall1: invWall = {} as invWall;
   invisWall2: invWall = {} as invWall;
   invisWall3: invWall = {} as invWall;
@@ -83,13 +82,16 @@ export default class MainScene extends Phaser.Scene {
     this.load.image("enemy-sign--", "assets/enemy-sign-minus.png");
     this.load.image("enemy-sign-+", "assets/enemy-sign-plus.png");
     this.load.image("enemy-sign-*", "assets/enemy-sign-multiply.png");
-    this.load.image("bullet", "assets/player-bullet-9.png");
     this.load.image("stojan", "assets/stojan.png");
     for (let index = 0; index <= 9; index++) {
       this.load.image(
         `enemy-digit-${index}`,
         `assets/enemy-digit-${index}.png`
       );
+      this.load.image(
+        `bullet-${index}`,
+        `assets/player-bullet-${index}.png`
+      )
     }
     this.load.image("health", "assets/health.png");
   }
@@ -138,13 +140,6 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.collider(this.invisWall3.sprite, this.monsterSprites);
 
     //this.health.loseHealth();
-
-    this.bulletPowerSprite = this.add.image(
-      window.innerWidth - 85,
-      window.innerHeight - 40,
-      `enemy-digit-${this.lastBulletPower}`
-    );
-    this.bulletPowerSprite.scale = 2;
   }
 
   generateMonsters() {
@@ -176,7 +171,7 @@ export default class MainScene extends Phaser.Scene {
           (monster) => monster.body.mainSprite.name === obj.name
         );
 
-        this.scene.start("RoomOne");
+        // this.scene.start("RoomOne");
 
         this.monsters[monsterIndex].destroy();
         this.monsters.splice(monsterIndex, 1);
@@ -190,7 +185,7 @@ export default class MainScene extends Phaser.Scene {
     this.player.update();
 
     if (this.lastBulletPower !== this.player.bulletPower) {
-      this.bulletPowerSprite.setTexture(
+      this.player.bulletPowerSprite.setTexture(
         `enemy-digit-${this.player.bulletPower}`
       );
       this.lastBulletPower = this.player.bulletPower;

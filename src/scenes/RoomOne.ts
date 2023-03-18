@@ -122,11 +122,6 @@ export default class RoomOne extends Phaser.Scene {
     this.invisWall3 = new invWall(window.innerWidth / 2, 128, this);
     this.invisWall3.sizeSet(window.innerWidth, 0);
 
-    this.player = new Player(
-      window.innerWidth / 2,
-      window.innerHeight / 2,
-      this
-    );
     this.physics.add.collider(this.invisWall1.sprite, this.player.sprite);
     this.physics.add.collider(this.invisWall2.sprite, this.player.sprite);
     this.physics.add.collider(this.invisWall3.sprite, this.player.sprite);

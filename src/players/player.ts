@@ -1,6 +1,7 @@
 import { CursorT, KeyT, Sprite } from "~/services/type";
 import { Health } from "./health";
 import { v4 as uuidv4 } from "uuid";
+import { GameObjects } from "phaser";
 export class Player {
   SPEED = 200;
   DRAG = 300;
@@ -16,7 +17,7 @@ export class Player {
   lastTimeShoot: number = Infinity;
   bullets: Sprite[] = [];
   game: Phaser.Scene = {} as Phaser.Scene;
-
+  bulletPowerSprite: GameObjects.Image = {} as GameObjects.Image;
   changedPower: boolean = false;
 
   constructor(x: number, y: number, game: Phaser.Scene) {
@@ -31,6 +32,13 @@ export class Player {
     this.game = game;
 
     this.health = new Health(game);
+
+    this.bulletPowerSprite = game.add.image(
+      window.innerWidth - 90,
+      window.innerHeight - 50,
+      `enemy-digit-${this.bulletPower}`
+    );
+    this.bulletPowerSprite.scale = 3;
   }
 
   update(): void {
@@ -80,13 +88,13 @@ export class Player {
       const bullet = this.game.physics.add.sprite(
         this.sprite.x,
         this.sprite.y,
-        "bullet"
+        `bullet-${this.bulletPower}`
       );
       bullet.name = `${uuidv4()};${this.bulletPower}`;
       // bullet.displayHeight = 10;
       // bullet.displayWidth = 30;
       bullet.setRotation(-Math.PI/2);
-      bullet.scale = 2
+      // bullet.scale = 2
 
       if (this.sprite.rotation === 0) {
         bullet.setVelocityX(this.BULLET_SPEED);
