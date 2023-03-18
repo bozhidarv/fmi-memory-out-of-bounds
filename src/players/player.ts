@@ -2,8 +2,8 @@ import { CursorT, KeyT, Sprite } from "~/services/type";
 import { Health } from "./health";
 import { v4 as uuidv4 } from "uuid";
 export class Player {
-  SPEED = 100;
-  DRAG = 200;
+  SPEED = 200;
+  DRAG = 300;
   BULLET_SPEED = 300;
   bulletPower = 0;
   keyA: KeyT = {} as KeyT;
