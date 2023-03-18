@@ -12,12 +12,7 @@ export default class MainScene extends Phaser.Scene {
 
   preload() {
     this.load.image("background", "assets/basic_background.png");
-    this.load.image(
-      "logo",
-      "http://labs.phaser.io/assets/sprites/phaser3-logo.png"
-    );
     this.load.image("small-monster", "assets/small-ram-monster-64.png");
-    this.load.image("chest", "assets/chests.png");
     this.load.image("bullet", "assets/bullet.png");
     for (let index = 0; index <= 0; index++) {
       this.load.image(`enemy-${index}`, `assets/enemy-${index}.png`);
@@ -32,21 +27,9 @@ export default class MainScene extends Phaser.Scene {
 
     this.health = new Health(this);
 
-    const chests = this.physics.add.image(500, 500, "chest");
-    chests.setCollideWorldBounds(true);
-    chests.body.immovable = true;
 
-    const logo = this.physics.add.image(400, 100, "logo");
-    logo.scale=0.1
-
-    this.physics.add.collider(logo, chests);
 
     this.player = new Player(100, 100, this);
-    this.physics.add.collider(this.player.sprite, logo);
-
-    logo.setVelocity(100, 200);
-    logo.setBounce(1, 1);
-    logo.setCollideWorldBounds(true);
 
     this.generateMonsters();
 
