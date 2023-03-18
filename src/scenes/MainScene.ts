@@ -13,7 +13,7 @@ export default class MainScene extends Phaser.Scene {
       "http://labs.phaser.io/assets/sprites/phaser3-logo.png"
     );
     this.load.image("monster", "assets/monster.jpeg");
-    this.load.image('chest', 'assets/chests.png')
+    this.load.image("chest", "assets/chests.png");
   }
 
   create() {
@@ -21,21 +21,18 @@ export default class MainScene extends Phaser.Scene {
     background.displayHeight = window.innerHeight * 2;
     background.displayWidth = window.innerHeight * 4;
 
-    const logo = this.physics.add.image(400, 100, "logo");
-    logo.setVelocity(100, 200);
-    logo.setBounce(1, 1);
-    logo.setCollideWorldBounds(true);
-
-    const chests = this.physics.add.image(500, 500, 'chest');
+    const chests = this.physics.add.image(500, 500, "chest");
     chests.setCollideWorldBounds(true);
     chests.body.immovable = true;
+
+    const logo = this.physics.add.image(400, 100, "logo");
 
     this.physics.add.collider(logo, chests);
 
     this.monsters.push(new Monster(100, 100, this));
-    
-    this.player=new Player(100,100,this);
-    this.physics.add.collider(this.player.sprite,logo);
+
+    this.player = new Player(100, 100, this);
+    this.physics.add.collider(this.player.sprite, logo);
 
     logo.setVelocity(100, 200);
     logo.setBounce(1, 1);
@@ -46,8 +43,7 @@ export default class MainScene extends Phaser.Scene {
     this.player.move();
 
     this.monsters.forEach((monster) => {
-      monster.move();
+      monster.move(this.player, this);
     });
-    
   }
 }

@@ -2,7 +2,9 @@ import { generateSingleDigitEq } from "~/services/EquationGenerator";
 import { Sprite } from "~/services/type";
 
 export class Monster {
+  SPEED = 100;
   sprite: Sprite = {} as Sprite;
+
   equation: string = "";
   lives: number[] = [];
 
@@ -14,7 +16,7 @@ export class Monster {
     this.sprite = game.physics.add.sprite(x, y, "monster");
   }
 
-  move(): void {
-    this.sprite.setVelocity(5);
+  move(spriteToFollow: Sprite, game: Phaser.Scene): void {
+    game.physics.moveToObject(this.sprite, spriteToFollow, this.SPEED);
   }
 }
