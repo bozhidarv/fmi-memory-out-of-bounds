@@ -4,8 +4,6 @@ import { Player } from "~/players/player";
 import { Health } from "~/players/health";
 import { SceneMonstersConfigT } from "~/services/type";
 
-let counter = 0;
-
 const monsterConfig: SceneMonstersConfigT = {
   smallMonsters: [
     {
@@ -78,13 +76,7 @@ export default class MainScene extends Phaser.Scene {
   }
 
   update(time, delta) {
-    this.player.move();
-    // console.log(time);
-    if (counter === 0 || counter === 50) {
-      this.player.shoot();
-      counter = 0;
-    }
-    counter++;
+    this.player.update();
 
     this.monsters.forEach((monster) => {
       monster.move(this.player, this);
