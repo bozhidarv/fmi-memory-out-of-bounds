@@ -1,12 +1,12 @@
 import Phaser from "phaser";
-import { Monster } from "~/Monsters/Monster";
+import { SmallMonster } from "~/Monsters/SmallMonster";
 import { Player } from "~/players/player";
 import { Health } from "~/players/health";
 
 
 let counter = 0;
 export default class MainScene extends Phaser.Scene {
-  monsters: Monster[] = [];
+  monsters: SmallMonster[] = [];
   player: Player = {} as Player;
   health: Health = {} as Health;
 
@@ -15,7 +15,7 @@ export default class MainScene extends Phaser.Scene {
     this.load.image("small-monster", "assets/small-ram-monster-64.png");
     this.load.image("bullet", "assets/bullet.png");
     for (let index = 0; index <= 0; index++) {
-      this.load.image(`enemy-${index}`, `assets/enemy-${index}.png`);
+      this.load.image(`enemy-${index}`, `assets/enemy-digits-${index}.png`);
     }
     this.load.image("health", "assets/health.png");
   }
@@ -39,7 +39,7 @@ export default class MainScene extends Phaser.Scene {
   generateMonsters() {
     for (let index = 0; index < 10; index++) {
       this.monsters.push(
-        new Monster(
+        new SmallMonster(
           Math.random() * window.innerHeight,
           Math.random() * window.innerHeight,
           this
