@@ -18,7 +18,6 @@ export class Player {
   }
 
   update(): void {
-    this.lastTimeShoot++;
     this.move();
     this.shoot();
   }
@@ -54,7 +53,8 @@ export class Player {
   }
 
   shoot(): void {
-    if (this.lastTimeShoot < 100) {
+    this.lastTimeShoot++;
+    if (this.lastTimeShoot < 50) {
       return;
     }
 
