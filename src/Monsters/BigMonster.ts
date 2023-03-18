@@ -99,16 +99,19 @@ export class BigMonster {
   checkIfAlive() {
     if (this.lives.length) {
       this.destroy();
+      return false;
     }
+    return true;
   }
 
   hit(digit: number) {
     const currDigit = this.lives.pop();
     if (digit === currDigit) {
-      this.checkIfAlive();
+      return this.checkIfAlive();
     } else {
       this.lives.push(currDigit ?? 0);
       this.speed += this.speed / 10;
+      return true;
     }
   }
 
