@@ -27,10 +27,6 @@ export default class MainScene extends Phaser.Scene {
     logo.setCollideWorldBounds(true);
 
     this.monsters.push(new Monster(100, 100, this));
-
-    logo.setVelocity(100, 200);
-    logo.setBounce(1, 1);
-    logo.setCollideWorldBounds(true);
     this.load.multiatlas('chest', 'assets/chests-assets.json', 'assets')
   }
 
