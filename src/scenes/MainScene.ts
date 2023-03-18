@@ -28,15 +28,6 @@ export default class MainScene extends Phaser.Scene {
     const logo = this.physics.add.image(400, 100, "logo");
 
     this.physics.add.collider(logo, chests);
-    for (let index = 0; index < 10; index++) {
-      this.monsters.push(
-        new Monster(
-          Math.random() * window.innerHeight,
-          Math.random() * window.innerHeight * 2,
-          this
-        )
-      );
-    }
 
     this.player = new Player(100, 100, this);
     this.physics.add.collider(this.player.sprite, logo);
@@ -44,9 +35,25 @@ export default class MainScene extends Phaser.Scene {
     logo.setVelocity(100, 200);
     logo.setBounce(1, 1);
     logo.setCollideWorldBounds(true);
+
+    this.generateMonsters();
   }
 
-  update(time: number, delta: number) {
+  generateMonsters() {
+    for (let index = 0; index < 10; index++) {
+      this.monsters.push(
+        new Monster(
+          Math.random() * window.innerHeight,
+          Math.random() * window.innerHeight,
+          this
+        )
+      );
+    }
+    const monsterSprites = this.monsters.map((monster) => monster.sprite);
+    this.physics.add.collider(monsterSprites, monsterSprites);
+  }
+
+  update() {
     this.player.move();
 
     this.monsters.forEach((monster) => {
