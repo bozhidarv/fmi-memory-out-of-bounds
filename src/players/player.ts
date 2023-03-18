@@ -1,10 +1,12 @@
 import { CursorT, Sprite } from "~/services/type";
+import { Health } from "./health";
 export class Player {
   SPEED = 100;
   DRAG = 200;
   BULLET_SPEED = 300;
   sprite: Sprite = {} as Sprite;
   cursor: CursorT = {} as CursorT;
+  health: Health = {} as Health;
 
   lastTimeShoot: number = Infinity;
 
@@ -15,6 +17,8 @@ export class Player {
     this.cursor = game.input.keyboard.createCursorKeys();
     this.sprite.setCollideWorldBounds(true);
     this.game = game;
+
+    this.health = new Health(game);
   }
 
   update(): void {
@@ -101,6 +105,14 @@ export class Player {
 
       this.lastTimeShoot = 0;
     }
+  }
+
+  isPlayerDead(): boolean {
+    return this.health.currentHealth === 0;
+  }
+
+  hit() {
+    this.health.loseHealth();
   }
 
   animation(): void {}

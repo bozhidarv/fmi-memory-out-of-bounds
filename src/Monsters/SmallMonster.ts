@@ -5,9 +5,16 @@ import { Sprite } from "~/services/type";
 class SmallMonsterBody {
   mainSprite: Sprite = {} as Sprite;
   brainSprite: Sprite = {} as Sprite;
-  constructor(x: number, y: number, digits: string, game: Phaser.Scene) {
+  constructor(
+    x: number,
+    y: number,
+    digits: string,
+    index: number,
+    game: Phaser.Scene
+  ) {
     this.mainSprite = game.physics.add.sprite(x, y, "small-monster");
-    this.brainSprite = game.physics.add.sprite(x, y, `enemy-digits-${digits}`);
+    this.mainSprite.name = index.toString();
+    this.brainSprite = game.physics.add.sprite(x, y, `enemy-digit-${digits}`);
   }
 
   move(player: Player, game: Phaser.Scene, speed: number): void {
@@ -30,18 +37,22 @@ export class SmallMonster {
   equation: string = "";
   lives: number[] = [];
 
-  constructor(x: number, y: number, game: Phaser.Scene) {
+  constructor(x: number, y: number, index: number, game: Phaser.Scene) {
     const gen = generateSingleDigitEq();
 
     this.equation = gen.equation;
     this.lives = gen.answer;
 
-    this.body = new SmallMonsterBody(x, y, gen.equation, game);
+    this.body = new SmallMonsterBody(x, y, gen.equation, index, game);
+  }
+
+  destroy() {
+    this.body.destroy();
   }
 
   checkIfAlive() {
     if (this.lives.length) {
-      this.body.destroy();
+      this.destroy();
     }
   }
 

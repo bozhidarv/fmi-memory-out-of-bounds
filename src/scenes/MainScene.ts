@@ -36,14 +36,13 @@ const monsterConfig: SceneMonstersConfigT = {
 export default class MainScene extends Phaser.Scene {
   monsters: SmallMonster[] = [];
   player: Player = {} as Player;
-  health: Health = {} as Health;
 
   preload() {
     this.load.image("background", "assets/basic_background.png");
     this.load.image("small-monster", "assets/small-ram-monster-64.png");
     this.load.image("bullet", "assets/bullet.png");
     for (let index = 0; index <= 0; index++) {
-      this.load.image(`enemy-${index}`, `assets/enemy-digits-${index}.png`);
+      this.load.image(`enemy-${index}`, `assets/enemy-digit-${index}.png`);
     }
     this.load.image("health", "assets/health.png");
   }
@@ -52,8 +51,6 @@ export default class MainScene extends Phaser.Scene {
     const background = this.add.image(0, 0, "background");
     background.displayHeight = window.innerHeight * 2;
     background.displayWidth = window.innerHeight * 4;
-
-    this.health = new Health(this);
 
     this.player = new Player(100, 100, this);
 
@@ -65,7 +62,8 @@ export default class MainScene extends Phaser.Scene {
   generateMonsters() {
     this.monsters = this.monsters.concat(
       monsterConfig.smallMonsters.map(
-        (monster) => new SmallMonster(monster.startX, monster.startY, this)
+        (monster, index) =>
+          new SmallMonster(monster.startX, monster.startY, index, this)
       )
     );
 
@@ -73,6 +71,18 @@ export default class MainScene extends Phaser.Scene {
       (monster) => monster.body.mainSprite
     );
     this.physics.add.collider(monsterSprites, monsterSprites);
+    this.physics.add.collider(monsterSprites, this.player.sprite, (monster) => {
+      console.warn(monster.name);
+      const monsterIndex = parseInt(monster.name);
+
+      // this.monsters[monsterIndex].destroy();
+
+      // this.monsters = this.monsters.filter(
+      //   (_, index) => index !== monsterIndex
+      // );
+
+      this.player.hit();
+    });
   }
 
   update(time, delta) {
