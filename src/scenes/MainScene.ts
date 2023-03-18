@@ -83,7 +83,7 @@ export default class MainScene extends Phaser.Scene {
     this.load.image("enemy-sign--", "assets/enemy-sign-minus.png");
     this.load.image("enemy-sign-+", "assets/enemy-sign-plus.png");
     this.load.image("enemy-sign-*", "assets/enemy-sign-multiply.png");
-    this.load.image("bullet", "assets/bullet.png");
+    this.load.image("bullet", "assets/player-bullet-9.png");
     this.load.image("stojan", "assets/stojan.png");
     for (let index = 0; index <= 9; index++) {
       this.load.image(

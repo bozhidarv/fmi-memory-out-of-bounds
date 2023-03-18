@@ -83,9 +83,10 @@ export class Player {
         "bullet"
       );
       bullet.name = `${uuidv4()};${this.bulletPower}`;
-      bullet.displayHeight = 10;
-      bullet.displayWidth = 30;
-      bullet.setRotation(this.sprite.rotation - Math.PI);
+      // bullet.displayHeight = 10;
+      // bullet.displayWidth = 30;
+      bullet.setRotation(-Math.PI/2);
+      bullet.scale = 2
 
       if (this.sprite.rotation === 0) {
         bullet.setVelocityX(this.BULLET_SPEED);
