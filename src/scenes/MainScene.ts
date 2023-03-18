@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 
-export default class HelloWorldScene extends Phaser.Scene
+export default class MainScene extends Phaser.Scene
 {
 	constructor()
 	{
@@ -9,13 +9,15 @@ export default class HelloWorldScene extends Phaser.Scene
 
 	preload()
     {
-        this.load.image('background', 'assets/basic_background.png', )
+        this.load.image('background', 'assets/basic_background.png')
         this.load.image('logo', 'http://labs.phaser.io/assets/sprites/phaser3-logo.png')
     }
 
     create()
     {
-        this.add.image(0, 0, 'background')
+        const background = this.add.image(0, 0, 'background')
+        background.displayHeight = window.innerHeight*2;
+        background.displayWidth = window.innerHeight*4;
 
         const logo = this.physics.add.image(400, 100, 'logo')
 
