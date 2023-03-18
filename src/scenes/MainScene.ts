@@ -48,10 +48,20 @@ export default class MainScene extends Phaser.Scene {
 
   create() {
     const background = this.add.image(0, 0, "background");
+    
+    // const invisWall =this.physics.add.sprite(64,window.innerHeight-50,"invisWall");
+    // invisWall.setVisible(false);
+    // invisWall.setImmovable(true);
+    // invisWall.setSize (0,window.innerHeight);
+    // invisWall.scaleX=2;
+    // invisWall.scaleY=30;
+    
+
     background.displayHeight = window.innerHeight * 2;
     background.displayWidth = window.innerHeight * 4;
 
-    this.player = new Player(100, 100, this);
+    this.player = new Player(500, 100, this);
+   // this.physics.add.collider(invisWall,this.player.sprite);
 
     this.generateMonsters();
 
