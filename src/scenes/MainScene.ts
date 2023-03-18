@@ -2,6 +2,8 @@ import Phaser from "phaser";
 import { Monster } from "~/Monsters/Monster";
 import { Player } from "~/players/player";
 
+
+let counter = 0;
 export default class MainScene extends Phaser.Scene {
   monsters: Monster[] = [];
   player: Player = {} as Player;
@@ -54,9 +56,15 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.collider(monsterSprites, monsterSprites);
   }
 
-  update() {
+  update(time, delta) {
     this.player.move();
-    this.player.shoot();
+    // console.log(time);
+    if(counter === 0 || counter === 50) {
+      this.player.shoot();
+      counter = 0;
+    }
+    counter++;
+
 
     this.monsters.forEach((monster) => {
       monster.move(this.player, this);
