@@ -94,6 +94,7 @@ export default class MainScene extends Phaser.Scene {
       this.physics.add.collider(this.monsterSprites, this.player.bullets[this.player.bullets.length-1], (hitMonster, hitBullet) => {
         const monsterIndex = this.monsters.findIndex(
           (monster) => monster.body.mainSprite.name === hitMonster.name);
+          console.log(parseInt(hitBullet.name.split(';')[1]));
           const isAlive = this.monsters[monsterIndex].hit(parseInt(hitBullet.name.split(';')[1]));
           if(!isAlive) {
             this.monsters.splice(monsterIndex, 1);

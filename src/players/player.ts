@@ -5,7 +5,7 @@ export class Player {
   SPEED = 100;
   DRAG = 200;
   BULLET_SPEED = 300;
-  chosenNumber = 1;
+  bulletPower = 1;
   keyA;
   keyS;
   keyD;
@@ -16,6 +16,8 @@ export class Player {
   lastTimeShoot: number = Infinity;
   bullets: Sprite[] = [];
   game: Phaser.Scene = {} as Phaser.Scene;
+
+  changedPower: boolean = false;
 
   constructor(x: number, y: number, game: Phaser.Scene) {
     this.sprite = game.physics.add.sprite(x, y, "player");
@@ -35,6 +37,7 @@ export class Player {
     this.move();
     this.shoot();
     this.removeBullets();
+    this.changeBulletPower();
   }
 
   move(): void {
@@ -79,7 +82,7 @@ export class Player {
         this.sprite.y,
         "bullet"
       );
-      bullet.name = `${uuidv4()};${this.chosenNumber}`
+      bullet.name = `${uuidv4()};${this.bulletPower}`
       bullet.displayHeight = 10;
       bullet.displayWidth = 30;
       bullet.setRotation(this.sprite.rotation - Math.PI);
@@ -143,6 +146,21 @@ export class Player {
 
   hit() {
     this.health.loseHealth();
+  }
+
+  changeBulletPower() {
+    if(this.cursor.up.isUp && this.cursor.down.isUp) {
+      this.changedPower = false;
+    }
+    if(this.cursor.up.isDown && !this.changedPower) {
+      this.bulletPower++;
+      this.changedPower = true;
+      console.log(this.bulletPower);
+    } else if(this.cursor.down.isDown && !this.changedPower) {
+      this.bulletPower--;
+      this.changedPower = true;
+      console.log(this.bulletPower);
+    }
   }
 
   animation(): void {}
