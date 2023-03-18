@@ -36,7 +36,7 @@ export default class MainScene extends Phaser.Scene {
   lastBulletsCount = 0;
 
   preload() {
-    this.load.image("background", "assets/basic_background.png");
+    this.load.image("background", "assets/corridor.png");
     this.load.image("small-monster", "assets/small-ram-monster-64.png");
     this.load.image("bullet", "assets/bullet.png");
     for (let index = 0; index <= 9; index++) {
@@ -49,9 +49,10 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
-    const background = this.add.image(0, 0, "background");
-    background.displayHeight = window.innerHeight * 2;
-    background.displayWidth = window.innerHeight * 4;
+    const background = this.add.image(1920/2, 960/2, "background");
+    background.displayHeight = window.innerHeight;
+    background.displayWidth = window.innerHeight;
+    background.scale = 1;
 
     this.player = new Player(100, 100, this);
 
