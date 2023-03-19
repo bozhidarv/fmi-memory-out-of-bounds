@@ -62,7 +62,7 @@ const monsterConfig: SceneMonstersConfigT = {
   ],
 };
 
-export default class RoomOne extends Phaser.Scene {
+export default class BossRoom extends Phaser.Scene {
   monsters: (SmallMonster | BigMonster)[] = [];
   player: Player = {} as Player;
   monsterSprites: Sprite[] = [];
@@ -74,7 +74,7 @@ export default class RoomOne extends Phaser.Scene {
 
   playerData?: PlayerData;
   constructor() {
-    super("Room1");
+    super("BossRoom");
   }
 
   init(data: { playerData?: PlayerData }) {
