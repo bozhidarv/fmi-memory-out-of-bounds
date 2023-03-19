@@ -20,6 +20,24 @@ const waveConfig: SceneMonstersConfigT[] = [
         startX: 450,
         startY: 100,
       },
+    ],
+    bigMonsters: [
+      {
+        startX: 100,
+        startY: 100,
+      },
+      {
+        startX: 200,
+        startY: 200,
+      },
+    ],
+  },
+  {
+    smallMonsters: [
+      {
+        startX: 400,
+        startY: 100,
+      },
       {
         startX: 500,
         startY: 200,
@@ -39,11 +57,11 @@ const waveConfig: SceneMonstersConfigT[] = [
   {
     smallMonsters: [
       {
-        startX: 100,
+        startX: 400,
         startY: 100,
       },
       {
-        startX: 200,
+        startX: 500,
         startY: 200,
       },
     ],
@@ -55,36 +73,6 @@ const waveConfig: SceneMonstersConfigT[] = [
       {
         startX: 200,
         startY: 200,
-      },
-    ],
-  },
-  {
-    smallMonsters: [
-      {
-        startX: 100,
-        startY: 100,
-      },
-      {
-        startX: 200,
-        startY: 200,
-      },
-      {
-        startX: 300,
-        startY: 300,
-      },
-    ],
-    bigMonsters: [
-      {
-        startX: 100,
-        startY: 100,
-      },
-      {
-        startX: 200,
-        startY: 200,
-      },
-      {
-        startX: 300,
-        startY: 300,
       },
     ],
   }
