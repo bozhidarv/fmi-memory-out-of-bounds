@@ -108,7 +108,7 @@ export default class RoomTwo extends Phaser.Scene {
   }
 
   generateFss() {
-    this.fssMage = new Fss(window.innerWidth / 2 + 75, 300, this);
+    this.fssMage = new Fss(window.innerWidth - 120, 300, this);
   }
 
   restartMonster() {
