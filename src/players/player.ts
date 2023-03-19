@@ -39,7 +39,7 @@ export class Player {
     this.bulletPowerSprite = game.add.image(
       window.innerWidth - 90,
       window.innerHeight - 50,
-      `player-bullet-${this.bulletPower}`
+      `enemy-digit-${this.bulletPower}`
     );
     this.bulletPowerSprite.scale = 3;
 

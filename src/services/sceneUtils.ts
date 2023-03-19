@@ -14,7 +14,7 @@ export function preloadImages(game: Phaser.Scene) {
   for (let index = 0; index <= 9; index++) {
     game.load.image(`enemy-digit-${index}`, `assets/enemy-digit-${index}.png`);
     game.load.image(
-      `player-bullet-${index}`,
+      `bullet-${index}`,
       `assets/player-bullet-${index}.png`
     );
   }
