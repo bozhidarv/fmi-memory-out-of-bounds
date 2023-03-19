@@ -178,8 +178,8 @@ export default class RoomThree extends Phaser.Scene {
 
     const wall = new InvisibleTopWall(126, this);
 
-    this.generatePlayer();
     this.generateFss();
+    this.generatePlayer();
 
     if (!this.isRoomOpened) {
       this.generateMonsters();
@@ -195,7 +195,7 @@ export default class RoomThree extends Phaser.Scene {
   }
 
   generateFss() {
-    this.fssMage = new Fss(window.innerWidth / 2 + 75, 300, this, this.player);
+    this.fssMage = new Fss(window.innerWidth / 2 + 75, 300, this);
   }
 
   restartMonster() {
@@ -260,7 +260,8 @@ export default class RoomThree extends Phaser.Scene {
     this.fssMage.isNearPlayer(
       this.isRoomOpened,
       this.moveBack,
-      this.monsters.length == 0 && this.wave === waveConfig.length - 1
+      this.monsters.length == 0 && this.wave === waveConfig.length - 1,
+      this.player
     );
 
     if (this.monsters.length === 0 && this.wave < waveConfig.length-1) {

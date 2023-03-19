@@ -94,13 +94,12 @@ export default class RoomTwo extends Phaser.Scene {
   create() {
     generateBackground(this);
 
-    const wall = new InvisibleTopWall(126, this);
+    this.generateFss();
     this.generatePlayer();
-    this.generateFss()
+    const wall = new InvisibleTopWall(126, this);
     if (!this.isRoomOpened) {
       this.generateMonsters();
     }
-
     this.physics.add.collider(wall.sprite, this.player.sprite);
   }
 
@@ -109,7 +108,7 @@ export default class RoomTwo extends Phaser.Scene {
   }
 
   generateFss() {
-    this.fssMage = new Fss(window.innerWidth / 2 + 75, 300, this, this.player);
+    this.fssMage = new Fss(window.innerWidth - 120, 300, this);
   }
 
   restartMonster() {
@@ -170,7 +169,7 @@ export default class RoomTwo extends Phaser.Scene {
     this.player.update();
     if(this.wave === this.WAVE_SIZE && this.monsters.length === 0) {
       console.log(this.isRoomOpened);
-      this.fssMage.isNearPlayer(this.isRoomOpened, this.moveToCorridor, true);
+      this.fssMage.isNearPlayer(this.isRoomOpened, this.moveToCorridor, true, this.player);
     }
 
     if (this.monsters.length === 0 && this.wave < this.WAVE_SIZE) {

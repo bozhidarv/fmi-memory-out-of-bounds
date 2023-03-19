@@ -10,7 +10,7 @@ export type PlayerData = {
 };
 export class Player {
   SPEED = 200;
-  DRAG = 300;
+  DRAG = 500;
   BULLET_SPEED = 300;
   bulletPower = 0;
   keyA: KeyT = {} as KeyT;
