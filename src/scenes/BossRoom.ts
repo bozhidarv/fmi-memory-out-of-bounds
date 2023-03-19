@@ -40,13 +40,65 @@ const waveConfig: SceneMonstersConfigT[] = [
     ],
   },
   {
-    smallMonsters: [],
-    bigMonsters: [],
+    smallMonsters: [
+      {
+        startX: 100,
+        startY: 100,
+      },
+      {
+        startX: 200,
+        startY: 200,
+      },
+      {
+        startX: 300,
+        startY: 300,
+      },
+    ],
+    bigMonsters: [
+      {
+        startX: 100,
+        startY: 100,
+      },
+      {
+        startX: 200,
+        startY: 200,
+      },
+      {
+        startX: 300,
+        startY: 300,
+      },
+    ],
   },
   {
-    smallMonsters: [],
-    bigMonsters: [],
-  },
+    smallMonsters: [
+      {
+        startX: 100,
+        startY: 100,
+      },
+      {
+        startX: 200,
+        startY: 200,
+      },
+      {
+        startX: 300,
+        startY: 300,
+      },
+    ],
+    bigMonsters: [
+      {
+        startX: 100,
+        startY: 100,
+      },
+      {
+        startX: 200,
+        startY: 200,
+      },
+      {
+        startX: 300,
+        startY: 300,
+      },
+    ],
+  }
 ];
 
 export default class BossRoom extends Phaser.Scene {
@@ -112,14 +164,14 @@ export default class BossRoom extends Phaser.Scene {
     this.monsters = this.monsters.concat(
       monsterConfig.smallMonsters.map(
         (monster, index) =>
-          new SmallMonster(monster.startX, monster.startY, index, this)
+          new SmallMonster(this.bossMonster.x, this.bossMonster.y, index, this)
       )
     );
 
     this.monsters = this.monsters.concat(
       monsterConfig.bigMonsters.map(
         (monster, index) =>
-          new BigMonster(monster.startX, monster.startY, index, this)
+          new BigMonster(this.bossMonster.x, this.bossMonster.y, index, this)
       )
     );
 
