@@ -7,6 +7,7 @@ export class ProgressBar {
 
   constructor(progress: number[], game) {
     this.game = game;
+    this.progress = progress;
     this.game.physics.add.image(window.innerWidth / 2, 30, "empty-bar");
   }
 
@@ -31,7 +32,8 @@ export class ProgressBar {
   }
 
   loadProgress(number: number) {
-    this.game.physics.add.sprite(
+    console.log( `mt-bar-hex-${number + 1}`);
+    this.game.add.sprite(
       window.innerWidth / 2 - 70 + 60 * number,
       30,
       `mt-bar-hex-${number + 1}`

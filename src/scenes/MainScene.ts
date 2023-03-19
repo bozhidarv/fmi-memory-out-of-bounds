@@ -54,13 +54,12 @@ export default class MainScene extends Phaser.Scene {
 
   generateFss() {
     this.fssMage = new Fss(window.innerWidth / 2 + 75, 300, this, this.player);
-    this.fssMage.isNearPlayer();
   }
 
   generatePlayer() {
     this.player = new Player(
-      window.innerWidth / 2,
-      window.innerHeight / 2,
+      window.innerWidth / 1.1,
+      window.innerHeight / 1.1,
       this,
       this.playerData
     );
@@ -142,7 +141,9 @@ export default class MainScene extends Phaser.Scene {
     }
 
     this.player.update();
-    this.fssMage.isNearPlayer();
+    if(this.fssMage.sprite.active) {
+      this.fssMage.isNearPlayer(); 
+    }
 
     const roomId = whichRoom(this.player.sprite.x, this.player.sprite.y);
     if (roomId) {

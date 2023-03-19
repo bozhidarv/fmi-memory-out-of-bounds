@@ -24,7 +24,6 @@ export function preloadImages(game: Phaser.Scene) {
   game.load.image("health", "assets/health.png");
   game.load.image("empty-bar", "assets/mt-bar.png");
   for (let i = 1; i <= 4; i++) {
-    //console.log(`mt-bar-hex-${i}`)
     game.load.image(`mt-bar-hex-${i}`, `assets/mt-bar-hex-${i}.png`);
   }
   game.load.image("fss","assets/fss-mage.png");

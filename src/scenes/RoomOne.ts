@@ -5,7 +5,7 @@ import { Health } from "~/players/health";
 import { InvisibleTopWall } from "~/services/invisibleTopWall";
 import { SceneMonstersConfigT, Sprite } from "~/services/type";
 import { BigMonster } from "~/Monsters/BigMonster";
-import { generateBackground } from "~/services/sceneUtils";
+import { generateBackground, preloadImages } from "~/services/sceneUtils";
 
 const monsterConfig: SceneMonstersConfigT = {
   smallMonsters: [
@@ -83,12 +83,10 @@ export default class RoomOne extends Phaser.Scene {
   }
 
   create() {
-    console.log('Creating the scene');
     generateBackground(this);
 
     const wall = new InvisibleTopWall(126, this);
     this.generatePlayer();
-    console.log(this.isRoomOpened)
     if (!this.isRoomOpened) {
       this.generateMonsters();
     }
@@ -99,7 +97,9 @@ export default class RoomOne extends Phaser.Scene {
   }
 
   generatePlayer() {
+    console.log(this.playerData);
     this.player = new Player(100, 100, this, this.playerData);
+    console.log(this.player.progressBar.progress)
   }
 
   restartMonster() {

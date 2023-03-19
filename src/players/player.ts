@@ -50,7 +50,10 @@ export class Player {
     this.bulletPowerSprite.scale = 3;
 
     this.health = new Health(data?.health ?? 5, game);
-    this.progressBar = new ProgressBar(data?.progress ?? [], game);
+    this.progressBar = new ProgressBar([], game);
+    data?.progress.forEach(progressEl => {
+      this.progressBar.setProgress(progressEl);
+    })
   }
 
 
@@ -163,7 +166,6 @@ export class Player {
   }
 
   changeBulletPower() {
-    console.log(this.changedPower);
     if (this.cursor.up.isUp && this.cursor.down.isUp) {
       this.changedPower = false;
     }
