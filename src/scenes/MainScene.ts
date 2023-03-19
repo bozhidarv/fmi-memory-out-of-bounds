@@ -8,13 +8,14 @@ import { BigMonster } from "~/Monsters/BigMonster";
 import { generateBackground, preloadImages } from "~/services/sceneUtils";
 import { InvisibleTopWall } from "~/services/invisibleTopWall";
 import { Fss } from "~/players/fss";
+import { whichRoom } from "~/services/SwitchRooom";
 
 const WallHight = 266;
 const spawnRate = 1000;
 export default class MainScene extends Phaser.Scene {
   player: Player = {} as Player;
 
-  fssMage: Fss= {} as Fss;
+  fssMage: Fss = {} as Fss;
   progress: ProgressBar = {} as ProgressBar;
   monsters: (SmallMonster | BigMonster)[] = [];
   monsterSprites: Sprite[] = [];
@@ -47,17 +48,13 @@ export default class MainScene extends Phaser.Scene {
     this.generatePlayer();
     this.generateFss();
 
-
     this.physics.add.collider(wall.sprite, this.player.sprite);
     this.physics.add.collider(wall.sprite, this.monsterSprites);
-
   }
 
   generateFss() {
-    
-    this.fssMage=new Fss(window.innerWidth/2+75,300,this,this.player);
+    this.fssMage = new Fss(window.innerWidth / 2 + 75, 300, this, this.player);
     this.fssMage.isNearPlayer();
-
   }
 
   generatePlayer() {
@@ -135,7 +132,7 @@ export default class MainScene extends Phaser.Scene {
     this.scene.start("RoomOne", { playerData: this.player.getData() });
   }
 
-  update(time: number) {
+  update() {
     if (this.monsters.length === 0 || this.monsterToSpawnCounter < 1) {
       this.monsterToSpawnCounter = spawnRate;
 
@@ -146,6 +143,7 @@ export default class MainScene extends Phaser.Scene {
 
     this.player.update();
     this.fssMage.isNearPlayer();
+    console.warn(whichRoom(this.player.sprite.x, this.player.sprite.y));
 
     if (this.lastBulletPower !== this.player.bulletPower) {
       this.player.bulletPowerSprite.setTexture(
