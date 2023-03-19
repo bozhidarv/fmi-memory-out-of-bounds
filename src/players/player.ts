@@ -19,6 +19,7 @@ export class Player {
   keyG: KeyT = {} as KeyT;
   keyM: KeyT = {} as KeyT;
   keyW: KeyT = {} as KeyT;
+  keyESC: KeyT = {} as KeyT;
   
   sprite: Sprite = {} as Sprite;
   cursor: CursorT = {} as CursorT;
@@ -42,6 +43,7 @@ export class Player {
     this.keyW = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     this.keyG = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
     this.keyM = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
+    this.keyESC = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
     this.game = game;
 
@@ -71,6 +73,7 @@ export class Player {
       this.usedGodMode = true;
       this.progressBar.upgradeProgress();
     }
+    this.pauseTheGame();
   }
 
   move(): void {
@@ -137,6 +140,14 @@ export class Player {
         this.bullets.push(bullet);
         this.lastTimeShoot = 0;
       }
+    }
+  }
+
+
+  pauseTheGame() {
+    if(this.keyESC.isDown) {
+      this.game.scene.launch('Pause', {launchScene: this.game});
+      this.game.scene.pause();
     }
   }
 

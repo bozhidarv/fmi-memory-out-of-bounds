@@ -14,6 +14,7 @@ export function preloadImages(game: Phaser.Scene) {
   game.load.image("stojan-back", "assets/stojan-back.png");
   game.load.image("stojan-right", "assets/stojan-right.png");
   game.load.image("stojan-left", "assets/stojan-left.png");
+  game.load.image("room2", "assets/room-2.png");
   for (let index = 0; index <= 9; index++) {
     game.load.image(`enemy-digit-${index}`, `assets/enemy-digit-${index}.png`);
     game.load.image(
@@ -29,8 +30,8 @@ export function preloadImages(game: Phaser.Scene) {
   game.load.image("fss","assets/fss-mage.png");
 }
 
-export function generateBackground(game: Phaser.Scene) {
-  const background = game.add.image(0, 0, "background");
+export function generateBackground(game: Phaser.Scene, texture: string = 'background') {
+  const background = game.add.image(0, 0, texture);
   background.setOrigin(0, 0);
   background.width = window.innerWidth;
   background.height = window.innerHeight;
