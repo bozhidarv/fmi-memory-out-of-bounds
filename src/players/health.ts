@@ -20,6 +20,7 @@ export class Health {
 
   loseHealth(): void {
     if (this.currentHealth === 0) {
+        
       return;
     }
     this.currentHealth -= 1;

@@ -144,7 +144,11 @@ export class Player {
   }
 
   hit() {
+
     this.health.loseHealth();
+    if(this.isPlayerDead()===true){
+        this.game.scene.restart();
+    }
   }
 
   changeBulletPower() {

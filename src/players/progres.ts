@@ -13,7 +13,7 @@ export class ProgressBar {
         //const bar= game.physics.add.sprite(window.innerWidth+10+20,window.innerHeight-40,"bar");
     }
 
-    upgradeProgress():boolean{
+    upgradeProgress():void{
     
         const index=Math.round(Math.random()*(this.lastPart.length-1));
         const el = this.lastPart.splice(index,1);
@@ -23,7 +23,9 @@ export class ProgressBar {
             30,
             `mt-bar-hex-${el[0]+1}`);
         
-       return this.isComplete();
+        if(this.isComplete()===true){
+            this.game.scene.restart();
+        }
     }
 
     isComplete():boolean{

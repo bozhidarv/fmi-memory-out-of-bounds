@@ -90,7 +90,7 @@ export default class MainScene extends Phaser.Scene {
   create() {
     generateBackground(this);
 
-    const wall = new InvisibleTopWall(126, this);
+    const wall = new InvisibleTopWall(226, this);
 
     this.generatePlayer();
 
