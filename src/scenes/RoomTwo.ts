@@ -6,6 +6,7 @@ import { InvisibleTopWall } from "~/services/invisibleTopWall";
 import { SceneMonstersConfigT, Sprite } from "~/services/type";
 import { BigMonster } from "~/Monsters/BigMonster";
 import { generateBackground } from "~/services/sceneUtils";
+import { Fss } from "~/players/fss";
 
 const waveConfig: SceneMonstersConfigT[] = [
   {
@@ -69,16 +70,16 @@ const waveConfig: SceneMonstersConfigT[] = [
 ];
 
 export default class RoomTwo extends Phaser.Scene {
+  WAVE_SIZE = 2;
   monsters: (SmallMonster | BigMonster)[] = [];
   player: Player = {} as Player;
   monsterSprites: Sprite[] = [];
   lastBulletsCount = 0;
   lastBulletPower = 0;
   bulletPowerSprite: GameObjects.Image = {} as GameObjects.Image;
-
+  fssMage: Fss = {} as Fss;
   isRoomOpened = false;
-
-  wave = 0;
+  wave = 1;
 
   playerData?: PlayerData;
   constructor() {
@@ -95,17 +96,20 @@ export default class RoomTwo extends Phaser.Scene {
 
     const wall = new InvisibleTopWall(126, this);
     this.generatePlayer();
+    this.generateFss()
     if (!this.isRoomOpened) {
       this.generateMonsters();
     }
 
     this.physics.add.collider(wall.sprite, this.player.sprite);
-
-    this.isRoomOpened = true;
   }
 
   generatePlayer() {
     this.player = new Player(100, 100, this, this.playerData);
+  }
+
+  generateFss() {
+    this.fssMage = new Fss(window.innerWidth / 2 + 75, 300, this, this.player);
   }
 
   restartMonster() {
@@ -114,12 +118,13 @@ export default class RoomTwo extends Phaser.Scene {
     this.monsters = [];
   }
 
-  moveToCorridor() {
+  moveToCorridor = () => {
     this.scene.start("Corridor", { playerData: this.player.getData() });
+    this.isRoomOpened = true;
   }
 
   generateMonsters() {
-    const monsterConfig = waveConfig[this.wave];
+    const monsterConfig = waveConfig[this.wave-1];
 
     this.monsters = this.monsters.concat(
       monsterConfig.smallMonsters.map(
@@ -155,6 +160,7 @@ export default class RoomTwo extends Phaser.Scene {
         this.player.hit();
         if (this.player.isPlayerDead()) {
           this.isRoomOpened = false;
+          this.wave = 1;
         }
       }
     );
@@ -162,8 +168,12 @@ export default class RoomTwo extends Phaser.Scene {
 
   update(time, delta) {
     this.player.update();
+    if(this.wave === this.WAVE_SIZE && this.monsters.length === 0) {
+      console.log(this.isRoomOpened);
+      this.fssMage.isNearPlayer(this.isRoomOpened, this.moveToCorridor);
+    }
 
-    if (this.monsters.length === 0) {
+    if (this.monsters.length === 0 && this.wave < this.WAVE_SIZE) {
       this.wave++;
       this.generateMonsters();
     }
