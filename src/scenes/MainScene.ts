@@ -149,17 +149,6 @@ export default class MainScene extends Phaser.Scene {
       this.moveToOtherRoom(roomId);
     }
 
-    if (this.lastBulletPower !== this.player.bulletPower) {
-      this.player.bulletPowerSprite.setTexture(
-        `enemy-digit-${this.player.bulletPower}`
-      );
-      this.lastBulletPower = this.player.bulletPower;
-    }
-
-    if (this.player.bullets.length < this.lastBulletsCount) {
-      this.lastBulletsCount--;
-    }
-
     if (this.player.bullets.length > this.lastBulletsCount) {
       this.physics.add.collider(
         this.monsterSprites,

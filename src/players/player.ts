@@ -163,6 +163,7 @@ export class Player {
   }
 
   changeBulletPower() {
+    console.log(this.changedPower);
     if (this.cursor.up.isUp && this.cursor.down.isUp) {
       this.changedPower = false;
     }
@@ -178,6 +179,11 @@ export class Player {
         this.bulletPower = 9;
       }
       this.changedPower = true;
+    }
+    if(this.changedPower) {
+      this.bulletPowerSprite.setTexture(
+        `enemy-digit-${this.bulletPower}`
+      );
     }
   }
 
