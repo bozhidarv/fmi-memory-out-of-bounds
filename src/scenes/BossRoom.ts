@@ -6,61 +6,27 @@ import { InvisibleTopWall } from "~/services/invisibleTopWall";
 import { SceneMonstersConfigT, Sprite } from "~/services/type";
 import { BigMonster } from "~/Monsters/BigMonster";
 import { generateBackground } from "~/services/sceneUtils";
+import { BossMonster } from "~/Monsters/BossMonster";
 
-const monsterConfig: SceneMonstersConfigT = {
-  smallMonsters: [
-    {
-      startX: 300,
-      startY: 100,
-    },
-    {
-      startX: 400,
-      startY: 500,
-    },
-    {
-      startX: 500,
-      startY: 600,
-    },
-    {
-      startX: 600,
-      startY: 700,
-    },
-    {
-      startX: 1000,
-      startY: 100,
-    },
-    {
-      startX: 100,
-      startY: 500,
-    },
-    {
-      startX: 1000,
-      startY: 600,
-    },
-    {
-      startX: 700,
-      startY: 1000,
-    },
-  ],
-  bigMonsters: [
-    {
-      startX: 1500,
-      startY: 500,
-    },
-    {
-      startX: 700,
-      startY: 200,
-    },
-    {
-      startX: 1000,
-      startY: 700,
-    },
-    {
-      startX: 1000,
-      startY: 500,
-    },
-  ],
-};
+const waveConfig: SceneMonstersConfigT[] = [
+  {
+    smallMonsters: [
+      {
+        startX: 100,
+        startY: 100,
+      },
+    ],
+    bigMonsters: [],
+  },
+  {
+    smallMonsters: [],
+    bigMonsters: [],
+  },
+  {
+    smallMonsters: [],
+    bigMonsters: [],
+  },
+];
 
 export default class BossRoom extends Phaser.Scene {
   monsters: (SmallMonster | BigMonster)[] = [];
@@ -70,15 +36,17 @@ export default class BossRoom extends Phaser.Scene {
   lastBulletPower = 0;
   bulletPowerSprite: GameObjects.Image = {} as GameObjects.Image;
 
-  isRoomOpened = false;
+  bossMonster: BossMonster = {} as BossMonster;
 
   playerData?: PlayerData;
+
+  wave = 0;
+
   constructor() {
     super("BossRoom");
   }
 
   init(data: { playerData?: PlayerData }) {
-    this.restartMonster();
     this.playerData = data.playerData;
   }
 
@@ -87,30 +55,35 @@ export default class BossRoom extends Phaser.Scene {
 
     const wall = new InvisibleTopWall(126, this);
     this.generatePlayer();
-    if (!this.isRoomOpened) {
-      this.generateMonsters();
-    }
-
     this.physics.add.collider(wall.sprite, this.player.sprite);
 
-    this.isRoomOpened = true;
+    this.generateBoss();
+    this.generateMonsters();
   }
 
   generatePlayer() {
-    this.player = new Player(100, 100, this, this.playerData);
+    this.player = new Player(500, 500, this, this.playerData);
   }
 
-  restartMonster() {
-    this.monsters.forEach((monster) => monster.destroy());
-    this.monsterSprites = [];
-    this.monsters = [];
-  }
-
-  moveToCorridor() {
+  moveToCorridor = () => {
     this.scene.start("Corridor", { playerData: this.player.getData() });
+  };
+
+  generateBoss() {
+    this.bossMonster = new BossMonster(100, 100, this);
+
+    this.physics.add.collider(
+      this.bossMonster.body.mainSprite,
+      this.player.sprite,
+      () => {
+        this.player.hit();
+      }
+    );
   }
 
   generateMonsters() {
+    const monsterConfig = waveConfig[this.wave];
+
     this.monsters = this.monsters.concat(
       monsterConfig.smallMonsters.map(
         (monster, index) =>
@@ -143,14 +116,16 @@ export default class BossRoom extends Phaser.Scene {
         this.monsters.splice(monsterIndex, 1);
 
         this.player.hit();
-        if(this.player.isPlayerDead()) {
-          this.isRoomOpened = false;
-        }
       }
+    );
+
+    this.physics.add.collider(
+      this.monsterSprites,
+      this.bossMonster.body.mainSprite
     );
   }
 
-  update(time, delta) {
+  update() {
     this.player.update();
 
     if (this.player.bullets.length > this.lastBulletsCount) {
@@ -174,10 +149,36 @@ export default class BossRoom extends Phaser.Scene {
           this.player.bullets.splice(hitBulletIndex, 1);
         }
       );
+      this.physics.add.collider(
+        this.bossMonster.body.mainSprite,
+        this.player.bullets[this.player.bullets.length - 1],
+        (_, hitBullet) => {
+          const bossState = this.bossMonster.hit(
+            parseInt(hitBullet.name.split(";")[1])
+          );
+
+          if (!bossState.isAlive) {
+            //WIN
+          }
+
+          if (bossState.isStageClear) {
+            this.wave++;
+            this.generateMonsters();
+          }
+
+          const hitBulletIndex = this.player.bullets.findIndex(
+            (bullet) => bullet.name === hitBullet.name
+          );
+          hitBullet.destroy();
+          this.player.bullets.splice(hitBulletIndex, 1);
+        }
+      );
     }
 
     this.monsters.forEach((monster) => {
       monster.move(this.player, this);
     });
+
+    this.bossMonster.move(this.player, this);
   }
 }

@@ -107,10 +107,33 @@ export function generateMultiEquation(answerDigits: number): MonstersT {
   };
 }
 
+function getDigit(): number {
+  return Math.round(Math.random() * 9);
+}
+
 export function generateSingleDigitEq(): MonstersT {
-  const digit = Math.round(Math.random() * 9);
+  const digit = getDigit();
   return {
     equation: digit.toString(),
     answer: [digit],
+  };
+}
+
+export function generateMatrix(answerDigits: number): MonstersT {
+  const digitOne = getDigit();
+  const digitTwo = getDigit();
+  const digitThree = getDigit();
+  const digitFour = getDigit();
+
+  const answer = digitOne * digitTwo - digitThree * digitFour;
+
+  if (answer < 0 || answer.toString().length > answerDigits) {
+    return generateMatrix(answerDigits);
+  }
+
+  const equation = `${digitOne}${digitThree}${digitFour}${digitTwo}`;
+  return {
+    equation,
+    answer: giveAnswerArray(answer),
   };
 }
