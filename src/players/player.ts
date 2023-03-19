@@ -153,10 +153,10 @@ export class Player {
 
   hit() {
     this.health.loseHealth();
-    if (this.isPlayerDead()) {
-      this.game.scene.launch("GameOver", { launchScene: this.game });
-      this.game.scene.pause();
-    }
+    // if (this.isPlayerDead()) {
+    //   this.game.scene.launch("GameOver", { launchScene: this.game });
+    //   this.game.scene.pause();
+    // }
   }
 
   changeBulletPower() {
