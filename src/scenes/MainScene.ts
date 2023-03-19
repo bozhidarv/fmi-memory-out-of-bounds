@@ -13,7 +13,6 @@ const spawnRate = 1000;
 export default class MainScene extends Phaser.Scene {
   player: Player = {} as Player;
 
-  progress: ProgressBar = {} as ProgressBar;
   monsters: (SmallMonster | BigMonster)[] = [];
   monsterSprites: Sprite[] = [];
   lastBulletsCount = 0;
@@ -43,9 +42,6 @@ export default class MainScene extends Phaser.Scene {
     const wall = new InvisibleTopWall(WallHight, this);
 
     this.generatePlayer();
-
-    this.progress = new ProgressBar(this);
-    this.progress.upgradeProgress();
 
     this.physics.add.collider(wall.sprite, this.player.sprite);
     this.physics.add.collider(wall.sprite, this.monsterSprites);
