@@ -158,7 +158,8 @@ export default class BossRoom extends Phaser.Scene {
           );
 
           if (!bossState.isAlive) {
-            //WIN
+            this.scene.launch('Win', {launchScene: this.game});
+            this.scene.pause();
           }
 
           if (bossState.isStageClear) {
