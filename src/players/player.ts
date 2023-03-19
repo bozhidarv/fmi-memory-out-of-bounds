@@ -39,7 +39,7 @@ export class Player {
     this.bulletPowerSprite = game.add.image(
       window.innerWidth - 90,
       window.innerHeight - 50,
-      `player-bullet-${this.bulletPower}`
+      `enemy-digit-${this.bulletPower}`
     );
     this.bulletPowerSprite.scale = 3;
 
@@ -96,10 +96,6 @@ export class Player {
         `bullet-${this.bulletPower}`
       );
       bullet.name = `${uuidv4()};${this.bulletPower}`;
-      // bullet.displayHeight = 10;
-      // bullet.displayWidth = 30;
-      bullet.setRotation(-Math.PI / 2);
-      // bullet.scale = 2
 
       if (this.sprite.rotation === 0) {
         bullet.setVelocityX(this.BULLET_SPEED);
