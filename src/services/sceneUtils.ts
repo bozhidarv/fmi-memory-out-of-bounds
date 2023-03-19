@@ -10,7 +10,10 @@ export function preloadImages(game: Phaser.Scene) {
   game.load.image("enemy-sign-+", "assets/enemy-sign-plus.png");
   game.load.image("enemy-sign-*", "assets/enemy-sign-multiply.png");
   game.load.image("bullet", "assets/bullet.png");
-  game.load.image("stojan", "assets/stojan.png");
+  game.load.image("stojan-front", "assets/stojan-front.png");
+  game.load.image("stojan-back", "assets/stojan-back.png");
+  game.load.image("stojan-right", "assets/stojan-right.png");
+  game.load.image("stojan-left", "assets/stojan-left.png");
   for (let index = 0; index <= 9; index++) {
     game.load.image(`enemy-digit-${index}`, `assets/enemy-digit-${index}.png`);
     game.load.image(
