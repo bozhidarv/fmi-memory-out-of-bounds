@@ -107,10 +107,10 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
-    const background = this.add.image(1920 / 2, 960 / 2, "background");
-    background.displayHeight = window.innerHeight;
-    background.displayWidth = window.innerHeight;
-    background.scale = 1;
+    const background = this.add.image(window.innerWidth / 2, window.innerHeight /2, "background");
+    background.width = window.innerWidth;
+    background.height = window.innerHeight;
+    background.scale = .85;
 
     
     
@@ -133,6 +133,10 @@ export default class MainScene extends Phaser.Scene {
 
       this.progress = new ProgressBar(this);
       this.progress.upgradeProgress();
+      this.progress.upgradeProgress();
+      this.progress.upgradeProgress();
+      this.progress.upgradeProgress();
+
       
       this.player = new Player(
         window.innerWidth / 2,
