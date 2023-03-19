@@ -205,6 +205,7 @@ export class Player {
   }
 
   getData(): PlayerData {
+
     return {
       health: this.health.currentHealth,
       progress: this.progressBar.progress,

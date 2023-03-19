@@ -91,20 +91,8 @@ const waveConfig: SceneMonstersConfigT[] = [
         startX:window.innerWidth/2+600,
         startY:window.innerHeight/2-height,
       },
-      {
-        startX:window.innerWidth/2+700,
-        startY:window.innerHeight/2-height,
-      },
-      {
-        startX:window.innerWidth/2+800,
-        startY:window.innerHeight/2-height,
-      },
-      {
-        startX:window.innerWidth/2+900,
-        startY:window.innerHeight/2-height,
-      },
-
       
+
       {
         startX:window.innerWidth/2-100,
         startY:window.innerHeight/2-height,
@@ -129,25 +117,28 @@ const waveConfig: SceneMonstersConfigT[] = [
         startX:window.innerWidth/2-600,
         startY:window.innerHeight/2-height,
       },
-      {
-        startX:window.innerWidth/2-700,
-        startY:window.innerHeight/2-height,
-      },
-      {
-        startX:window.innerWidth/2-800,
-        startY:window.innerHeight/2-height,
-      },
-      {
-        startX:window.innerWidth/2-900,
-        startY:window.innerHeight/2-height,
-      }
+      
+      
 
     ],
     bigMonsters: [],
   },
   {
     smallMonsters: [],
-    bigMonsters: [],
+    bigMonsters: [
+      {
+        startX:window.innerWidth/2,
+        startY:innerHeight/2-height
+      },
+      {
+        startX:window.innerWidth/2-400,
+        startY:innerHeight/2-height
+      },
+      {
+        startX:window.innerWidth/2+400,
+        startY:innerHeight/2-height
+      }
+    ],
   },
 ];
 export default class RoomThree extends Phaser.Scene {
