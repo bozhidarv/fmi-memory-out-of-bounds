@@ -113,9 +113,7 @@ export default class RoomFour extends Phaser.Scene {
   lastBulletPower = 0;
   fssMage: Fss = {} as Fss;
   bulletPowerSprite: GameObjects.Image = {} as GameObjects.Image;
-
   isRoomOpened = false;
-
   wave = 1;
 
   playerData?: PlayerData;
@@ -213,13 +211,14 @@ export default class RoomFour extends Phaser.Scene {
 
   update(time, delta) {
     this.player.update();
-
-    this.fssMage.isNearPlayer(
-      this.isRoomOpened,
-      this.moveBack,
-      this.monsters.length == 0 && this.wave === waveConfig.length - 1,
-      this.player
-    );
+    if(this.wave === waveConfig.length && this.monsters.length === 0) {
+      this.fssMage.isNearPlayer(
+        this.isRoomOpened,
+        this.moveBack,
+        true,
+        this.player
+      );
+    }
 
     if (this.monsters.length <= 2 && this.wave < waveConfig.length) {
       this.wave++;
