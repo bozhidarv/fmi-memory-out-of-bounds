@@ -9,7 +9,7 @@ export class ProgressBar {
     
     constructor(game) {
         this.game = game;
-        this.game.physics.add.image(window.innerWidth/2-80,30,"empty-bar");
+        this.game.physics.add.image(window.innerWidth/2,30,"empty-bar");
         //const bar= game.physics.add.sprite(window.innerWidth+10+20,window.innerHeight-40,"bar");
     }
 
@@ -19,7 +19,7 @@ export class ProgressBar {
         const el = this.lastPart.splice(index,1);
         //console.log(`mt-bar-hex-${el[0]}`)
         this.game.physics.add.sprite(
-            window.innerWidth/2-150+60*el[0],
+            window.innerWidth/2-70+60*el[0],
             30,
             `mt-bar-hex-${el[0]+1}`);
         

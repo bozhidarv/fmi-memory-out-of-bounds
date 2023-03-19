@@ -3,65 +3,13 @@ import { SmallMonster } from "~/Monsters/SmallMonster";
 import { Player, PlayerData } from "~/players/player";
 import { ProgressBar } from "~/players/progres";
 import { SceneMonstersConfigT, Sprite } from "~/services/type";
+import { v4 as uuidv4 } from "uuid";
 import { BigMonster } from "~/Monsters/BigMonster";
 import { generateBackground, preloadImages } from "~/services/sceneUtils";
 import { InvisibleTopWall } from "~/services/invisibleTopWall";
 
-const monsterConfig: SceneMonstersConfigT = {
-  smallMonsters: [
-    {
-      startX: 300,
-      startY: 100,
-    },
-    {
-      startX: 400,
-      startY: 500,
-    },
-    {
-      startX: 500,
-      startY: 600,
-    },
-    {
-      startX: 600,
-      startY: 700,
-    },
-    {
-      startX: 1000,
-      startY: 100,
-    },
-    {
-      startX: 100,
-      startY: 500,
-    },
-    {
-      startX: 1000,
-      startY: 600,
-    },
-    {
-      startX: 700,
-      startY: 1000,
-    },
-  ],
-  bigMonsters: [
-    {
-      startX: 1500,
-      startY: 500,
-    },
-    {
-      startX: 700,
-      startY: 200,
-    },
-    {
-      startX: 1000,
-      startY: 700,
-    },
-    {
-      startX: 1000,
-      startY: 500,
-    },
-  ],
-};
-
+const WallHight = 266;
+const spawnRate = 1000;
 export default class MainScene extends Phaser.Scene {
   player: Player = {} as Player;
 
@@ -73,6 +21,8 @@ export default class MainScene extends Phaser.Scene {
   bulletPowerSprite: GameObjects.Image = {} as GameObjects.Image;
 
   playerData?: PlayerData;
+
+  monsterToSpawnCounter = spawnRate;
 
   constructor() {
     super("Corridor");
@@ -90,12 +40,9 @@ export default class MainScene extends Phaser.Scene {
   create() {
     generateBackground(this);
 
-    const wall = new InvisibleTopWall(226, this);
+    const wall = new InvisibleTopWall(WallHight, this);
 
     this.generatePlayer();
-
-    //TODO add random spawn
-    this.generateMonsters();
 
     this.progress = new ProgressBar(this);
     this.progress.upgradeProgress();
@@ -113,29 +60,48 @@ export default class MainScene extends Phaser.Scene {
     );
   }
 
-  generateMonsters() {
-    this.monsters = this.monsters.concat(
-      monsterConfig.smallMonsters.map(
-        (monster, index) =>
-          new SmallMonster(monster.startX, monster.startY, index, this)
-      )
-    );
+  getRandomWidth() {
+    const leftOrRight = Math.round(Math.random());
+    const offset = Math.random() * 100 + 200;
 
-    this.monsters = this.monsters.concat(
-      monsterConfig.bigMonsters.map(
-        (monster, index) =>
-          new BigMonster(monster.startX, monster.startY, index, this)
-      )
-    );
+    return (1 - leftOrRight * 2) * offset + leftOrRight > 0 ? innerWidth : 0;
+  }
 
-    this.monsterSprites = this.monsters.map(
-      (monster) => monster.body.mainSprite
-    );
+  getRandomHight() {
+    const offset =
+      Math.random() * (innerHeight - 1.5 * WallHight) + 1.5 * WallHight;
 
-    this.physics.add.collider(this.monsterSprites, this.monsterSprites);
+    return offset;
+  }
+
+  generateMonster() {
+    const typeMonster = Math.round(Math.random());
+    let monster: SmallMonster | BigMonster;
+    switch (typeMonster) {
+      case 0:
+        monster = new SmallMonster(
+          this.getRandomWidth(),
+          this.getRandomHight(),
+          uuidv4(),
+          this
+        );
+        break;
+      default:
+        monster = new BigMonster(
+          this.getRandomWidth(),
+          this.getRandomHight(),
+          uuidv4(),
+          this
+        );
+    }
+    this.monsters.push(monster);
+
+    this.monsterSprites.push(monster.body.mainSprite);
+
+    this.physics.add.collider(this.monsterSprites, monster.body.mainSprite);
 
     this.physics.add.collider(
-      this.monsterSprites,
+      monster.body.mainSprite,
       this.player.sprite,
       (obj) => {
         const monsterIndex = this.monsters.findIndex(
@@ -160,7 +126,15 @@ export default class MainScene extends Phaser.Scene {
     this.scene.start("RoomOne", { playerData: this.player.getData() });
   }
 
-  update() {
+  update(time: number) {
+    if (this.monsters.length === 0 || this.monsterToSpawnCounter < 1) {
+      this.monsterToSpawnCounter = spawnRate;
+
+      this.generateMonster();
+    } else {
+      this.monsterToSpawnCounter--;
+    }
+
     this.player.update();
 
     if (this.lastBulletPower !== this.player.bulletPower) {
