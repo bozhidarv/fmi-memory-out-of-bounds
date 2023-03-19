@@ -4,7 +4,7 @@
 	"description": "",
 	"scripts": {
 		"start": "parcel src/index.html -p 8000",
-		"build": "parcel build src/index.html --out-dir dist",
+		"build": "parcel build src/index.html --out-dir dist --no-minify",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"lint": "eslint src --ext .js,.jsx,.ts,.tsx"
 	},
@@ -15,9 +15,11 @@
 		"url": ""
 	},
 	"devDependencies": {
+		"cssnano": "^5.1.15",
 		"minimist": ">=1.2.2",
 		"parcel-plugin-clean-easy": "^1.0.2",
 		"parcel-plugin-static-files-copy": "^2.4.3",
+		"postcss": "^8.4.21",
 		"typescript": "^3.8.3"
 	},
 	"dependencies": {
