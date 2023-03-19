@@ -10,54 +10,50 @@ import { Fss } from "~/players/fss";
 const monsterConfig: SceneMonstersConfigT = {
   smallMonsters: [
     {
-      startX: 300,
+      startX: window.innerWidth- 100,
       startY: 100,
     },
     {
-      startX: 400,
-      startY: 500,
-    },
-    {
-      startX: 500,
-      startY: 600,
-    },
-    {
-      startX: 600,
-      startY: 700,
-    },
-    {
-      startX: 1000,
+      startX: window.innerWidth+ 100,
       startY: 100,
     },
     {
       startX: 100,
-      startY: 500,
-    },
-    {
-      startX: 1000,
       startY: 600,
     },
     {
-      startX: 700,
-      startY: 1000,
+      startX: window.innerWidth-100,
+      startY: 600,
+    },
+    {
+      startX: window.innerWidth-100,
+      startY: 900,
+    },
+    {
+      startX: 100,
+      startY: 900,
+    },
+    {
+      startX: window.innerWidth/2,
+      startY: window.innerHeight/2,
     },
   ],
   bigMonsters: [
     {
-      startX: 1500,
-      startY: 500,
+      startX: 100,
+      startY: 100,
     },
     {
-      startX: 700,
-      startY: 200,
+      startX: window.innerWidth-100,
+      startY: 100,
     },
     {
-      startX: 1000,
-      startY: 700,
+      startX: 100,
+      startY: window.innerHeight-100,
     },
     {
-      startX: 1000,
-      startY: 500,
+      startX: window.innerWidth-100,
+      startY: window.innerHeight-100,
     },
   ],
 };
@@ -100,7 +96,7 @@ export default class RoomOne extends Phaser.Scene {
   }
 
   generatePlayer() {
-    this.player = new Player(100, 100, this, this.playerData);
+    this.player = new Player(window.innerWidth/2, window.innerHeight-100, this, this.playerData);
   }
 
   generateFss() {
@@ -161,7 +157,7 @@ export default class RoomOne extends Phaser.Scene {
 
   update(time, delta) {
     this.player.update();
-    this.fssMage.isNearPlayer(this.isRoomOpened, this.moveBack);
+    this.fssMage.isNearPlayer(this.isRoomOpened, this.moveBack,this.monsters.length);
 
     if (this.player.bullets.length > this.lastBulletsCount) {
       this.physics.add.collider(
