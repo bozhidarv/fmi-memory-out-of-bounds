@@ -15,7 +15,11 @@ export class Fss {
     this.sprite = game.physics.add.sprite(x, y, "fss");
     this.sprite.setImmovable(true);
   }
-  isNearPlayer(isGivenQuest: boolean, moveBack: () => void): void {
+  isNearPlayer(
+    isGivenQuest: boolean,
+    moveBack: () => void,
+    isClear: boolean
+  ): void {
     if (
       this.player.sprite.body.position.x >
         this.sprite.body.position.x - this.FSS_BOUNDS_SIZE &&
@@ -24,7 +28,8 @@ export class Fss {
       this.player.sprite.body.position.y <
         this.sprite.body.position.y + this.FSS_BOUNDS_SIZE &&
       this.player.sprite.body.position.y >
-        this.sprite.body.position.y - this.FSS_BOUNDS_SIZE
+        this.sprite.body.position.y - this.FSS_BOUNDS_SIZE &&
+      isClear
     ) {
       this.giveQuest(isGivenQuest, moveBack);
     }
