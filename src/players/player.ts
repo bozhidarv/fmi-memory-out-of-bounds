@@ -28,8 +28,6 @@ export class Player {
   changedPower: boolean = false;
   progressBar: ProgressBar = {} as ProgressBar;
 
-  
-
   constructor(x: number, y: number, game: Phaser.Scene, data?: PlayerData) {
     this.sprite = game.physics.add.sprite(x, y, "stojan-right");
 
@@ -51,12 +49,10 @@ export class Player {
 
     this.health = new Health(data?.health ?? 5, game);
     this.progressBar = new ProgressBar([], game);
-    data?.progress.forEach(progressEl => {
+    data?.progress.forEach((progressEl) => {
       this.progressBar.setProgress(progressEl);
-    })
+    });
   }
-
-
 
   update(): void {
     this.move();
@@ -93,7 +89,6 @@ export class Player {
     } else {
       this.sprite.setDragY(this.DRAG);
     }
-
   }
 
   shoot(): void {
@@ -159,7 +154,7 @@ export class Player {
   hit() {
     this.health.loseHealth();
     if (this.isPlayerDead()) {
-      this.game.scene.launch('GameOver', {launchScene: this.game});
+      this.game.scene.launch("GameOver", { launchScene: this.game });
       this.game.scene.pause();
     }
   }
@@ -181,10 +176,8 @@ export class Player {
       }
       this.changedPower = true;
     }
-    if(this.changedPower) {
-      this.bulletPowerSprite.setTexture(
-        `enemy-digit-${this.bulletPower}`
-      );
+    if (this.changedPower) {
+      this.bulletPowerSprite.setTexture(`enemy-digit-${this.bulletPower}`);
     }
   }
 

@@ -9,6 +9,8 @@ export class ProgressBar {
     this.game = game;
     this.progress = progress;
     this.game.physics.add.image(window.innerWidth / 2, 30, "empty-bar");
+
+    progress.forEach((pr) => this.setProgress(pr));
   }
 
   setProgress(number: number) {
@@ -22,6 +24,7 @@ export class ProgressBar {
   upgradeProgress(): void {
     const index = Math.round(Math.random() * (this.lastPart.length - 1));
     const el = this.lastPart.splice(index, 1);
+
     this.progress.push(el[0]);
 
     this.loadProgress(el[0]);

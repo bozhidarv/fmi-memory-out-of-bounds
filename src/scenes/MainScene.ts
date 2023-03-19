@@ -15,7 +15,6 @@ const spawnRate = 1000;
 export default class MainScene extends Phaser.Scene {
   player: Player = {} as Player;
 
-  fssMage: Fss = {} as Fss;
   progress: ProgressBar = {} as ProgressBar;
   monsters: (SmallMonster | BigMonster)[] = [];
   monsterSprites: Sprite[] = [];
@@ -46,14 +45,9 @@ export default class MainScene extends Phaser.Scene {
     const wall = new InvisibleTopWall(WallHight, this);
 
     this.generatePlayer();
-    this.generateFss();
 
     this.physics.add.collider(wall.sprite, this.player.sprite);
     this.physics.add.collider(wall.sprite, this.monsterSprites);
-  }
-
-  generateFss() {
-    this.fssMage = new Fss(window.innerWidth / 2 + 75, 300, this, this.player);
   }
 
   generatePlayer() {
@@ -141,9 +135,6 @@ export default class MainScene extends Phaser.Scene {
     }
 
     this.player.update();
-    if(this.fssMage.sprite.active) {
-      this.fssMage.isNearPlayer(); 
-    }
 
     const roomId = whichRoom(this.player.sprite.x, this.player.sprite.y);
     if (roomId) {

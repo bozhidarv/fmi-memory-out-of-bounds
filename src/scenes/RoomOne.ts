@@ -1,11 +1,11 @@
 import Phaser, { GameObjects } from "phaser";
 import { SmallMonster } from "~/Monsters/SmallMonster";
 import { Player, PlayerData } from "~/players/player";
-import { Health } from "~/players/health";
 import { InvisibleTopWall } from "~/services/invisibleTopWall";
 import { SceneMonstersConfigT, Sprite } from "~/services/type";
 import { BigMonster } from "~/Monsters/BigMonster";
-import { generateBackground, preloadImages } from "~/services/sceneUtils";
+import { generateBackground } from "~/services/sceneUtils";
+import { Fss } from "~/players/fss";
 
 const monsterConfig: SceneMonstersConfigT = {
   smallMonsters: [
@@ -70,6 +70,8 @@ export default class RoomOne extends Phaser.Scene {
   lastBulletPower = 0;
   bulletPowerSprite: GameObjects.Image = {} as GameObjects.Image;
 
+  fssMage: Fss = {} as Fss;
+
   isRoomOpened = false;
 
   playerData?: PlayerData;
@@ -87,17 +89,22 @@ export default class RoomOne extends Phaser.Scene {
 
     const wall = new InvisibleTopWall(126, this);
     this.generatePlayer();
+
+    this.generateFss();
+
     if (!this.isRoomOpened) {
       this.generateMonsters();
     }
 
     this.physics.add.collider(wall.sprite, this.player.sprite);
-
-    this.isRoomOpened = true;
   }
 
   generatePlayer() {
     this.player = new Player(100, 100, this, this.playerData);
+  }
+
+  generateFss() {
+    this.fssMage = new Fss(window.innerWidth / 2 + 75, 300, this, this.player);
   }
 
   restartMonster() {
@@ -143,15 +150,18 @@ export default class RoomOne extends Phaser.Scene {
         this.monsters.splice(monsterIndex, 1);
 
         this.player.hit();
-        if(this.player.isPlayerDead()) {
-          this.isRoomOpened = false;
-        }
       }
     );
   }
 
+  moveBack = () => {
+    this.isRoomOpened = true;
+    this.scene.start("Corridor", { playerData: this.player.getData() });
+  };
+
   update(time, delta) {
     this.player.update();
+    this.fssMage.isNearPlayer(this.isRoomOpened, this.moveBack);
 
     if (this.player.bullets.length > this.lastBulletsCount) {
       this.physics.add.collider(
