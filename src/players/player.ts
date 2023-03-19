@@ -2,9 +2,11 @@ import { CursorT, KeyT, Sprite } from "~/services/type";
 import { Health } from "./health";
 import { v4 as uuidv4 } from "uuid";
 import { GameObjects } from "phaser";
+import { ProgressBar } from "./progres";
 
 export type PlayerData = {
   health: number;
+  progress: number[];
 };
 export class Player {
   SPEED = 200;
@@ -24,11 +26,12 @@ export class Player {
   game: Phaser.Scene = {} as Phaser.Scene;
   bulletPowerSprite: GameObjects.Image = {} as GameObjects.Image;
   changedPower: boolean = false;
+  progressBar: ProgressBar = {} as ProgressBar;
 
   
 
   constructor(x: number, y: number, game: Phaser.Scene, data?: PlayerData) {
-    this.sprite = game.physics.add.sprite(x, y, "stojan");
+    this.sprite = game.physics.add.sprite(x, y, "stojan-right");
 
     this.cursor = game.input.keyboard.createCursorKeys();
     this.sprite.setCollideWorldBounds(true);
@@ -47,6 +50,7 @@ export class Player {
     this.bulletPowerSprite.scale = 3;
 
     this.health = new Health(data?.health ?? 5, game);
+    this.progressBar = new ProgressBar(data?.progress ?? [], game);
   }
 
 
@@ -60,28 +64,28 @@ export class Player {
 
   move(): void {
     if (this.keyA.isDown) {
-      this.sprite.setRotation(Math.PI);
+      this.sprite.setTexture("stojan-left");
       this.sprite.setVelocityX(-this.SPEED);
     } else {
       this.sprite.setDragX(-this.DRAG);
     }
 
     if (this.keyD.isDown) {
-      this.sprite.setRotation(0);
+      this.sprite.setTexture("stojan-right");
       this.sprite.setVelocityX(this.SPEED);
     } else {
       this.sprite.setDragX(this.DRAG);
     }
 
     if (this.keyW.isDown) {
-      this.sprite.setRotation(-Math.PI / 2);
+      this.sprite.setTexture("stojan-back");
       this.sprite.setVelocityY(-this.SPEED);
     } else {
       this.sprite.setDragY(-this.DRAG);
     }
 
     if (this.keyS.isDown) {
-      this.sprite.setRotation(Math.PI / 2);
+      this.sprite.setTexture("stojan-front");
       this.sprite.setVelocityY(this.SPEED);
     } else {
       this.sprite.setDragY(this.DRAG);
@@ -91,7 +95,7 @@ export class Player {
 
   shoot(): void {
     this.lastTimeShoot++;
-    if (this.lastTimeShoot < 50) {
+    if (this.lastTimeShoot < 90) {
       return;
     }
 
@@ -103,14 +107,18 @@ export class Player {
       );
       bullet.name = `${uuidv4()};${this.bulletPower}`;
 
-      if (this.sprite.rotation === 0) {
+      if (this.sprite.texture.key === "stojan-right") {
         bullet.setVelocityX(this.BULLET_SPEED);
-      } else if (this.sprite.rotation === Math.PI / 2) {
+        bullet.x += 80;
+      } else if (this.sprite.texture.key === "stojan-front") {
         bullet.setVelocityY(this.BULLET_SPEED);
-      } else if (this.sprite.rotation === -Math.PI / 2) {
+        bullet.y += 80;
+      } else if (this.sprite.texture.key === "stojan-back") {
         bullet.setVelocityY(-this.BULLET_SPEED);
-      } else if (Math.abs(this.sprite.rotation) === Math.PI) {
+        bullet.y -= 80;
+      } else if (this.sprite.texture.key === "stojan-left") {
         bullet.setVelocityX(-this.BULLET_SPEED);
+        bullet.x -= 80;
       }
 
       if (bullet.body.velocity.x === 0 && bullet.body.velocity.y === 0) {
@@ -146,10 +154,9 @@ export class Player {
   }
 
   hit() {
-
     this.health.loseHealth();
-    if(this.isPlayerDead()===true){
-        this.game.scene.restart();
+    if (this.isPlayerDead()) {
+      this.game.scene.restart();
     }
   }
 
@@ -175,6 +182,7 @@ export class Player {
   getData(): PlayerData {
     return {
       health: this.health.currentHealth,
+      progress: this.progressBar.progress,
     };
   }
 

@@ -1,35 +1,44 @@
-import{ Sprite } from "~/services/type";
+import { Sprite } from "~/services/type";
 
 export class ProgressBar {
+  game: Phaser.Scene = {} as Phaser.Scene;
+  lastPart: number[] = [0, 1, 2, 3];
+  progress: number[] = [];
 
-    game:Phaser.Scene = {} as Phaser.Scene;
-    lastPart: number[] = [0,1,2,3]
-    sprite:Sprite = {} as Sprite
-    //maxProgress=4;
-    
-    constructor(game) {
-        this.game = game;
-        this.game.physics.add.image(window.innerWidth/2,30,"empty-bar");
-        //const bar= game.physics.add.sprite(window.innerWidth+10+20,window.innerHeight-40,"bar");
-    }
+  constructor(progress: number[], game) {
+    this.game = game;
+    this.game.physics.add.image(window.innerWidth / 2, 30, "empty-bar");
+  }
 
-    upgradeProgress():void{
-    
-        const index=Math.round(Math.random()*(this.lastPart.length-1));
-        const el = this.lastPart.splice(index,1);
-        //console.log(`mt-bar-hex-${el[0]}`)
-        this.game.physics.add.sprite(
-            window.innerWidth/2-70+60*el[0],
-            30,
-            `mt-bar-hex-${el[0]+1}`);
-        
-        if(this.isComplete()===true){
-            this.game.scene.restart();
-        }
-    }
+  setProgress(number: number) {
+    this.progress.push(number);
+    const index = this.lastPart.findIndex((el) => el === number);
+    this.lastPart.splice(index, 1);
 
-    isComplete():boolean{
-        //console.log(this.lastPart.length===0)
-        return (this.lastPart.length===0);
+    this.loadProgress(number);
+  }
+
+  upgradeProgress(): void {
+    const index = Math.round(Math.random() * (this.lastPart.length - 1));
+    const el = this.lastPart.splice(index, 1);
+    this.progress.push(el[0]);
+
+    this.loadProgress(el[0]);
+
+    if (this.isComplete()) {
+      this.game.scene.restart();
     }
+  }
+
+  loadProgress(number: number) {
+    this.game.physics.add.sprite(
+      window.innerWidth / 2 - 70 + 60 * number,
+      30,
+      `mt-bar-hex-${number + 1}`
+    );
+  }
+
+  isComplete(): boolean {
+    return this.lastPart.length === 0;
+  }
 }
