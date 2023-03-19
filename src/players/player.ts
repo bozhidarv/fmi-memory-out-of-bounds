@@ -2,6 +2,10 @@ import { CursorT, KeyT, Sprite } from "~/services/type";
 import { Health } from "./health";
 import { v4 as uuidv4 } from "uuid";
 import { GameObjects } from "phaser";
+
+export type PlayerData = {
+  health: number;
+};
 export class Player {
   SPEED = 200;
   DRAG = 300;
@@ -20,8 +24,9 @@ export class Player {
   bulletPowerSprite: GameObjects.Image = {} as GameObjects.Image;
   changedPower: boolean = false;
 
-  constructor(x: number, y: number, game: Phaser.Scene) {
+  constructor(x: number, y: number, game: Phaser.Scene, data?: PlayerData) {
     this.sprite = game.physics.add.sprite(x, y, "stojan");
+
     this.cursor = game.input.keyboard.createCursorKeys();
     this.sprite.setCollideWorldBounds(true);
     this.keyA = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -31,14 +36,14 @@ export class Player {
 
     this.game = game;
 
-    this.health = new Health(game);
-
     this.bulletPowerSprite = game.add.image(
       window.innerWidth - 90,
       window.innerHeight - 50,
-      `enemy-digit-${this.bulletPower}`
+      `player-bullet-${this.bulletPower}`
     );
     this.bulletPowerSprite.scale = 3;
+
+    this.health = new Health(data?.health ?? 5, game);
   }
 
   update(): void {
@@ -93,7 +98,7 @@ export class Player {
       bullet.name = `${uuidv4()};${this.bulletPower}`;
       // bullet.displayHeight = 10;
       // bullet.displayWidth = 30;
-      bullet.setRotation(-Math.PI/2);
+      bullet.setRotation(-Math.PI / 2);
       // bullet.scale = 2
 
       if (this.sprite.rotation === 0) {
@@ -161,7 +166,11 @@ export class Player {
     }
   }
 
-  animation(): void {
-    
+  getData(): PlayerData {
+    return {
+      health: this.health.currentHealth,
+    };
   }
+
+  animation(): void {}
 }

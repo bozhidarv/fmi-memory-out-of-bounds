@@ -1,10 +1,11 @@
 import Phaser, { GameObjects } from "phaser";
 import { SmallMonster } from "~/Monsters/SmallMonster";
-import { Player } from "~/players/player";
+import { Player, PlayerData } from "~/players/player";
 import { Health } from "~/players/health";
-import { invWall } from "~/services/invisWalls";
+import { InvisibleTopWall } from "~/services/invisibleTopWall";
 import { SceneMonstersConfigT, Sprite } from "~/services/type";
 import { BigMonster } from "~/Monsters/BigMonster";
+import { generateBackground } from "~/services/sceneUtils";
 
 const monsterConfig: SceneMonstersConfigT = {
   smallMonsters: [
@@ -68,77 +69,45 @@ export default class RoomOne extends Phaser.Scene {
   lastBulletsCount = 0;
   lastBulletPower = 0;
   bulletPowerSprite: GameObjects.Image = {} as GameObjects.Image;
-  invisWall1: invWall = {} as invWall;
-  invisWall2: invWall = {} as invWall;
-  invisWall3: invWall = {} as invWall;
 
+  isRoomOpened = false;
+
+  playerData?: PlayerData;
   constructor() {
     super("RoomOne");
   }
 
-  preload() {
-    this.load.image("background", "assets/corridor.png");
-    this.load.image("small-monster", "assets/small-ram-monster-64.png");
-    this.load.image("big-monster", "assets/big-ram-monster.png");
-    this.load.image("enemy-sign--", "assets/enemy-sign-minus.png");
-    this.load.image("enemy-sign-+", "assets/enemy-sign-plus.png");
-    this.load.image("enemy-sign-*", "assets/enemy-sign-multiply.png");
-    this.load.image("bullet", "assets/bullet.png");
-    for (let index = 0; index <= 9; index++) {
-      this.load.image(
-        `enemy-digit-${index}`,
-        `assets/enemy-digit-${index}.png`
-      );
-    }
-    this.load.image("health", "assets/health.png");
+  init(data: { playerData?: PlayerData }) {
+    this.restartMonster();
+    this.playerData = data.playerData;
   }
 
   create() {
-    // const invisWall =this.physics.add.sprite(64,window.innerHeight-50,"invisWall");
-    // invisWall.setVisible(false);
-    // invisWall.setImmovable(true);
-    // invisWall.setSize (0,window.innerHeight);
-    // invisWall.scaleX=2;
-    // invisWall.scaleY=30;
-    const background = this.add.image(1920 / 2, 960 / 2, "background");
-    background.displayHeight = window.innerHeight;
-    background.displayWidth = window.innerHeight;
-    background.scale = 1;
+    generateBackground(this);
 
-    this.invisWall1 = new invWall(64, window.innerHeight - 50, this);
-    this.invisWall1.sizeSet(0, window.innerHeight);
-    this.invisWall1.sprite.scaleX = 2;
-    this.invisWall1.sprite.scaleY = 30;
+    const wall = new InvisibleTopWall(126, this);
+    this.generatePlayer();
+    if (!this.isRoomOpened) {
+      this.generateMonsters();
+    }
 
-    this.invisWall2 = new invWall(
-      window.innerWidth - 64,
-      window.innerHeight - 50,
-      this
-    );
-    this.invisWall2.sizeSet(0, window.innerHeight);
-    this.invisWall2.sprite.scaleX = 2;
-    this.invisWall2.sprite.scaleY = 30;
+    this.physics.add.collider(wall.sprite, this.player.sprite);
 
-    this.invisWall3 = new invWall(window.innerWidth / 2, 128, this);
-    this.invisWall3.sizeSet(window.innerWidth, 0);
+    this.isRoomOpened = true;
+  }
 
-    this.physics.add.collider(this.invisWall1.sprite, this.player.sprite);
-    this.physics.add.collider(this.invisWall2.sprite, this.player.sprite);
-    this.physics.add.collider(this.invisWall3.sprite, this.player.sprite);
+  generatePlayer() {
+    this.player = new Player(100, 100, this, this.playerData);
+  }
 
-    this.generateMonsters();
-    this.physics.add.collider(this.invisWall1.sprite, this.monsterSprites);
-    this.physics.add.collider(this.invisWall2.sprite, this.monsterSprites);
-    this.physics.add.collider(this.invisWall3.sprite, this.monsterSprites);
+  restartMonster() {
+    this.monsters.forEach((monster) => monster.destroy());
+    this.monsterSprites = [];
+    this.monsters = [];
+  }
 
-    //this.health.loseHealth();
-
-    this.bulletPowerSprite = this.add.image(
-      window.innerWidth - 85,
-      window.innerHeight - 40,
-      `enemy-digit-${this.lastBulletPower}`
-    );
-    this.bulletPowerSprite.scale = 2;
+  moveToCorridor() {
+    this.scene.start("Corridor", { playerData: this.player.getData() });
   }
 
   generateMonsters() {
@@ -169,6 +138,7 @@ export default class RoomOne extends Phaser.Scene {
         const monsterIndex = this.monsters.findIndex(
           (monster) => monster.body.mainSprite.name === obj.name
         );
+
         this.monsters[monsterIndex].destroy();
         this.monsters.splice(monsterIndex, 1);
 
@@ -181,9 +151,9 @@ export default class RoomOne extends Phaser.Scene {
     this.player.update();
 
     if (this.lastBulletPower !== this.player.bulletPower) {
-      this.bulletPowerSprite.setTexture(
-        `enemy-digit-${this.player.bulletPower}`
-      );
+      // this.bulletPowerSprite.setTexture(
+      //   `enemy-digit-${this.player.bulletPower}`
+      // );
       this.lastBulletPower = this.player.bulletPower;
     }
 

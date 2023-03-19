@@ -4,8 +4,9 @@ export class Health {
 
   currentHealth = 5;
   maxHealth = 5;
-  constructor(game) {
-    //this.sprite= game.physics.add.sprite(window.innerWidth-140,25,"health");
+  constructor(maxHealth: number, game) {
+    this.maxHealth = maxHealth;
+
     for (let i = 0; i < this.maxHealth; i++) {
       const sp = game.physics.add.sprite(
         window.innerWidth - 100 - i * 20,
