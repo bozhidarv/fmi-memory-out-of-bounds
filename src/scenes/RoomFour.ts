@@ -10,21 +10,99 @@ import { Fss } from "~/players/fss";
 
 const waveConfig: SceneMonstersConfigT[] = [
   {
-    smallMonsters: [],
+    smallMonsters: [
+      {
+        startX: window.innerWidth- 100,
+        startY: 100,
+      },
+      {
+        startX: 100,
+        startY: window.innerHeight - 100,
+      },
+      {
+        startX: window.innerWidth- 100,
+        startY: window.innerHeight - 100,
+      },
+    ],
     bigMonsters: [],
   },
   {
     smallMonsters: [],
-    bigMonsters: [],
+    bigMonsters: [      
+      {
+        startX: window.innerWidth- 100,
+        startY: 100,
+      },
+      {
+        startX: 100,
+        startY: window.innerHeight - 100,
+      },
+      {
+        startX: window.innerWidth- 100,
+        startY: window.innerHeight - 100,
+      }
+    ],
   },
   {
-    smallMonsters: [],
-    bigMonsters: [],
+    smallMonsters: [
+      {
+        startX: window.innerWidth- 100,
+        startY: 150,
+      },
+      {
+        startX: 100,
+        startY: window.innerHeight - 150,
+      },
+      {
+        startX: window.innerWidth- 100,
+        startY: window.innerHeight - 150,
+      }
+    ],
+    bigMonsters: [
+      {
+        startX: window.innerWidth- 100,
+        startY: 100,
+      },
+      {
+        startX: 100,
+        startY: window.innerHeight - 100,
+      },
+      {
+        startX: window.innerWidth- 100,
+        startY: window.innerHeight - 100,
+      }
+    ],
   },
   {
-    smallMonsters: [],
-    bigMonsters: [],
-  },
+    smallMonsters: [
+      {
+        startX: window.innerWidth- 100,
+        startY: 150,
+      },
+      {
+        startX: 100,
+        startY: window.innerHeight - 150,
+      },
+      {
+        startX: window.innerWidth- 100,
+        startY: window.innerHeight - 150,
+      }
+    ],
+    bigMonsters: [
+      {
+        startX: window.innerWidth- 100,
+        startY: 100,
+      },
+      {
+        startX: 100,
+        startY: window.innerHeight - 100,
+      },
+      {
+        startX: window.innerWidth- 100,
+        startY: window.innerHeight - 100,
+      }
+    ],
+  }
 ];
 
 export default class RoomFour extends Phaser.Scene {
@@ -38,7 +116,7 @@ export default class RoomFour extends Phaser.Scene {
 
   isRoomOpened = false;
 
-  wave = 0;
+  wave = 1;
 
   playerData?: PlayerData;
   constructor() {
@@ -68,11 +146,11 @@ export default class RoomFour extends Phaser.Scene {
   }
 
   generatePlayer() {
-    this.player = new Player(100, 100, this, this.playerData);
+    this.player = new Player(window.innerWidth / 2 + 75, window.innerHeight - 100, this, this.playerData);
   }
 
   generateFss() {
-    this.fssMage = new Fss(window.innerWidth / 2 + 75, 300, this);
+    this.fssMage = new Fss(100, 300, this);
   }
 
   restartMonster() {
@@ -86,7 +164,7 @@ export default class RoomFour extends Phaser.Scene {
   }
 
   generateMonsters() {
-    const monsterConfig = waveConfig[this.wave];
+    const monsterConfig = waveConfig[this.wave-1];
 
     this.monsters = this.monsters.concat(
       monsterConfig.smallMonsters.map(
@@ -122,6 +200,7 @@ export default class RoomFour extends Phaser.Scene {
         this.player.hit();
         if (this.player.isPlayerDead()) {
           this.isRoomOpened = false;
+          this.wave = 1;
         }
       }
     );
@@ -142,7 +221,7 @@ export default class RoomFour extends Phaser.Scene {
       this.player
     );
 
-    if (this.monsters.length === 0 && this.wave < waveConfig.length) {
+    if (this.monsters.length <= 2 && this.wave < waveConfig.length) {
       this.wave++;
       this.generateMonsters();
     }
