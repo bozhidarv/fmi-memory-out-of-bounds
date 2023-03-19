@@ -81,7 +81,7 @@ export default class RoomOne extends Phaser.Scene {
   }
 
   create() {
-    generateBackground(this);
+    generateBackground(this,"room1");
 
     const wall = new InvisibleTopWall(126, this);
     

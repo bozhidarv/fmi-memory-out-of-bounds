@@ -165,7 +165,7 @@ export default class RoomThree extends Phaser.Scene {
   }
 
   create() {
-    generateBackground(this);
+    generateBackground(this,"room3");
 
     const wall = new InvisibleTopWall(126, this);
 
@@ -178,7 +178,7 @@ export default class RoomThree extends Phaser.Scene {
 
     this.physics.add.collider(wall.sprite, this.player.sprite);
 
-    this.isRoomOpened = true;
+   
   }
 
   generatePlayer() {
@@ -196,6 +196,7 @@ export default class RoomThree extends Phaser.Scene {
   }
 
   moveToCorridor() {
+    this.isRoomOpened = true;
     this.scene.start("Corridor", { playerData: this.player.getData() });
   }
 

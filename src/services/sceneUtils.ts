@@ -15,6 +15,9 @@ export function preloadImages(game: Phaser.Scene) {
   game.load.image("stojan-right", "assets/stojan-right.png");
   game.load.image("stojan-left", "assets/stojan-left.png");
   game.load.image("room2", "assets/room-2.png");
+  game.load.image("room3","assets/room-3.png")
+  game.load.image("room1","assets/room-1.png")
+  game.load.image("room4","assets/room-4.png")
   for (let index = 0; index <= 9; index++) {
     game.load.image(`enemy-digit-${index}`, `assets/enemy-digit-${index}.png`);
     game.load.image(
