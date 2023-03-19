@@ -191,7 +191,7 @@ export default class RoomThree extends Phaser.Scene {
   }
 
   generatePlayer() {
-    this.player = new Player(100, 100, this, this.playerData);
+    this.player = new Player(window.innerWidth/2, window.innerHeight-100, this, this.playerData);
   }
 
   generateFss() {
