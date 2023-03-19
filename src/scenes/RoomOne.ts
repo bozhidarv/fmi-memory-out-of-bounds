@@ -10,11 +10,11 @@ import { Fss } from "~/players/fss";
 const monsterConfig: SceneMonstersConfigT = {
   smallMonsters: [
     {
-      startX: window.innerWidth- 100,
+      startX: window.innerWidth - 100,
       startY: 100,
     },
     {
-      startX: window.innerWidth+ 100,
+      startX: window.innerWidth + 100,
       startY: 100,
     },
     {
@@ -22,11 +22,11 @@ const monsterConfig: SceneMonstersConfigT = {
       startY: 600,
     },
     {
-      startX: window.innerWidth-100,
+      startX: window.innerWidth - 100,
       startY: 600,
     },
     {
-      startX: window.innerWidth-100,
+      startX: window.innerWidth - 100,
       startY: 900,
     },
     {
@@ -34,8 +34,8 @@ const monsterConfig: SceneMonstersConfigT = {
       startY: 900,
     },
     {
-      startX: window.innerWidth/2,
-      startY: window.innerHeight/2,
+      startX: window.innerWidth / 2,
+      startY: window.innerHeight / 2,
     },
   ],
   bigMonsters: [
@@ -44,16 +44,16 @@ const monsterConfig: SceneMonstersConfigT = {
       startY: 100,
     },
     {
-      startX: window.innerWidth-100,
+      startX: window.innerWidth - 100,
       startY: 100,
     },
     {
       startX: 100,
-      startY: window.innerHeight-100,
+      startY: window.innerHeight - 100,
     },
     {
-      startX: window.innerWidth-100,
-      startY: window.innerHeight-100,
+      startX: window.innerWidth - 100,
+      startY: window.innerHeight - 100,
     },
   ],
 };
@@ -96,7 +96,12 @@ export default class RoomOne extends Phaser.Scene {
   }
 
   generatePlayer() {
-    this.player = new Player(window.innerWidth/2, window.innerHeight-100, this, this.playerData);
+    this.player = new Player(
+      window.innerWidth / 2,
+      window.innerHeight - 100,
+      this,
+      this.playerData
+    );
   }
 
   generateFss() {
@@ -157,7 +162,11 @@ export default class RoomOne extends Phaser.Scene {
 
   update(time, delta) {
     this.player.update();
-    this.fssMage.isNearPlayer(this.isRoomOpened, this.moveBack,this.monsters.length);
+    this.fssMage.isNearPlayer(
+      this.isRoomOpened,
+      this.moveBack,
+      this.monsters.length == 0
+    );
 
     if (this.player.bullets.length > this.lastBulletsCount) {
       this.physics.add.collider(

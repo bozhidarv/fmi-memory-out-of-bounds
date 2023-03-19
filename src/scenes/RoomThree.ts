@@ -6,6 +6,7 @@ import { InvisibleTopWall } from "~/services/invisibleTopWall";
 import { SceneMonstersConfigT, Sprite } from "~/services/type";
 import { BigMonster } from "~/Monsters/BigMonster";
 import { generateBackground } from "~/services/sceneUtils";
+import { Fss } from "~/players/fss";
 
 const waveConfig: SceneMonstersConfigT[] = [
   {
@@ -28,6 +29,7 @@ export default class RoomThree extends Phaser.Scene {
   lastBulletsCount = 0;
   lastBulletPower = 0;
   bulletPowerSprite: GameObjects.Image = {} as GameObjects.Image;
+  fssMage: Fss = {} as Fss;
 
   wave = 0;
 
@@ -47,7 +49,10 @@ export default class RoomThree extends Phaser.Scene {
     generateBackground(this);
 
     const wall = new InvisibleTopWall(126, this);
+
     this.generatePlayer();
+    this.generateFss();
+
     if (!this.isRoomOpened) {
       this.generateMonsters();
     }
@@ -59,6 +64,10 @@ export default class RoomThree extends Phaser.Scene {
 
   generatePlayer() {
     this.player = new Player(100, 100, this, this.playerData);
+  }
+
+  generateFss() {
+    this.fssMage = new Fss(window.innerWidth / 2 + 75, 300, this, this.player);
   }
 
   restartMonster() {
@@ -113,8 +122,18 @@ export default class RoomThree extends Phaser.Scene {
     );
   }
 
+  moveBack = () => {
+    this.isRoomOpened = true;
+    this.scene.start("Corridor", { playerData: this.player.getData() });
+  };
+
   update(time, delta) {
     this.player.update();
+    this.fssMage.isNearPlayer(
+      this.isRoomOpened,
+      this.moveBack,
+      this.monsters.length == 0 && this.wave === waveConfig.length - 1
+    );
 
     if (this.monsters.length === 0 && this.wave < waveConfig.length) {
       this.wave++;
