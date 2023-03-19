@@ -22,6 +22,10 @@ export function preloadImages(game: Phaser.Scene) {
     'assets/stojan-front-spritesheet.png',
     { frameWidth: 160, frameHeight: 160 }
   );
+  game.load.spritesheet('stojan-back-spritesheet', 
+    'assets/stojan-back-spritesheet.png',
+    { frameWidth: 160, frameHeight: 160 }
+  );
   game.load.image("MLM", "assets/memory-leak-monster.png");
   game.load.image("room2", "assets/room-2.png");
   game.load.image("room3", "assets/room-3.png");

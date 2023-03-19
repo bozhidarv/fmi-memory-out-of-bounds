@@ -54,6 +54,12 @@ export class Player {
       frameRate: 10,
       repeat: -1
     });
+    game.anims.create({
+      key: 'back',
+      frames: game.anims.generateFrameNumbers('stojan-back-spritesheet', { start: 0, end: 3 }),
+      frameRate: 10,
+      repeat: -1
+    });
     this.sprite = game.physics.add.sprite(x, y, "stojan-right-spritesheet");
 
     this.cursor = game.input.keyboard.createCursorKeys();
@@ -118,7 +124,7 @@ export class Player {
 
     if (this.keyW.isDown) {
       this.shootingDirection = 'back';
-      this.sprite.setTexture("stojan-back");
+      this.sprite.anims.play("back", true);
       this.sprite.setVelocityY(-this.SPEED);
     } else {
       this.sprite.setDragY(-this.DRAG);
