@@ -10,10 +10,18 @@ export function preloadImages(game: Phaser.Scene) {
   game.load.image("enemy-sign-+", "assets/enemy-sign-plus.png");
   game.load.image("enemy-sign-*", "assets/enemy-sign-multiply.png");
   game.load.image("bullet", "assets/bullet.png");
-  game.load.image("stojan-front", "assets/stojan-front.png");
-  game.load.image("stojan-back", "assets/stojan-back.png");
-  game.load.image("stojan-right", "assets/stojan-right.png");
-  game.load.image("stojan-left", "assets/stojan-left.png");
+  game.load.spritesheet('stojan-right-spritesheet', 
+    'assets/stojan-right-spritesheet.png',
+    { frameWidth: 160, frameHeight: 160 }
+  );
+  game.load.spritesheet('stojan-left-spritesheet', 
+    'assets/stojan-left-spritesheet.png',
+    { frameWidth: 160, frameHeight: 160 }
+  );
+  game.load.spritesheet('stojan-front-spritesheet', 
+    'assets/stojan-front-spritesheet.png',
+    { frameWidth: 160, frameHeight: 160 }
+  );
   game.load.image("MLM", "assets/memory-leak-monster.png");
   game.load.image("room2", "assets/room-2.png");
   game.load.image("room3", "assets/room-3.png");
