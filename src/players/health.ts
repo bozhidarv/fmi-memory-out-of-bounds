@@ -9,11 +9,10 @@ export class Health {
 
     for (let i = 0; i < this.maxHealth; i++) {
       const sp = game.physics.add.sprite(
-        window.innerWidth - 100 - i * 20,
-        25,
+        window.innerWidth - 100 - i * 40,
+        35,
         "health"
       );
-      sp.scale = 0.1;
       this.sprites.push(sp);
     }
   }
