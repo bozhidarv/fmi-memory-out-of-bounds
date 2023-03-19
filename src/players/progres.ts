@@ -26,7 +26,7 @@ export class ProgressBar {
     this.loadProgress(el[0]);
 
     if (this.isComplete()) {
-      this.game.scene.restart();
+      this.game.scene.start("BossRoom");
     }
   }
 

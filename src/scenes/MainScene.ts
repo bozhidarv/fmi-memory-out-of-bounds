@@ -128,8 +128,8 @@ export default class MainScene extends Phaser.Scene {
     this.monsters = [];
   }
 
-  moveToOtherRoom() {
-    this.scene.start("RoomOne", { playerData: this.player.getData() });
+  moveToOtherRoom(roomId) {
+    this.scene.start(`Room${roomId}`, { playerData: this.player.getData() });
   }
 
   update() {
@@ -143,7 +143,11 @@ export default class MainScene extends Phaser.Scene {
 
     this.player.update();
     this.fssMage.isNearPlayer();
-    console.warn(whichRoom(this.player.sprite.x, this.player.sprite.y));
+
+    const roomId = whichRoom(this.player.sprite.x, this.player.sprite.y);
+    if (roomId) {
+      this.moveToOtherRoom(roomId);
+    }
 
     if (this.lastBulletPower !== this.player.bulletPower) {
       this.player.bulletPowerSprite.setTexture(
