@@ -72,7 +72,7 @@ export default class BossRoom extends Phaser.Scene {
   }
 
   create() {
-    generateBackground(this);
+    generateBackground(this,"boss-room");
 
     const wall = new InvisibleTopWall(126, this);
     this.generatePlayer();

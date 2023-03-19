@@ -19,6 +19,7 @@ export function preloadImages(game: Phaser.Scene) {
   game.load.image("room3", "assets/room-3.png");
   game.load.image("room1", "assets/room-1.png");
   game.load.image("room4", "assets/room-4.png");
+  game.load.image("boss-room", "assets/boss-room.png");
   for (let index = 0; index <= 9; index++) {
     game.load.image(`enemy-digit-${index}`, `assets/enemy-digit-${index}.png`);
     game.load.image(`bullet-${index}`, `assets/player-bullet-${index}.png`);
