@@ -13,37 +13,37 @@ type BrainSprite = {
   sprite: Sprite;
 };
 
-const XOffset = 128 / 4 - 7;
-const YOffset = 128 / 4 - 7;
+const XOffset = 256 / 8 + 7;
+const YOffset = 256 / 8 + 7;
 
 class BossMonsterBody {
   mainSprite: Sprite = {} as Sprite;
   brainSprites: BrainSprite[] = [];
   constructor(x: number, y: number, equation: string, game: Phaser.Scene) {
-    this.mainSprite = game.physics.add.sprite(x, y, "big-monster");
+    this.mainSprite = game.physics.add.sprite(x, y, "MLM");
 
     this.brainSprites.push({
       sprite: game.physics.add.sprite(x, y, `enemy-digit-${equation[0]}`),
-      xOffset: -XOffset,
-      yOffset: -YOffset,
+      xOffset: -17,
+      yOffset: -YOffset + 2,
     });
 
     this.brainSprites.push({
       sprite: game.physics.add.sprite(x, y, `enemy-digit-${equation[1]}`),
-      xOffset: XOffset,
-      yOffset: -YOffset,
+      xOffset: XOffset - 5,
+      yOffset: -YOffset + 2,
     });
 
     this.brainSprites.push({
       sprite: game.physics.add.sprite(x, y, `enemy-digit-${equation[2]}`),
-      xOffset: -XOffset,
-      yOffset: YOffset,
+      xOffset: -XOffset + 22,
+      yOffset: YOffset - 25,
     });
 
     this.brainSprites.push({
       sprite: game.physics.add.sprite(x, y, `enemy-digit-${equation[3]}`),
-      xOffset: XOffset,
-      yOffset: YOffset,
+      xOffset: XOffset - 5,
+      yOffset: YOffset - 25,
     });
   }
 
