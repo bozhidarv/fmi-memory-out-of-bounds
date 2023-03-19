@@ -7,6 +7,7 @@ import RoomFour from "./scenes/RoomFour";
 import RoomOne from "./scenes/RoomOne";
 import RoomThree from "./scenes/RoomThree";
 import RoomTwo from "./scenes/RoomTwo";
+import PauseScene from "./scenes/PauseScene";
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.CANVAS,
@@ -18,7 +19,7 @@ const config: Phaser.Types.Core.GameConfig = {
     },
   },
   height: window.innerHeight,
-  scene: [MainScene, RoomOne, RoomTwo, RoomThree, RoomFour, BossRoom, GameOver],
+  scene: [MainScene, RoomOne, RoomTwo, RoomThree, RoomFour, BossRoom, GameOver, PauseScene],
 };
 
 export default new Phaser.Game(config);

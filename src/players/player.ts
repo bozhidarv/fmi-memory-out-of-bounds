@@ -19,6 +19,7 @@ export class Player {
   keyG: KeyT = {} as KeyT;
   keyM: KeyT = {} as KeyT;
   keyW: KeyT = {} as KeyT;
+  keyESC: KeyT = {} as KeyT;
   
   sprite: Sprite = {} as Sprite;
   cursor: CursorT = {} as CursorT;
@@ -42,6 +43,7 @@ export class Player {
     this.keyW = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     this.keyG = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
     this.keyM = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
+    this.keyESC = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
     this.game = game;
 
@@ -71,6 +73,7 @@ export class Player {
       this.usedGodMode = true;
       this.progressBar.upgradeProgress();
     }
+    this.pauseTheGame();
   }
 
   move(): void {
@@ -140,6 +143,14 @@ export class Player {
     }
   }
 
+
+  pauseTheGame() {
+    if(this.keyESC.isDown) {
+      this.game.scene.launch('Pause', {launchScene: this.game});
+      this.game.scene.pause();
+    }
+  }
+
   removeBullets(): void {
     const bulletsToRemove: number[] = [];
     this.bullets.forEach((bullet, index) => {
@@ -165,10 +176,10 @@ export class Player {
 
   hit() {
     this.health.loseHealth();
-    // if (this.isPlayerDead()) {
-    //   this.game.scene.launch("GameOver", { launchScene: this.game });
-    //   this.game.scene.pause();
-    // }
+    if (this.isPlayerDead()) {
+      this.game.scene.launch("GameOver", { launchScene: this.game });
+      this.game.scene.pause();
+    }
   }
 
   changeBulletPower() {
