@@ -15,6 +15,7 @@ export class Player {
   keyS: KeyT = {} as KeyT;
   keyD: KeyT = {} as KeyT;
   keyW;
+
   sprite: Sprite = {} as Sprite;
   cursor: CursorT = {} as CursorT;
   health: Health = {} as Health;
@@ -23,6 +24,8 @@ export class Player {
   game: Phaser.Scene = {} as Phaser.Scene;
   bulletPowerSprite: GameObjects.Image = {} as GameObjects.Image;
   changedPower: boolean = false;
+
+  
 
   constructor(x: number, y: number, game: Phaser.Scene, data?: PlayerData) {
     this.sprite = game.physics.add.sprite(x, y, "stojan");
@@ -45,6 +48,8 @@ export class Player {
 
     this.health = new Health(data?.health ?? 5, game);
   }
+
+
 
   update(): void {
     this.move();
@@ -81,6 +86,7 @@ export class Player {
     } else {
       this.sprite.setDragY(this.DRAG);
     }
+
   }
 
   shoot(): void {

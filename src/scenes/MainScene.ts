@@ -6,6 +6,7 @@ import { SceneMonstersConfigT, Sprite } from "~/services/type";
 import { BigMonster } from "~/Monsters/BigMonster";
 import { generateBackground, preloadImages } from "~/services/sceneUtils";
 import { InvisibleTopWall } from "~/services/invisibleTopWall";
+import { Fss } from "~/players/fss";
 
 const monsterConfig: SceneMonstersConfigT = {
   smallMonsters: [
@@ -65,6 +66,7 @@ const monsterConfig: SceneMonstersConfigT = {
 export default class MainScene extends Phaser.Scene {
   player: Player = {} as Player;
 
+  fssMage: Fss= {} as Fss;
   progress: ProgressBar = {} as ProgressBar;
   monsters: (SmallMonster | BigMonster)[] = [];
   monsterSprites: Sprite[] = [];
@@ -93,8 +95,8 @@ export default class MainScene extends Phaser.Scene {
     const wall = new InvisibleTopWall(226, this);
 
     this.generatePlayer();
+    this.generateFss();
 
-    //TODO add random spawn
     this.generateMonsters();
 
     this.progress = new ProgressBar(this);
@@ -102,6 +104,14 @@ export default class MainScene extends Phaser.Scene {
 
     this.physics.add.collider(wall.sprite, this.player.sprite);
     this.physics.add.collider(wall.sprite, this.monsterSprites);
+
+  }
+
+  generateFss() {
+    
+    this.fssMage=new Fss(window.innerWidth/2+75,300,this,this.player);
+    this.fssMage.isNearPlayer();
+
   }
 
   generatePlayer() {
