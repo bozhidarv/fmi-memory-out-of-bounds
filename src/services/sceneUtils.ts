@@ -30,7 +30,8 @@ export function preloadImages(game: Phaser.Scene) {
 }
 
 export function generateBackground(game: Phaser.Scene) {
-  const background = game.add.image(window.innerWidth / 2, window.innerHeight /2, "background");
-    background.width = window.innerWidth;
-    background.height = window.innerHeight;
+  const background = game.add.image(0, 0, "background");
+  background.setOrigin(0, 0);
+  background.width = window.innerWidth;
+  background.height = window.innerHeight;
 }

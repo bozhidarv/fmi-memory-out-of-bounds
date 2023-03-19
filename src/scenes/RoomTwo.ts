@@ -170,7 +170,7 @@ export default class RoomTwo extends Phaser.Scene {
     this.player.update();
     if(this.wave === this.WAVE_SIZE && this.monsters.length === 0) {
       console.log(this.isRoomOpened);
-      this.fssMage.isNearPlayer(this.isRoomOpened, this.moveToCorridor);
+      this.fssMage.isNearPlayer(this.isRoomOpened, this.moveToCorridor, true);
     }
 
     if (this.monsters.length === 0 && this.wave < this.WAVE_SIZE) {
