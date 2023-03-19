@@ -103,6 +103,10 @@ export default class BossRoom extends Phaser.Scene {
   }
 
   generateMonsters() {
+    if (this.wave > waveConfig.length - 1) {
+      return;
+    }
+
     const monsterConfig = waveConfig[this.wave];
 
     this.monsters = this.monsters.concat(
@@ -180,7 +184,7 @@ export default class BossRoom extends Phaser.Scene {
 
           if (!bossState.isAlive) {
             this.scene.pause();
-            this.scene.launch('Win', {launchScene: this});
+            this.scene.launch("Win", { launchScene: this });
           }
 
           if (bossState.isStageClear) {
