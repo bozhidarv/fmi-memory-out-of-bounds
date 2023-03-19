@@ -72,9 +72,9 @@ export default class BossRoom extends Phaser.Scene {
   }
 
   create() {
-    generateBackground(this);
+    generateBackground(this,"boss-room");
 
-    const wall = new InvisibleTopWall(126, this);
+    const wall = new InvisibleTopWall(70, this);
     this.generatePlayer();
     this.physics.add.collider(wall.sprite, this.player.sprite);
 
@@ -103,6 +103,10 @@ export default class BossRoom extends Phaser.Scene {
   }
 
   generateMonsters() {
+    if (this.wave > waveConfig.length - 1) {
+      return;
+    }
+
     const monsterConfig = waveConfig[this.wave];
 
     this.monsters = this.monsters.concat(
@@ -180,7 +184,7 @@ export default class BossRoom extends Phaser.Scene {
 
           if (!bossState.isAlive) {
             this.scene.pause();
-            this.scene.launch('Win', {launchScene: this});
+            this.scene.launch("Win", { launchScene: this });
           }
 
           if (bossState.isStageClear) {
