@@ -31,9 +31,30 @@ export class Player {
   changedPower: boolean = false;
   progressBar: ProgressBar = {} as ProgressBar;
   usedGodMode: boolean = false;
+  shootingDirection: string = 'right';
 
   constructor(x: number, y: number, game: Phaser.Scene, data?: PlayerData) {
-    this.sprite = game.physics.add.sprite(x, y, "stojan-right");
+    game.anims.create({
+      key: 'right',
+      frames: game.anims.generateFrameNumbers('stojan-right-spritesheet', { start: 0, end: 3 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    game.anims.create({
+      key: 'left',
+      frames: game.anims.generateFrameNumbers('stojan-left-spritesheet', { start: 0, end: 3 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    game.anims.create({
+      key: 'front',
+      frames: game.anims.generateFrameNumbers('stojan-front-spritesheet', { start: 0, end: 3 }),
+      frameRate: 10,
+      repeat: -1
+    });
+    this.sprite = game.physics.add.sprite(x, y, "stojan-right-spritesheet");
 
     this.cursor = game.input.keyboard.createCursorKeys();
     this.sprite.setCollideWorldBounds(true);
@@ -80,20 +101,23 @@ export class Player {
 
   move(): void {
     if (this.keyA.isDown) {
-      this.sprite.setTexture("stojan-left");
+      this.shootingDirection = 'left';
+      this.sprite.anims.play("left", true);
       this.sprite.setVelocityX(-this.SPEED);
     } else {
       this.sprite.setDragX(-this.DRAG);
     }
 
     if (this.keyD.isDown) {
-      this.sprite.setTexture("stojan-right");
+      this.shootingDirection = 'right';
       this.sprite.setVelocityX(this.SPEED);
+      this.sprite.anims.play('right', true);
     } else {
       this.sprite.setDragX(this.DRAG);
     }
 
     if (this.keyW.isDown) {
+      this.shootingDirection = 'back';
       this.sprite.setTexture("stojan-back");
       this.sprite.setVelocityY(-this.SPEED);
     } else {
@@ -101,10 +125,16 @@ export class Player {
     }
 
     if (this.keyS.isDown) {
-      this.sprite.setTexture("stojan-front");
+      this.shootingDirection = 'front';
+      this.sprite.anims.play("front", true);
       this.sprite.setVelocityY(this.SPEED);
     } else {
       this.sprite.setDragY(this.DRAG);
+    }
+
+    if(this.sprite.body.velocity.x === 0 && this.sprite.body.velocity.y === 0) {
+      this.sprite.anims.stop();
+      // this.sprite.setTexture("stojan-right");
     }
   }
 
@@ -122,16 +152,16 @@ export class Player {
       );
       bullet.name = `${uuidv4()};${this.bulletPower}`;
 
-      if (this.sprite.texture.key === "stojan-right") {
+      if (this.shootingDirection === "right") {
         bullet.setVelocityX(this.BULLET_SPEED);
         bullet.x += 80;
-      } else if (this.sprite.texture.key === "stojan-front") {
+      } else if (this.shootingDirection === "front") {
         bullet.setVelocityY(this.BULLET_SPEED);
         bullet.y += 80;
-      } else if (this.sprite.texture.key === "stojan-back") {
+      } else if (this.shootingDirection === "back") {
         bullet.setVelocityY(-this.BULLET_SPEED);
         bullet.y -= 80;
-      } else if (this.sprite.texture.key === "stojan-left") {
+      } else if (this.shootingDirection === "left") {
         bullet.setVelocityX(-this.BULLET_SPEED);
         bullet.x -= 80;
       }
