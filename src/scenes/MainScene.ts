@@ -52,8 +52,8 @@ export default class MainScene extends Phaser.Scene {
 
   generatePlayer() {
     this.player = new Player(
-      window.innerWidth / 1.1,
-      window.innerHeight / 1.1,
+      window.innerWidth / 2,
+      window.innerHeight / 2,
       this,
       this.playerData
     );
