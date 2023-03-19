@@ -26,7 +26,7 @@ export default class GameOver extends Phaser.Scene {
   update(time: number) {
 	if(this.keyEnter.isDown) {
 		this.launchScene.scene.stop();
-		this.scene.start("Corridor");
+		this.scene.start("Corridor", {playerData: {health: 5, progress: []}});
 	}
   }
 }

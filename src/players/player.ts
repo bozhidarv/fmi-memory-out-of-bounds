@@ -177,6 +177,7 @@ export class Player {
   hit() {
     this.health.loseHealth();
     if (this.isPlayerDead()) {
+      this.progressBar = new ProgressBar([], this.game);
       this.game.scene.launch("GameOver", { launchScene: this.game });
       this.game.scene.pause();
     }
