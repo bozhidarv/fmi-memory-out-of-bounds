@@ -15,8 +15,29 @@ const waveConfig: SceneMonstersConfigT[] = [
         startX: 100,
         startY: 100,
       },
+      {
+        startX: 200,
+        startY: 200,
+      },
+      {
+        startX: 300,
+        startY: 300,
+      },
     ],
-    bigMonsters: [],
+    bigMonsters: [
+      {
+        startX: 100,
+        startY: 100,
+      },
+      {
+        startX: 200,
+        startY: 200,
+      },
+      {
+        startX: 300,
+        startY: 300,
+      },
+    ],
   },
   {
     smallMonsters: [],
@@ -62,7 +83,7 @@ export default class BossRoom extends Phaser.Scene {
   }
 
   generatePlayer() {
-    this.player = new Player(500, 500, this, this.playerData);
+    this.player = new Player(window.innerWidth/2, window.innerHeight/2+80, this, this.playerData);
   }
 
   moveToCorridor = () => {
@@ -70,7 +91,7 @@ export default class BossRoom extends Phaser.Scene {
   };
 
   generateBoss() {
-    this.bossMonster = new BossMonster(100, 100, this);
+    this.bossMonster = new BossMonster(window.innerWidth-100, window.innerHeight-100, this);
 
     this.physics.add.collider(
       this.bossMonster.body.mainSprite,
