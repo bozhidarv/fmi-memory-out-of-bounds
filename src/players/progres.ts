@@ -28,9 +28,7 @@ export class ProgressBar {
     this.loadProgress(el[0]);
 
     if (this.isComplete()) {
-      console.warn(this.game.player.getData());
-
-      this.game.scene.start("BossRoom", this.game.player.getData());
+      this.game.scene.start("BossRoom");
     }
   }
 
