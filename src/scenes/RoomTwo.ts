@@ -21,15 +21,15 @@ const waveConfig: SceneMonstersConfigT[] = [
       },
       {
         startX: window.innerWidth-64,
-        startY: 600,
+        startY: 800,
       },
       {
         startX: window.innerWidth-64,
-        startY: 100,
+        startY: 300,
       },
       {
         startX: window.innerWidth-64,
-        startY: 500,
+        startY: 400,
       },
       {
         startX: window.innerWidth-64,
@@ -43,7 +43,7 @@ const waveConfig: SceneMonstersConfigT[] = [
     bigMonsters: [
       {
         startX: 128,
-        startY: 500,
+        startY: 300,
       },
       {
         startX: 128,
@@ -84,7 +84,7 @@ export default class RoomTwo extends Phaser.Scene {
   }
 
   create() {
-    generateBackground(this);
+    generateBackground(this, 'room2');
 
     this.generateFss();
     this.generatePlayer();
