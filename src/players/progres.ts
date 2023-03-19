@@ -32,7 +32,6 @@ export class ProgressBar {
   }
 
   loadProgress(number: number) {
-    console.log( `mt-bar-hex-${number + 1}`);
     this.game.add.sprite(
       window.innerWidth / 2 - 70 + 60 * number,
       30,

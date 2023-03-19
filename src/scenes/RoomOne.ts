@@ -97,9 +97,7 @@ export default class RoomOne extends Phaser.Scene {
   }
 
   generatePlayer() {
-    console.log(this.playerData);
     this.player = new Player(100, 100, this, this.playerData);
-    console.log(this.player.progressBar.progress)
   }
 
   restartMonster() {

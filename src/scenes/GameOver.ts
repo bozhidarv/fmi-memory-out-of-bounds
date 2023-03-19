@@ -13,7 +13,6 @@ export default class GameOver extends Phaser.Scene {
   }
 
   preload() {
-	console.log('Game over has started')
 	this.load.image("game-over-bg", "assets/game-over.png");
 	this.keyEnter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
   }
