@@ -16,8 +16,10 @@ export class Player {
   keyA: KeyT = {} as KeyT;
   keyS: KeyT = {} as KeyT;
   keyD: KeyT = {} as KeyT;
-  keyW;
-
+  keyG: KeyT = {} as KeyT;
+  keyM: KeyT = {} as KeyT;
+  keyW: KeyT = {} as KeyT;
+  
   sprite: Sprite = {} as Sprite;
   cursor: CursorT = {} as CursorT;
   health: Health = {} as Health;
@@ -27,6 +29,7 @@ export class Player {
   bulletPowerSprite: GameObjects.Image = {} as GameObjects.Image;
   changedPower: boolean = false;
   progressBar: ProgressBar = {} as ProgressBar;
+  usedGodMode: boolean = false;
 
   constructor(x: number, y: number, game: Phaser.Scene, data?: PlayerData) {
     this.sprite = game.physics.add.sprite(x, y, "stojan-right");
@@ -37,6 +40,8 @@ export class Player {
     this.keyS = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     this.keyD = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     this.keyW = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    this.keyG = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
+    this.keyM = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
 
     this.game = game;
 
@@ -59,6 +64,13 @@ export class Player {
     this.shoot();
     this.removeBullets();
     this.changeBulletPower();
+    if (this.keyG.isUp && this.keyM.isUp) {
+      this.usedGodMode = false;
+    }
+    if(this.keyG.isDown && this.keyM.isDown && !this.usedGodMode) {
+      this.usedGodMode = true;
+      this.progressBar.upgradeProgress();
+    }
   }
 
   move(): void {
