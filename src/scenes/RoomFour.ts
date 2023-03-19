@@ -140,7 +140,6 @@ export default class RoomFour extends Phaser.Scene {
 
     this.physics.add.collider(wall.sprite, this.player.sprite);
 
-    this.isRoomOpened = true;
   }
 
   generatePlayer() {
@@ -158,6 +157,7 @@ export default class RoomFour extends Phaser.Scene {
   }
 
   moveToCorridor() {
+    this.isRoomOpened = true;
     this.scene.start("Corridor", { playerData: this.player.getData() });
   }
 
