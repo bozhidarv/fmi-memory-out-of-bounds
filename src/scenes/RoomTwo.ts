@@ -7,60 +7,66 @@ import { SceneMonstersConfigT, Sprite } from "~/services/type";
 import { BigMonster } from "~/Monsters/BigMonster";
 import { generateBackground } from "~/services/sceneUtils";
 
-const monsterConfig: SceneMonstersConfigT = {
-  smallMonsters: [
-    {
-      startX: 300,
-      startY: 100,
-    },
-    {
-      startX: 400,
-      startY: 500,
-    },
-    {
-      startX: 500,
-      startY: 600,
-    },
-    {
-      startX: 600,
-      startY: 700,
-    },
-    {
-      startX: 1000,
-      startY: 100,
-    },
-    {
-      startX: 100,
-      startY: 500,
-    },
-    {
-      startX: 1000,
-      startY: 600,
-    },
-    {
-      startX: 700,
-      startY: 1000,
-    },
-  ],
-  bigMonsters: [
-    {
-      startX: 1500,
-      startY: 500,
-    },
-    {
-      startX: 700,
-      startY: 200,
-    },
-    {
-      startX: 1000,
-      startY: 700,
-    },
-    {
-      startX: 1000,
-      startY: 500,
-    },
-  ],
-};
+const waveConfig: SceneMonstersConfigT[] = [
+  {
+    smallMonsters: [
+      {
+        startX: 300,
+        startY: 100,
+      },
+      {
+        startX: 400,
+        startY: 500,
+      },
+      {
+        startX: 500,
+        startY: 600,
+      },
+      {
+        startX: 600,
+        startY: 700,
+      },
+      {
+        startX: 1000,
+        startY: 100,
+      },
+      {
+        startX: 100,
+        startY: 500,
+      },
+      {
+        startX: 1000,
+        startY: 600,
+      },
+      {
+        startX: 700,
+        startY: 1000,
+      },
+    ],
+    bigMonsters: [],
+  },
+  {
+    smallMonsters: [],
+    bigMonsters: [
+      {
+        startX: 1500,
+        startY: 500,
+      },
+      {
+        startX: 700,
+        startY: 200,
+      },
+      {
+        startX: 1000,
+        startY: 700,
+      },
+      {
+        startX: 1000,
+        startY: 500,
+      },
+    ],
+  },
+];
 
 export default class RoomTwo extends Phaser.Scene {
   monsters: (SmallMonster | BigMonster)[] = [];
@@ -71,6 +77,8 @@ export default class RoomTwo extends Phaser.Scene {
   bulletPowerSprite: GameObjects.Image = {} as GameObjects.Image;
 
   isRoomOpened = false;
+
+  wave = 0;
 
   playerData?: PlayerData;
   constructor() {
@@ -111,6 +119,8 @@ export default class RoomTwo extends Phaser.Scene {
   }
 
   generateMonsters() {
+    const monsterConfig = waveConfig[this.wave];
+
     this.monsters = this.monsters.concat(
       monsterConfig.smallMonsters.map(
         (monster, index) =>
@@ -143,7 +153,7 @@ export default class RoomTwo extends Phaser.Scene {
         this.monsters.splice(monsterIndex, 1);
 
         this.player.hit();
-        if(this.player.isPlayerDead()) {
+        if (this.player.isPlayerDead()) {
           this.isRoomOpened = false;
         }
       }
@@ -152,6 +162,11 @@ export default class RoomTwo extends Phaser.Scene {
 
   update(time, delta) {
     this.player.update();
+
+    if (this.monsters.length === 0) {
+      this.wave++;
+      this.generateMonsters();
+    }
 
     if (this.player.bullets.length > this.lastBulletsCount) {
       this.physics.add.collider(
