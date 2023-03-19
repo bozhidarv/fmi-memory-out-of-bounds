@@ -8,13 +8,13 @@ import { BigMonster } from "~/Monsters/BigMonster";
 import { generateBackground, preloadImages } from "~/services/sceneUtils";
 import { InvisibleTopWall } from "~/services/invisibleTopWall";
 import { Fss } from "~/players/fss";
+import { whichRoom } from "~/services/SwitchRooom";
 
 const WallHight = 266;
 const spawnRate = 1000;
 export default class MainScene extends Phaser.Scene {
   player: Player = {} as Player;
 
-  fssMage: Fss= {} as Fss;
   progress: ProgressBar = {} as ProgressBar;
   monsters: (SmallMonster | BigMonster)[] = [];
   monsterSprites: Sprite[] = [];
@@ -45,8 +45,6 @@ export default class MainScene extends Phaser.Scene {
     const wall = new InvisibleTopWall(WallHight, this);
 
     this.generatePlayer();
-    this.generateFss();
-
 
     this.physics.add.collider(wall.sprite, this.player.sprite);
     this.physics.add.collider(wall.sprite, this.monsterSprites);
@@ -64,8 +62,8 @@ export default class MainScene extends Phaser.Scene {
 
   generatePlayer() {
     this.player = new Player(
-      window.innerWidth / 2,
-      window.innerHeight / 2,
+      window.innerWidth / 1.1,
+      window.innerHeight / 1.1,
       this,
       this.playerData
     );
@@ -133,11 +131,11 @@ export default class MainScene extends Phaser.Scene {
     this.monsters = [];
   }
 
-  moveToOtherRoom() {
-    this.scene.start("RoomOne", { playerData: this.player.getData() });
+  moveToOtherRoom(roomId) {
+    this.scene.start(`Room${roomId}`, { playerData: this.player.getData() });
   }
 
-  update(time: number) {
+  update() {
     if (this.monsters.length === 0 || this.monsterToSpawnCounter < 1) {
       this.monsterToSpawnCounter = spawnRate;
 
@@ -147,17 +145,10 @@ export default class MainScene extends Phaser.Scene {
     }
 
     this.player.update();
-    this.fssMage.isNearPlayer();
 
-    if (this.lastBulletPower !== this.player.bulletPower) {
-      this.player.bulletPowerSprite.setTexture(
-        `enemy-digit-${this.player.bulletPower}`
-      );
-      this.lastBulletPower = this.player.bulletPower;
-    }
-
-    if (this.player.bullets.length < this.lastBulletsCount) {
-      this.lastBulletsCount--;
+    const roomId = whichRoom(this.player.sprite.x, this.player.sprite.y);
+    if (roomId) {
+      this.moveToOtherRoom(roomId);
     }
 
     if (this.player.bullets.length > this.lastBulletsCount) {
