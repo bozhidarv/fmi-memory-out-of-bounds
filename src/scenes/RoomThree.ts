@@ -7,61 +7,20 @@ import { SceneMonstersConfigT, Sprite } from "~/services/type";
 import { BigMonster } from "~/Monsters/BigMonster";
 import { generateBackground } from "~/services/sceneUtils";
 
-const monsterConfig: SceneMonstersConfigT = {
-  smallMonsters: [
-    {
-      startX: 300,
-      startY: 100,
-    },
-    {
-      startX: 400,
-      startY: 500,
-    },
-    {
-      startX: 500,
-      startY: 600,
-    },
-    {
-      startX: 600,
-      startY: 700,
-    },
-    {
-      startX: 1000,
-      startY: 100,
-    },
-    {
-      startX: 100,
-      startY: 500,
-    },
-    {
-      startX: 1000,
-      startY: 600,
-    },
-    {
-      startX: 700,
-      startY: 1000,
-    },
-  ],
-  bigMonsters: [
-    {
-      startX: 1500,
-      startY: 500,
-    },
-    {
-      startX: 700,
-      startY: 200,
-    },
-    {
-      startX: 1000,
-      startY: 700,
-    },
-    {
-      startX: 1000,
-      startY: 500,
-    },
-  ],
-};
-
+const waveConfig: SceneMonstersConfigT[] = [
+  {
+    smallMonsters: [],
+    bigMonsters: [],
+  },
+  {
+    smallMonsters: [],
+    bigMonsters: [],
+  },
+  {
+    smallMonsters: [],
+    bigMonsters: [],
+  },
+];
 export default class RoomThree extends Phaser.Scene {
   monsters: (SmallMonster | BigMonster)[] = [];
   player: Player = {} as Player;
@@ -69,6 +28,8 @@ export default class RoomThree extends Phaser.Scene {
   lastBulletsCount = 0;
   lastBulletPower = 0;
   bulletPowerSprite: GameObjects.Image = {} as GameObjects.Image;
+
+  wave = 0;
 
   isRoomOpened = false;
 
@@ -111,6 +72,8 @@ export default class RoomThree extends Phaser.Scene {
   }
 
   generateMonsters() {
+    const monsterConfig = waveConfig[this.wave];
+
     this.monsters = this.monsters.concat(
       monsterConfig.smallMonsters.map(
         (monster, index) =>
@@ -143,7 +106,7 @@ export default class RoomThree extends Phaser.Scene {
         this.monsters.splice(monsterIndex, 1);
 
         this.player.hit();
-        if(this.player.isPlayerDead()) {
+        if (this.player.isPlayerDead()) {
           this.isRoomOpened = false;
         }
       }
@@ -152,6 +115,11 @@ export default class RoomThree extends Phaser.Scene {
 
   update(time, delta) {
     this.player.update();
+
+    if (this.monsters.length === 0 && this.wave < waveConfig.length) {
+      this.wave++;
+      this.generateMonsters();
+    }
 
     if (this.player.bullets.length > this.lastBulletsCount) {
       this.physics.add.collider(
