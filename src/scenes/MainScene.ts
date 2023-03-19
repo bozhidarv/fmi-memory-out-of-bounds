@@ -51,6 +51,8 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.collider(wall.sprite, this.player.sprite);
     this.physics.add.collider(wall.sprite, this.monsterSprites);
 
+    this.moveToOtherRoom()
+
   }
 
   generateFss() {
