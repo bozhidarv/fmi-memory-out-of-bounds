@@ -13,16 +13,16 @@ const waveConfig: SceneMonstersConfigT[] = [
   {
     smallMonsters: [
       {
-        startX: 100,
+        startX: 400,
         startY: 100,
       },
       {
-        startX: 200,
-        startY: 200,
+        startX: 450,
+        startY: 100,
       },
       {
-        startX: 300,
-        startY: 300,
+        startX: 500,
+        startY: 200,
       },
     ],
     bigMonsters: [
@@ -33,10 +33,6 @@ const waveConfig: SceneMonstersConfigT[] = [
       {
         startX: 200,
         startY: 200,
-      },
-      {
-        startX: 300,
-        startY: 300,
       },
     ],
   },
@@ -50,10 +46,6 @@ const waveConfig: SceneMonstersConfigT[] = [
         startX: 200,
         startY: 200,
       },
-      {
-        startX: 300,
-        startY: 300,
-      },
     ],
     bigMonsters: [
       {
@@ -63,10 +55,6 @@ const waveConfig: SceneMonstersConfigT[] = [
       {
         startX: 200,
         startY: 200,
-      },
-      {
-        startX: 300,
-        startY: 300,
       },
     ],
   },
@@ -149,8 +137,8 @@ export default class BossRoom extends Phaser.Scene {
 
   generateBoss() {
     this.bossMonster = new BossMonster(
-      window.innerWidth - 100,
-      window.innerHeight - 100,
+      200,
+      200,
       this
     );
 
@@ -173,14 +161,14 @@ export default class BossRoom extends Phaser.Scene {
     this.monsters = this.monsters.concat(
       monsterConfig.smallMonsters.map(
         (monster, index) =>
-          new SmallMonster(this.bossMonster.x, this.bossMonster.y, index, this)
+          new SmallMonster(this.bossMonster.x+ monster.startX, this.bossMonster.y+ monster.startY, index, this)
       )
     );
 
     this.monsters = this.monsters.concat(
       monsterConfig.bigMonsters.map(
         (monster, index) =>
-          new BigMonster(this.bossMonster.x, this.bossMonster.y, index, this)
+          new BigMonster(this.bossMonster.x+ monster.startX, this.bossMonster.y+ monster.startY, index, this)
       )
     );
 
@@ -204,6 +192,7 @@ export default class BossRoom extends Phaser.Scene {
         this.player.hit();
       }
     );
+
 
     this.physics.add.collider(
       this.monsterSprites,
