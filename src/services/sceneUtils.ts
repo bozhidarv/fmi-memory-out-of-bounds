@@ -30,5 +30,5 @@ export function generateBackground(game: Phaser.Scene) {
   const background = game.add.image(window.innerWidth / 2, window.innerHeight /2, "background");
     background.width = window.innerWidth;
     background.height = window.innerHeight;
-    background.scale = .85;
+    background.scale = window.devicePixelRatio;
 }

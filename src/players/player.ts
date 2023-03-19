@@ -41,7 +41,7 @@ export class Player {
       window.innerHeight - 50,
       `player-bullet-${this.bulletPower}`
     );
-    this.bulletPowerSprite.scale = window.devicePixelRatio;
+    this.bulletPowerSprite.scale = 3;
 
     this.health = new Health(data?.health ?? 5, game);
   }
