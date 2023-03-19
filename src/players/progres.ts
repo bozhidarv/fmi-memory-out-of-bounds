@@ -1,5 +1,3 @@
-import { Sprite } from "~/services/type";
-
 export class ProgressBar {
   game: Phaser.Scene = {} as Phaser.Scene;
   lastPart: number[] = [0, 1, 2, 3];
