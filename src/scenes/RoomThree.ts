@@ -237,6 +237,7 @@ export default class RoomThree extends Phaser.Scene {
         this.player.hit();
         if (this.player.isPlayerDead()) {
           this.isRoomOpened = false;
+          this.wave = 0;
         }
       }
     );
