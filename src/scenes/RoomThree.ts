@@ -8,13 +8,141 @@ import { BigMonster } from "~/Monsters/BigMonster";
 import { generateBackground } from "~/services/sceneUtils";
 import { Fss } from "~/players/fss";
 
+const height=100;
+
 const waveConfig: SceneMonstersConfigT[] = [
   {
-    smallMonsters: [],
-    bigMonsters: [],
+    smallMonsters: [
+      {
+        startX: window.innerWidth- 100,
+        startY: 100,
+      },
+      {
+        startX: window.innerWidth+ 100,
+        startY: 100,
+      },
+      {
+        startX: 100,
+        startY: 600,
+      },
+      {
+        startX: window.innerWidth-100,
+        startY: 600,
+      },
+      {
+        startX: window.innerWidth-100,
+        startY: 900,
+      },
+      {
+        startX: 100,
+        startY: 900,
+      },
+      {
+        startX: window.innerWidth/2,
+        startY: window.innerHeight/2,
+      },
+    ],
+    bigMonsters: [
+      {
+        startX:100,
+        startY:100
+      },
+      {
+        startX: window.innerWidth-100,
+        startY: 100,
+      },
+      {
+        startX: 100,
+        startY: window.innerHeight-100,
+      },
+      {
+        startX: window.innerWidth-100,
+        startY: window.innerHeight-100,
+      },
+    ],
   },
   {
-    smallMonsters: [],
+    smallMonsters: [
+      {
+        startX:window.innerWidth/2,
+        startY:window.innerHeight/2-height,
+      },
+      {
+        startX:window.innerWidth/2+100,
+        startY:window.innerHeight/2-height,
+      },
+      {
+        startX:window.innerWidth/2+200,
+        startY:window.innerHeight/2-height,
+      },
+      {
+        startX:window.innerWidth/2+300,
+        startY:window.innerHeight/2-height,
+      },
+      {
+        startX:window.innerWidth/2+400,
+        startY:window.innerHeight/2-height,
+      },
+      {
+        startX:window.innerWidth/2+500,
+        startY:window.innerHeight/2-height,
+      },
+      {
+        startX:window.innerWidth/2+600,
+        startY:window.innerHeight/2-height,
+      },
+      {
+        startX:window.innerWidth/2+700,
+        startY:window.innerHeight/2-height,
+      },
+      {
+        startX:window.innerWidth/2+800,
+        startY:window.innerHeight/2-height,
+      },
+      {
+        startX:window.innerWidth/2+900,
+        startY:window.innerHeight/2-height,
+      },
+
+      
+      {
+        startX:window.innerWidth/2-100,
+        startY:window.innerHeight/2-height,
+      },
+      {
+        startX:window.innerWidth/2-200,
+        startY:window.innerHeight/2-height,
+      },
+      {
+        startX:window.innerWidth/2-300,
+        startY:window.innerHeight/2-height,
+      },
+      {
+        startX:window.innerWidth/2-400,
+        startY:window.innerHeight/2-height,
+      },
+      {
+        startX:window.innerWidth/2-500,
+        startY:window.innerHeight/2-height,
+      },
+      {
+        startX:window.innerWidth/2-600,
+        startY:window.innerHeight/2-height,
+      },
+      {
+        startX:window.innerWidth/2-700,
+        startY:window.innerHeight/2-height,
+      },
+      {
+        startX:window.innerWidth/2-800,
+        startY:window.innerHeight/2-height,
+      },
+      {
+        startX:window.innerWidth/2-900,
+        startY:window.innerHeight/2-height,
+      }
+
+    ],
     bigMonsters: [],
   },
   {
@@ -136,7 +264,7 @@ export default class RoomThree extends Phaser.Scene {
       this.player
     );
 
-    if (this.monsters.length === 0 && this.wave < waveConfig.length) {
+    if (this.monsters.length === 0 && this.wave < waveConfig.length-1) {
       this.wave++;
       this.generateMonsters();
     }
