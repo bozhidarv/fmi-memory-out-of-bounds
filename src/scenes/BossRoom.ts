@@ -143,6 +143,9 @@ export default class BossRoom extends Phaser.Scene {
         this.monsters.splice(monsterIndex, 1);
 
         this.player.hit();
+        if(this.player.isPlayerDead()) {
+          this.isRoomOpened = false;
+        }
       }
     );
   }

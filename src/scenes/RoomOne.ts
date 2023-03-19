@@ -83,10 +83,12 @@ export default class RoomOne extends Phaser.Scene {
   }
 
   create() {
+    console.log('Creating the scene');
     generateBackground(this);
 
     const wall = new InvisibleTopWall(126, this);
     this.generatePlayer();
+    console.log(this.isRoomOpened)
     if (!this.isRoomOpened) {
       this.generateMonsters();
     }
@@ -143,6 +145,9 @@ export default class RoomOne extends Phaser.Scene {
         this.monsters.splice(monsterIndex, 1);
 
         this.player.hit();
+        if(this.player.isPlayerDead()) {
+          this.isRoomOpened = false;
+        }
       }
     );
   }
