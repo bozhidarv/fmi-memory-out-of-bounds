@@ -27,7 +27,7 @@ export function preloadImages(game: Phaser.Scene) {
     //console.log(`mt-bar-hex-${i}`)
     game.load.image(`mt-bar-hex-${i}`, `assets/mt-bar-hex-${i}.png`);
   }
-  game.load.image("fss","assets/stojan.png");
+  game.load.image("fss","assets/stojan-front.png");
 }
 
 export function generateBackground(game: Phaser.Scene) {

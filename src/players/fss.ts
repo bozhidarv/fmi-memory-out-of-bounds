@@ -9,19 +9,18 @@ export class Fss{
     progress: ProgressBar ={} as ProgressBar;
 
     constructor(x:number,y:number,game,player){
+        console.log("constr")
         this.player=player;
         this.game=game;
         this.sprite=game.physics.add.sprite(x,y,"fss");
         this.sprite.setImmovable(true);
 
     }
-
     isNearPlayer():void{
 
         if((this.player.sprite.body.position.x>this.sprite.body.position.x-100 &&this.player.sprite.body.position.x<this.sprite.body.position.x+100) &&
-        (this.player.sprite.body.position.y>this.sprite.body.position.y-100&&this.player.sprite.body.position.y>this.sprite.body.position.y+100))
+        (this.player.sprite.body.position.y<this.sprite.body.position.y+100))
         {
-            console.log("asa");
             this.giveQuest();
         }
     }

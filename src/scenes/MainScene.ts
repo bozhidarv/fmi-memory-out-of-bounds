@@ -145,6 +145,7 @@ export default class MainScene extends Phaser.Scene {
     }
 
     this.player.update();
+    this.fssMage.isNearPlayer();
 
     if (this.lastBulletPower !== this.player.bulletPower) {
       this.player.bulletPowerSprite.setTexture(
