@@ -12,37 +12,29 @@ const waveConfig: SceneMonstersConfigT[] = [
   {
     smallMonsters: [
       {
-        startX: 300,
+        startX: window.innerWidth-64,
         startY: 100,
       },
       {
-        startX: 400,
+        startX: window.innerWidth-64,
         startY: 500,
       },
       {
-        startX: 500,
+        startX: window.innerWidth-64,
         startY: 600,
       },
       {
-        startX: 600,
-        startY: 700,
-      },
-      {
-        startX: 1000,
+        startX: window.innerWidth-64,
         startY: 100,
       },
       {
-        startX: 100,
+        startX: window.innerWidth-64,
         startY: 500,
       },
       {
-        startX: 1000,
+        startX: window.innerWidth-64,
         startY: 600,
-      },
-      {
-        startX: 700,
-        startY: 1000,
-      },
+      }
     ],
     bigMonsters: [],
   },
@@ -50,19 +42,19 @@ const waveConfig: SceneMonstersConfigT[] = [
     smallMonsters: [],
     bigMonsters: [
       {
-        startX: 1500,
+        startX: 128,
         startY: 500,
       },
       {
-        startX: 700,
+        startX: 128,
         startY: 200,
       },
       {
-        startX: 1000,
+        startX: 128,
         startY: 700,
       },
       {
-        startX: 1000,
+        startX: 128,
         startY: 500,
       },
     ],
@@ -171,9 +163,10 @@ export default class RoomTwo extends Phaser.Scene {
       console.log(this.isRoomOpened);
       this.fssMage.isNearPlayer(this.isRoomOpened, this.moveToCorridor, true, this.player);
     }
-
-    if (this.monsters.length === 0 && this.wave < this.WAVE_SIZE) {
-      this.wave++;
+    
+    if (this.player.sprite.x >= window.innerWidth/2 && this.wave < this.WAVE_SIZE) {
+      console.log(this.wave);
+      this.wave += 1;
       this.generateMonsters();
     }
 
