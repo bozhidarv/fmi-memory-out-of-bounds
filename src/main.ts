@@ -18,7 +18,7 @@ const config: Phaser.Types.Core.GameConfig = {
     },
   },
   height: window.innerHeight,
-  scene: [MainScene, RoomOne, GameOver, RoomTwo, RoomThree, RoomFour, BossRoom],
+  scene: [MainScene, RoomOne, RoomTwo, RoomThree, RoomFour, BossRoom, GameOver],
 };
 
 export default new Phaser.Game(config);
