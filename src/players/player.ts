@@ -20,7 +20,7 @@ export class Player {
   keyM: KeyT = {} as KeyT;
   keyW: KeyT = {} as KeyT;
   keyESC: KeyT = {} as KeyT;
-  
+
   sprite: Sprite = {} as Sprite;
   cursor: CursorT = {} as CursorT;
   health: Health = {} as Health;
@@ -43,7 +43,9 @@ export class Player {
     this.keyW = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     this.keyG = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
     this.keyM = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
-    this.keyESC = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+    this.keyESC = game.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.ESC
+    );
 
     this.game = game;
 
@@ -69,7 +71,7 @@ export class Player {
     if (this.keyG.isUp && this.keyM.isUp) {
       this.usedGodMode = false;
     }
-    if(this.keyG.isDown && this.keyM.isDown && !this.usedGodMode) {
+    if (this.keyG.isDown && this.keyM.isDown && !this.usedGodMode) {
       this.usedGodMode = true;
       this.progressBar.upgradeProgress();
     }
@@ -143,10 +145,9 @@ export class Player {
     }
   }
 
-
   pauseTheGame() {
-    if(this.keyESC.isDown) {
-      this.game.scene.launch('Pause', {launchScene: this.game});
+    if (this.keyESC.isDown) {
+      this.game.scene.launch("Pause", { launchScene: this.game });
       this.game.scene.pause();
     }
   }
@@ -206,7 +207,6 @@ export class Player {
   }
 
   getData(): PlayerData {
-
     return {
       health: this.health.currentHealth,
       progress: this.progressBar.progress,

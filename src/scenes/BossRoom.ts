@@ -7,6 +7,7 @@ import { SceneMonstersConfigT, Sprite } from "~/services/type";
 import { BigMonster } from "~/Monsters/BigMonster";
 import { generateBackground } from "~/services/sceneUtils";
 import { BossMonster } from "~/Monsters/BossMonster";
+import { ProgressBar } from "~/players/progres";
 
 const waveConfig: SceneMonstersConfigT[] = [
   {
@@ -72,10 +73,13 @@ export default class BossRoom extends Phaser.Scene {
   }
 
   create() {
-    generateBackground(this,"boss-room");
+    generateBackground(this, "boss-room");
 
     const wall = new InvisibleTopWall(70, this);
     this.generatePlayer();
+
+    new ProgressBar([0, 1, 2, 3], this);
+
     this.physics.add.collider(wall.sprite, this.player.sprite);
 
     this.generateBoss();
@@ -83,15 +87,20 @@ export default class BossRoom extends Phaser.Scene {
   }
 
   generatePlayer() {
-    this.player = new Player(window.innerWidth/2, window.innerHeight/2+80, this, this.playerData);
+    this.player = new Player(
+      window.innerWidth / 2,
+      window.innerHeight / 2 + 80,
+      this,
+      this.playerData
+    );
   }
 
-  moveToCorridor = () => {
-    this.scene.start("Corridor", { playerData: this.player.getData() });
-  };
-
   generateBoss() {
-    this.bossMonster = new BossMonster(window.innerWidth-100, window.innerHeight-100, this);
+    this.bossMonster = new BossMonster(
+      window.innerWidth - 100,
+      window.innerHeight - 100,
+      this
+    );
 
     this.physics.add.collider(
       this.bossMonster.body.mainSprite,
