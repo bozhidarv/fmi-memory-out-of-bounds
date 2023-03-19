@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import GameOver from "./scenes/GameOver";
 
 import MainScene from "./scenes/MainScene";
 import RoomOne from "./scenes/RoomOne";
@@ -13,7 +14,7 @@ const config: Phaser.Types.Core.GameConfig = {
     },
   },
   height: window.innerHeight,
-  scene: [MainScene, RoomOne],
+  scene: [MainScene, RoomOne, GameOver],
 };
 
 export default new Phaser.Game(config);

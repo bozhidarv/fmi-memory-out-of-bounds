@@ -156,7 +156,8 @@ export class Player {
   hit() {
     this.health.loseHealth();
     if (this.isPlayerDead()) {
-      this.game.scene.restart();
+      console.log("Starting game over scene")
+      this.game.scene.start('GameOver');
     }
   }
 
